@@ -34,7 +34,7 @@ export default {
     changes(e){
       console.log(e,"父组件")
       if(this.yixuan.length == 8){
-        this.$router.push({ path:'/Upkeep',name:'Upkeep', query: { Shiftid: "1111",Shiftname:"222" }})
+        this.$router.push({ path:'/About',name:'About', query: { Shiftid: "1111",Shiftname:"222" }})
       }
       this.yixuan.push(e)
     },
