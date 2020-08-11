@@ -1,0 +1,94 @@
+/* 公共样式 */
+page {
+    font-size: 16px;
+    font-family:Adobe 黑体 Std;
+}
+
+/* 弹性盒子 */
+.db {display: block}
+.dib {display: inline-block}
+.fbox {display: flex;}
+.fbox-column {flex-direction: column}
+.fg1,.fg2,.fg3,.fg4,.fg5,.fg6,.fg7,.fg8,.fg9{width: 1px}
+.fg1 {flex-grow: 1}
+.fg2 {flex-grow: 2}
+.fg3 {flex-grow: 3}
+.fg4 {flex-grow: 4}
+.fg5 {flex-grow: 5}
+.fg6 {flex-grow: 6}
+.fg7 {flex-grow: 7}
+.fg8 {flex-grow: 8}
+.fg9 {flex-grow: 9}
+.fbox-acenter {align-items: center;}
+.fbox-wrap {flex-wrap: wrap;}
+.fbox-jcenter {justify-content: center;}
+.fbox-jbetween {justify-content: space-between;}
+.fbox-jaround {justify-content: space-around;}
+.fbox-base {align-items: baseline;}
+.fbox-r {justify-content: flex-end}
+.fsh{flex-shrink: 0;}
+.ell {overflow: hidden;word-wrap: normal;white-space: nowrap;text-overflow: ellipsis;}
+.ell_1 {overflow: hidden;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;}
+.ell_2 {overflow: hidden;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;}
+/* 重置样式 */
+
+/*对齐方式*/
+.tc {text-align: center;}
+.tl {text-align: left;}
+.tr {text-align: right;}
+.tj{text-align:justify;}
+/* 主题背景色 */
+.bg-white {background: #fff;}
+.bg-orange{background: #ff822f;}
+/* 字体颜色 */
+.color-hui{color: #666;}
+.color-red {color: #EF3131;}
+.color-gray {color: #333;}
+.color-white {color: #fff;}
+.color-light-grays{color: #888;}
+.color-light-gray {color: #999;}
+.color-orange {color: #ff822f;}
+.color-black{color: #000;}
+.color-green{color: #22ac38;}
+/* 间距*/
+.pad20 {padding: 20px;}
+.mar20 {margin: 20px;}
+.mr {margin-right: 20px;}
+.ml {margin-left: 20px;}
+.mb {margin-bottom: 20px;}
+.mt {margin-top: 20px;}
+.pt {padding-top: 20px;}
+.pb {padding-bottom: 20px;}
+.pl {padding-left: 20px;}
+.pr {padding-right: 20px;}
+.mt-line{margin-top: 1px;}
+.mb-line{margin-bottom: 1px;}
+
+/* 列表修饰 */
+.mb-list {margin-bottom: 1px}
+.mt-list {margin-top: 1px}
+.mb-bor {border-bottom: 1px solid #f5f5f5}
+.mt-bor {border-top: 1px solid #f5f5f5}
+
+/* 字体相关 */
+.norm-text {font-size: 25px;}
+.norma-text {font-size: 26px;}
+.normal-text {font-size: 28px;}
+.small-text {font-size: 20px;}
+.larg-text {font-size: 32px;}
+.large-text {font-size: 35px;}
+.larger-text {font-size: 40px;}
+.bi-text{font-size: 50px;}
+.big-text {font-size: 60px;}
+.bigr-text {font-size: 70px;}
+.font-bold {font-weight: bold;}
+.upper-text {text-transform: uppercase;}
+.delete-text {text-decoration: line-through}
+/* css变量相关 */
+.window-top{
+    top:var(--window-top)
+}
+/* 清除浮动 */
+.clear{
+    overflow: hidden;
+}
