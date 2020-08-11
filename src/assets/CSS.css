@@ -89,10 +89,7 @@ body {
 .font-bold {font-weight: bold;}
 .upper-text {text-transform: uppercase;}
 .delete-text {text-decoration: line-through}
-/* css变量相关 */
-.window-top{
-    top:var(--window-top)
-}
+
 /* 清除浮动 */
 .clear{
     overflow: hidden;

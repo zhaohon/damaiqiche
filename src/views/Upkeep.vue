@@ -44,6 +44,17 @@
 				</div>
 			</div>
 			<!-- 保养项 -->
+			<div>
+				<div class="upkeep-title">
+					<h4>小保养服务</h4>
+                    <ul class="fbox fbox-acenter">
+                        <li class="fg1 pl">保养项目</li>
+                        <li class="fg1 pl">已选购产品</li>
+                        <li class="fg1 pl">单价</li>
+                        <li class="fg1 pl">数量</li>
+                    </ul>
+                </div>
+			</div>
 		</div>
 		<Loading v-if="show" />
 	</div>
@@ -104,13 +115,32 @@ export default {
 			});
 		});
 		this.arr = arr;
-		this.$nextTick(() => {
-				this.show = false
-		});
+		console.log(this.$http)
+		this.$http.submitprice(
+			{
+				mid: '1965268161745547da65312f1a2a3fad',
+				paragraph: '2013年生产',
+				engine_capacity: '2.0L',
+				models: '卡罗拉',
+				cars: '卡罗拉',
+				brand: '丰田',
+				vendor: '一汽丰田',
+				cycle: '20000',
+				model: '2011款 2.0 无级 GLX'
+			})
+			.then(res=>{
+				console.log('res',res)
+			})
+			.catch(err=>{console.log('err',err)})
+		
 	}
 };
 </script>
 <style scoped>
+.upkeep-title li{
+	box-sizing: border-box;
+	background: #999;
+}
 .byTitle {
 	background-color: #f8f8f8;
 	padding: 10px;

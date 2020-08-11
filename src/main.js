@@ -1,16 +1,20 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
-import axios from 'axios'; //引入axios
-import css from './assets/CSS.css'; //引入axios
+import apilist from './api/apilist';
 import iview from 'iview';
+import QS from 'qs';
 import 'iview/dist/styles/iview.css';
+import './assets/reset.css';//初始化样式
+import './assets/CSS.css'; //通用样式
 
-Vue.prototype.$axios = axios; //添加axios到Vue的原型对象上
-Vue.config.productionTip = false
+Vue.prototype.$qs = QS;
+Vue.prototype.$http = apilist; //添加axios到Vue的原型对象上
+Vue.config.productionTip = false;
+
 Vue.use(iview)
+
 new Vue({
-  css,
   router,
   render: h => h(App)
 }).$mount('#app')
