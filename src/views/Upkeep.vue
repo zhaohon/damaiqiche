@@ -6,6 +6,11 @@
 					<img class="dib" src="../assets/logo.png" alt="logo" />
 					<div class="dib">大众 帕萨特 1.4L 2016年产</div>
 				</div>
+				<i-form :model="formItem" :label-width="80" class="fbox fbox-acenter">
+						<i-input :value.sync="formItem.input" placeholder="请输入"></i-input>
+						<i-button type="primary" >提交</i-button>
+				</i-form>
+				
 				<button @click="carshow = !carshow" class="ml btn">查看详情</button>
 			</div>
 			<transition name="slide-fade">
@@ -55,6 +60,7 @@ export default {
 			show: true,
 			carshow: false,
 			arr: [],
+			formItem: {input:''},
 			bytitle: [
 				{
 					title: '常规保养',

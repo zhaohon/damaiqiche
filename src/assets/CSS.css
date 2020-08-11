@@ -1,9 +1,14 @@
 /* 公共样式 */
-page {
-    font-size: 16px;
+body {
+    font-size: 16px !important;
     font-family:Adobe 黑体 Std;
 }
+@media only screen and (max-width: 500px) {
+	body {
+        font-size: 14px !important;
 
+    }
+}
 /* 弹性盒子 */
 .db {display: block}
 .dib {display: inline-block}
