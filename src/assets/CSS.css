@@ -24,10 +24,15 @@ body {
 .fg7 {flex-grow: 7}
 .fg8 {flex-grow: 8}
 .fg9 {flex-grow: 9}
+.fbox-ac,
 .fbox-acenter {align-items: center;}
+.fbox-w,
 .fbox-wrap {flex-wrap: wrap;}
+.fbox-jc,
 .fbox-jcenter {justify-content: center;}
+.fbox-jb,
 .fbox-jbetween {justify-content: space-between;}
+.fbox-ja,
 .fbox-jaround {justify-content: space-around;}
 .fbox-base {align-items: baseline;}
 .fbox-r {justify-content: flex-end}
