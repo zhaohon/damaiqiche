@@ -76,7 +76,7 @@ instance.interceptors.request.use(
 // 添加响应拦截器
 instance.interceptors.response.use(
     response => {
-        console.log('成功:');
+        console.log('成功:','接口名称',response.config.url);
         console.log(response)
         const { status, data } = response;
         if (Object.is(status, 200)) {//两个参数是否是相同的值。
