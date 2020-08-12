@@ -118,7 +118,6 @@ export default {
 		console.log(this.$http)
 		this.$http.submitprice(
 			{
-				mid: '1965268161745547da65312f1a2a3fad',
 				paragraph: '2013年生产',
 				engine_capacity: '2.0L',
 				models: '卡罗拉',
@@ -127,11 +126,13 @@ export default {
 				vendor: '一汽丰田',
 				cycle: '20000',
 				model: '2011款 2.0 无级 GLX'
-			})
+			}
+			)
 			.then(res=>{
-				console.log('res',res)
+				console.log('res接到值了',res)
+				this.show = false
 			})
-			.catch(err=>{console.log('err',err)})
+			.catch(err=>{console.log('错误',err),this.show = false})
 		
 	}
 };
