@@ -19,6 +19,11 @@ Vue.use(VueRouter)
     path: '/upkeep',
     name: 'Upkeep',
     component: resolve=>(require(["@/views/Upkeep.vue"],resolve))
+  },
+  {
+    path: '/pages',
+    name: 'Pages',
+    component: resolve=>(require(["@/views/Pages.vue"],resolve))
   }
 ]
 
