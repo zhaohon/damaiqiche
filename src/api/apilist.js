@@ -5,7 +5,7 @@
  
 import http from './http'; // 导入http中创建的axios实例
 // eslint-disable-next-line no-unused-vars
-import qs from 'qs'; // 根据需求是否导入qs模块
+import qs from 'qs'; // 导入qs模块
 let apiUrl = 'https://www.damaichaxun.com/';
 
 const api = {    
