@@ -11,41 +11,41 @@
             <li class="tc" style="width:160px">数量</li>
           </ul>
         </div>
-        <div class="tl upkeep-left-title">
-          <h4 class="dib">小保养服务</h4>
-          <div class="pc-upkeep-right pbupkeep">
-            <h4>
-              <i></i> 更多推荐产品
-            </h4>
-            <div>
-              <div class="upkeep-right-font">
-                <div class="fl dib">
-                  <img src="../assets/logo.png" alt />
+
+        <div v-for="(item,index) in list" :key="index">
+          <div class="tl upkeep-left-title">
+            <h4 class="dib">{{item.title}}</h4>
+            <div class="pc-upkeep-right pbupkeep">
+              <h4><i></i> 更多推荐产品</h4>
+              <div>
+                <div class="upkeep-right-font">
+                  <div class="fl dib"><img src="../assets/logo.png" alt /></div>
+                  <h4 class="fl mr">冠军/CHAMPION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）</h4>
+                  <p class="fl mr upkeep-right-price">￥199.00</p>
+                  <p class="fl mr upkeep-right-num">1.6L</p>
+                  <div class="clearfix"></div>
                 </div>
-                <h4 class="fl mr">冠军/CHAMPION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）</h4>
-                <p class="fl mr upkeep-right-price">￥199.00</p>
-                <p class="fl mr upkeep-right-num">1.6L</p>
-                <div class="clearfix"></div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="upkeep-list">
-          <table>
-            <tbody>
-              <tr>
-                <td width="130" class="tc">更换防冻冷却液</td>
-                <td class="hover-bor">
-                  <div class="pack_biaoti">
-                    <img class="fl" src="../assets/logo.png" alt />
-                    <div >冠军/CHAMPION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）</div>
-                  </div>
-                  <div class="pck_price tc color-red">¥99.00</div>
-                  <div class="pck_num tc">1.6L</div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+
+          <div class="upkeep-list">
+            <table>
+              <tbody>
+                <tr v-for="(items,indexs) in item.list" :key="indexs">
+                  <td width="130" class="tc">{{items.name}}</td>
+                  <td class="hover-bor">
+                    <div class="pack_biaoti">
+                      <img class="fl" :src="items.img" alt />
+                      <div>{{items.ell}}</div>
+                    </div>
+                    <div class="pck_price tc color-red">¥{{items.money}}</div>
+                    <div class="pck_num tc">{{items.num}}</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -61,7 +61,7 @@ export default {
     return {};
   },
   props: {
-    list:Array
+    list: Array,
   },
   methods: {},
 };
@@ -130,23 +130,25 @@ export default {
   width: 310px;
   position: relative;
 }
-.pack_biaoti div{
+.pack_biaoti div {
   width: 220px;
   float: right !important;
   padding: 0 !important;
 }
-.pack_biaoti img{
+.pack_biaoti img {
   position: absolute;
   top: 50%;
   margin-top: -25px;
   left: 15px;
   width: 50px;
   height: 50px;
-  border:1px solid #D8D8D8;
+  border: 1px solid #d8d8d8;
   background-color: #fff;
   object-fit: unset;
 }
-.pck_num{width: 160px;}
+.pck_num {
+  width: 160px;
+}
 .pck_price {
   width: 130px;
 }
@@ -185,7 +187,7 @@ export default {
   overflow: hidden;
   position: relative;
   border-bottom: 1px solid #dcdde1;
-  padding:15px 10px;
+  padding: 15px 10px;
 }
 .upkeep-right-font .dib {
   position: absolute;
@@ -194,7 +196,7 @@ export default {
   background-color: white;
 }
 .upkeep-right-font div {
- width: 50px;
+  width: 50px;
   height: 50px;
   object-fit: fill;
   text-align: center;

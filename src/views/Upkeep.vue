@@ -19,7 +19,7 @@
               </div>
             </div>
           </div>
-          <form action class="">
+          <form action class>
             <p class="small-text dib v-align">当前里程数:</p>
             <div class="input-group dib v-align">
               <input type="number" class="fl" placeholder="请输入里程数" />
@@ -29,13 +29,13 @@
           </form>
           <div class="fbox fbox-acenter mr">
             <div class="reselection mr tc mr">
-              <img src="../assets/reelect.jpg" alt="">
+              <img src="../assets/reelect.jpg" alt />
               <p>重选车型</p>
             </div>
-            <router-link class="" to="">
-              <img src="../assets/upsearch.jpg" alt="">
+            <router-link class to>
+              <img src="../assets/upsearch.jpg" alt />
               <p>产品搜索</p>
-              </router-link>
+            </router-link>
           </div>
         </div>
         <transition name="slide-fade">
@@ -54,8 +54,13 @@
             <div>产看</div>
           </div>
         </transition>
-        <div class="byType  mt">
-          <div v-for="(item, byindex) in bytitle" :key="byindex" class="UnSelect" :style="byindex%2?'background:#F7F8FA':'background:#EDEEF2'">
+        <div class="byType mt">
+          <div
+            v-for="(item, byindex) in bytitle"
+            :key="byindex"
+            class="UnSelect"
+            :style="byindex%2?'background:#F7F8FA':'background:#EDEEF2'"
+          >
             <dl class="clearfix">
               <dt class="byTitle fl">
                 <span>{{ item.title }}</span>
@@ -79,7 +84,7 @@
             </dl>
           </div>
         </div>
-        <pUpkeep class="mt" v-if="screenWidth > 700"></pUpkeep>
+        <pUpkeep class="mt" :list="upkeepList" v-if="screenWidth > 700"></pUpkeep>
         <!-- 移动端 -->
         <div class="m-list"></div>
       </div>
@@ -122,6 +127,50 @@ export default {
             { name: "刹车油", id: "5", checked: false },
             { name: "变速箱油", id: "6", checked: false },
             { name: "变速箱油", id: "6", checked: false },
+          ],
+        },
+      ],
+      upkeepList: [
+        {
+          title: "小保养",
+          list: [
+            {
+              name: "更换防冻冷却液",
+              img: "../assets/logo.png",
+              ell:
+                "冠军/CHAMPION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）",
+              money: "99.00",
+              num: "1.6L",
+            },
+            {
+              name: "更卡里克放开了",
+              img: "../assets/logo.png",
+              ell:
+                "是否会或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或撒飒飒飒飒）",
+              money: "99.00",
+              num: "1.6L",
+            },
+          ],
+        },
+        {
+          title: "前雨刷",
+          list: [
+            {
+              name: "更换防冻冷却液",
+              img: "../assets/logo.png",
+              ell:
+                "冠军/CHAMPION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）",
+              money: "99.00",
+              num: "1.6L",
+            },
+            {
+              name: "更卡里克放开了",
+              img: "../assets/logo.png",
+              ell:
+                "是否会或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或撒飒飒飒飒）",
+              money: "99.00",
+              num: "1.6L",
+            },
           ],
         },
       ],
@@ -203,15 +252,15 @@ export default {
   width: 90%;
 }
 .byTitle {
-  margin:8px 0 0 10px;
+  margin: 8px 0 0 10px;
   width: 84px;
   font-weight: bold;
 }
 .clearfix dd {
   border: 2px solid #999;
   cursor: pointer;
-padding: 5px 10px;
-    width: 138px;
+  padding: 5px 10px;
+  width: 138px;
 }
 .pcwhite .dib {
   margin: 0 0 15px 16px;
@@ -229,9 +278,9 @@ padding: 5px 10px;
   height: 50px;
 }
 .carData .btn {
-  color:#fff;
+  color: #fff;
   outline: none;
-  background-color:  #7bb10a;
+  background-color: #7bb10a;
   margin-left: 10px;
   height: 33px;
   line-height: 33px;
@@ -246,7 +295,7 @@ padding: 5px 10px;
   background-color: #7bb10a;
   border-color: #7bb10a;
 }
-.UnSelect{
+.UnSelect {
   padding-top: 20px;
 }
 /* 可以设置不同的进入和离开动画 */
@@ -265,34 +314,41 @@ padding: 5px 10px;
 .input-group {
   border: 1px solid #7bb10a;
   margin-left: 10px;
-  padding: 5px; font-size: 14px;
+  padding: 5px;
+  font-size: 14px;
 }
 .input-group:hover {
   border-color: #7bb10a;
   box-shadow: 0 0 0 2px rgba(123, 177, 10, 0.1);
 }
 
-.input-group input{
+.input-group input {
   width: 80%;
 }
 .input-group input:focus {
   border: none;
 }
-.input-group 
-.input-group input::-webkit-outer-spin-button,
+.input-group .input-group input::-webkit-outer-spin-button,
 .input-group input::-webkit-inner-spin-button {
   -webkit-appearance: none !important;
   margin: 0;
 }
-a{color: #333;}
+a {
+  color: #333;
+}
 @media only screen and (max-width: 1200px) {
-  .head{width: 100%;}
+  .head {
+    width: 100%;
+  }
 }
 @media only screen and (max-width: 860px) {
- .pcwhite {width: 85%;}
+  .pcwhite {
+    width: 85%;
+  }
 }
 @media only screen and (max-width: 700px) {
- .pcwhite {display: none;}
+  .pcwhite {
+    display: none;
+  }
 }
-
 </style>
