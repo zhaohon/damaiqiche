@@ -99,13 +99,11 @@ body {
 .mt-bor {border-top: 1px solid #f5f5f5}
 
 /* 字体相关 */
-.norm-text {font-size: 25px;}
-.norma-text {font-size: 26px;}
-.normal-text {font-size: 28px;}
-.small-text {font-size: 20px;}
-.larg-text {font-size: 32px;}
-.large-text {font-size: 35px;}
-.larger-text {font-size: 40px;}
+.norm-text {font-size: 12px;}
+.small-text {font-size: 14px;}
+.larg-text {font-size: 16px;}
+.large-text {font-size: 18px;}
+.larger-text {font-size: 20px;}
 .bi-text{font-size: 50px;}
 .big-text {font-size: 60px;}
 .bigr-text {font-size: 70px;}

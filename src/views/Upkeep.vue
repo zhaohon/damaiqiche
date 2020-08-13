@@ -1,60 +1,81 @@
 <template>
-  <div style="max-width:1200px;margin:auto">
-    <div class="upkeep">
-      <div class="carData tc pb pt fbox fbox-acenter fbox-jcenter">
-        <div class="fbox fbox-acenter fbox-jcenter">
-          <img class="dib" src="../assets/logo.png" alt="logo" />
-          <div class="dib mr ml">大众 帕萨特 1.4L 2016年产</div>
-        </div>
-        <i-form :model="formItem" :label-width="80" class="fbox fbox-acenter">
-          <i-input :value.sync="formItem.input" placeholder="请输入"></i-input>
-          <i-button type="primary">提交</i-button>
-        </i-form>
-
-        <button @click="carshow = !carshow" class="ml btn">查看详情</button>
-      </div>
-      <transition name="slide-fade">
-        <div class="carDetail" v-show="carshow" ref="carDetail">
-          <div>产看</div>
-          <div>产看</div>
-          <div>产看</div>
-          <div>产看</div>
-          <div>产看</div>
-          <div>产看</div>
-          <div>产看</div>
-          <div>产看</div>
-          <div>产看</div>
-          <div>产看</div>
-          <div>产看</div>
-          <div>产看</div>
-        </div>
-      </transition>
-      <div class="byType UnSelect">
-        <div v-for="(item, byindex) in bytitle" :key="byindex">
-          <dl class="clearfix">
-            <dt class="byTitle">
-              <span>{{ item.title }}</span>
-            </dt>
-            <div
-              v-for="(childrenItem, index) in item.childrenList"
-              :key="index"
-              class="fl dib"
-              @click="listTap({ childrenItem, index, byindex })"
-            >
-              <dd
-                class="tc"
-                :class="childrenItem.checked ? 'checked' : ''"
-                :data-id="childrenItem.cat_id"
-              >
-                <div class="inner">{{ childrenItem.name }}</div>
-              </dd>
+  <div>
+    <div class="w">
+      <div class="mt mb">选择您想保养的项目，大唛养车为您推荐适用的保养方案</div>
+      <div class="upkeep">
+        <div class="carData pb pt fbox fbox-acenter fbox-jbetween">
+          <!-- <img class="dib" src="../assets/logo.png" alt="logo" /> -->
+          <div>
+            <div class="mr ml">大众 帕萨特 1.4L 2016年产</div>
+            <div class="ml">
+              <div>
+                <span>2016年产</span>
+                <span>2.0T(380TSI) 豪华版</span>
+              </div>
+              <div>
+                <span>发动机型号：EA888</span>
+                <span>最大功率：110KW</span>
+                <button @click="carshow = !carshow" class="ml ">查看详情</button>
+              </div>
             </div>
-          </dl>
+          </div>
+          <form action class="fbox fbox-acenter">
+            <p class="small-text">当前里程数:</p>
+            <div class="input-group">
+              <input type="number" class="fl" placeholder="请输入里程数" />
+              <p class="dib fr">公里</p>
+            </div>
+            <button class="btn" @click="onSubmit()">查看推荐</button>
+          </form>
+          <div>
+            <div class=""></div>
+          </div>
         </div>
+        <transition name="slide-fade">
+          <div class="carDetail" v-show="carshow" ref="carDetail">
+            <div>产看</div>
+            <div>产看</div>
+            <div>产看</div>
+            <div>产看</div>
+            <div>产看</div>
+            <div>产看</div>
+            <div>产看</div>
+            <div>产看</div>
+            <div>产看</div>
+            <div>产看</div>
+            <div>产看</div>
+            <div>产看</div>
+          </div>
+        </transition>
+        <div class="byType UnSelect">
+          <div v-for="(item, byindex) in bytitle" :key="byindex">
+            <dl class="clearfix">
+              <dt class="byTitle fl">
+                <span>{{ item.title }}</span>
+              </dt>
+              <div class="fl dib pcwhite">
+                <div
+                  v-for="(childrenItem, index) in item.childrenList"
+                  :key="index"
+                  class="fl dib"
+                  @click="listTap({ childrenItem, index, byindex })"
+                >
+                  <dd
+                    class="tc"
+                    :class="childrenItem.checked ? 'checked' : ''"
+                    :data-id="childrenItem.cat_id"
+                  >
+                    <div class="inner">{{ childrenItem.name }}</div>
+                  </dd>
+                </div>
+              </div>
+            </dl>
+          </div>
+        </div>
+        <pUpkeep v-if="screenWidth > 700"></pUpkeep>
+        <!-- 移动端 -->
+        <div class="m-list"></div>
       </div>
-      <pUpkeep v-if="screenWidth > 700"></pUpkeep>
-      <!-- 移动端 -->
-      <div class="m-list"></div>
     </div>
     <Loading v-if="show" />
   </div>
@@ -95,16 +116,14 @@ export default {
       ],
     };
   },
-watch: {
+  watch: {
     screenWidth(val) {
       // 为了避免频繁触发resize函数导致页面卡顿，使用定时器
       if (!this.timer) {
-        // 一旦监听到的screenWidth值改变，就将其重新赋给data里的screenWidth
         this.screenWidth = val;
         this.timer = true;
         let that = this;
         setTimeout(function () {
-          // 打印screenWidth变化的值
           console.log(that.screenWidth);
           that.timer = false;
         }, 400);
@@ -130,14 +149,14 @@ watch: {
       console.log(this.arr);
     },
   },
-  
+
   mounted() {
     this.screenWidth = document.body.clientWidth;
     window.onresize = () => {
-      return () => {
+      return (() => {
         window.screenWidth = document.body.clientWidth;
         this.screenWidth = window.screenWidth;
-      };
+      })();
     };
     let arr = new Array();
     this.bytitle.forEach((i) => {
@@ -169,6 +188,9 @@ watch: {
 };
 </script>
 <style scoped>
+.pcwhite {
+  width: 90%;
+}
 .byTitle {
   background-color: #f8f8f8;
   padding: 10px;
@@ -180,29 +202,30 @@ watch: {
   padding: 10px;
   width: 164px;
 }
-.clearfix .dib {
-  margin: 10px;
+.pcwhite .dib {
+  margin: 0 0 10px 16px;
 }
 .checked {
   color: #f89776;
   border-color: #f89776 !important;
 }
 .carData {
-  background-color: #fdffe6;
+  border-top: 2px solid #7bb10a;
+  background-color: #f6f7fb;
 }
 .carData img {
   width: 50px;
   height: 50px;
 }
 .carData .btn {
-  background-color: #000000;
-  color: #fff;
-  display: inline-block;
-  padding: 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  border-style: none;
+  color:#fff;
   outline: none;
+  background-color:  #7bb10a;
+  margin-left: 10px;
+  height: 33px;
+  line-height: 33px;
+  padding: 0 10px;
+  font-size: 14px;
 }
 .carDetail {
   background-color: #fdffe6;
@@ -224,5 +247,30 @@ watch: {
 /* .slide-fade-leave-active for below version 2.1.8 */ {
   transform: translateY(10px);
   opacity: 0;
+}
+.input-group {
+  border: 1px solid #7bb10a;
+  margin-left: 10px;
+  padding: 5px; font-size: 14px;
+}
+.input-group:focus,
+.input-group:hover {
+  border-color: #5cadff;
+}
+.input-group:focus {
+  outline: 0;
+  box-shadow: 0 0 0 2px rgba(51, 153, 255, 0.2);
+}
+.input-group input{
+  width: 80%;
+}
+.input-group input:focus {
+  border: none;
+}
+.input-group 
+.input-group input::-webkit-outer-spin-button,
+.input-group input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0;
 }
 </style>
