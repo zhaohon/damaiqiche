@@ -2,13 +2,13 @@
   <div class="home">
     <div class="head fbox fbox-ac fbox-jb">
         <div class="head-l">
-          <h2>为我的爱车约保养</h2>
+          <!-- <h2>为我的爱车约保养</h2> -->
           <p>输入您的爱车信息，大唛养车为您推荐适用的保养方案。</p>
         </div>
-        <div class="head-r">
+        <!-- <div class="head-r">
           <img src="../assets/fen.png" alt="">
           <p>产品搜索</p>
-        </div>
+        </div> -->
     </div>
     <pIndex @changes="changes" @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :changjia="changjia" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
   </div>
@@ -66,5 +66,9 @@ export default {
 .head .head-l p{font-size: 16px;margin-top: 10px;}
 .head .head-r{text-align: center;}
 .head .head-r image{width:50px;height:50px;}
+@media only screen and (max-width: 1200px) {
+  .head{width: 100%;}
+ 
+}
 </style>
 

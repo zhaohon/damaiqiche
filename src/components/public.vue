@@ -18,7 +18,7 @@
 			  <img src="../assets/foot.png" alt="大唛养车">
 			  <p>养好车不修车&nbsp;&nbsp;工业化养车连锁</p>
 		  </div>
-		  <div class="foot-bot fbox fbox-ac fbox-jc">
+		  <div class="foot-bot fbox fbox-ac fbox-jc fbox-w">
 			  <p>版权所有：河北大麦汽车维修服务有限公司</p>
 			  <p class="bei">ICP备案编号：<a href="" target="_blank" rel="noopener noreferrer">冀ICP备18030522号-1</a></p>
 		  </div>
@@ -67,12 +67,9 @@ export default {
 		top: 0;
 	}
 
-
 	.foot-bot{
 		width: 100%;
-		height: 60px;
-		line-height: 60px;
-		box-sizing: border-box;
+		padding: 20px 0;
 		color: #FFFFFF;
 		background-color: #111111;
 	}
@@ -82,5 +79,24 @@ export default {
 	}
 	.foot-bot .bei a{color: #FFFFFF;font-size: 16px;font-weight: 300 !important;}
 
+@media only screen and (max-width: 1200px) {
+  .heander{width: 100%;}
+}
+@media only screen and (max-width: 800px) {
+	.heander{justify-content: center !important;}
+  .heander h2{display: none;}
+  .foot-top p{display: none;}
+}
+@media only screen and (max-width: 600px) {
+	.foot-bot {font-size: 12px;}
+	.foot-bot .bei{
+		font-size: 12px;
+	}
+	.foot-bot .bei a{font-size: 12px;}
+}
+@media only screen and (max-width: 500px) {
+	.heander a{width: 90%;margin: 0 auto;}
+	.heander img{width: 100%;}
+}
 
 </style>
