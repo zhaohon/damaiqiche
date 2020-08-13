@@ -15,13 +15,13 @@
 </template>
 <script>
 // @ is an alias to /src
-import Public from '@/components/public.vue'
+// import Public from '@/components/public.vue'
 
 export default {
-  name: 'public',
-  components: {
-    Public
-  },
+  // name: 'public',
+  // components: {
+  //   Public
+  // },
   data () {
     return {
       

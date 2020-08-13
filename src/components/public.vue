@@ -13,16 +13,16 @@
 
 
 	  <!-- 底部 -->
-	  <div class="footer">
-		  <div class="foot-top fbox fbox-ac fbox-jc">
-			  <img src="../assets/foot.png" alt="大唛养车">
-			  <p>养好车不修车&nbsp;&nbsp;工业化养车连锁</p>
-		  </div>
-		  <div class="foot-bot fbox fbox-ac fbox-jc fbox-w">
-			  <p>版权所有：河北大麦汽车维修服务有限公司</p>
-			  <p class="bei">ICP备案编号：<a href="" target="_blank" rel="noopener noreferrer">冀ICP备18030522号-1</a></p>
-		  </div>
-	  </div>
+		<div class="footer">
+			<div class="foot-top fbox fbox-ac fbox-jc">
+				<img src="../assets/foot.png" alt="大唛养车">
+				<p>养好车不修车&nbsp;&nbsp;工业化养车连锁</p>
+			</div>
+			<div class="foot-bot fbox fbox-ac fbox-jc fbox-w">
+				<p>版权所有：河北大麦汽车维修服务有限公司</p>
+				<p class="bei">ICP备案编号：<a href="" target="_blank" rel="noopener noreferrer">冀ICP备18030522号-1</a></p>
+			</div>
+		</div>
   </div>
 </template>
 
@@ -46,6 +46,7 @@ export default {
 		background:#000000;
 		position: fixed;
 		bottom: 0;
+		z-index: 9999;
 	}
 	.foot-top{
 		padding: 53px 0;

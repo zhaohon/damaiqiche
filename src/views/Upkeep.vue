@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="w">
+    <div style="max-width:1200px;margin:auto">
       <div class="mt mb">选择您想保养的项目，大唛养车为您推荐适用的保养方案</div>
       <div class="upkeep">
         <div class="carData pb pt fbox fbox-acenter fbox-jbetween">
@@ -19,17 +19,23 @@
               </div>
             </div>
           </div>
-          <form action class="fbox fbox-acenter">
-            <p class="small-text">当前里程数:</p>
-            <div class="input-group">
+          <form action class="">
+            <p class="small-text dib v-align">当前里程数:</p>
+            <div class="input-group dib v-align">
               <input type="number" class="fl" placeholder="请输入里程数" />
               <p class="dib fr">公里</p>
             </div>
-            <button class="btn" @click="onSubmit()">查看推荐</button>
+            <button class="btn dib v-align" @click="onSubmit()">查看推荐</button>
           </form>
           <div class="fbox fbox-acenter mr">
-            <div class="reselection mr">重选车型</div>
-            <router-link class="" to="">产品搜索</router-link>
+            <div class="reselection mr tc mr">
+              <img src="../assets/reelect.jpg" alt="">
+              <p>重选车型</p>
+            </div>
+            <router-link class="" to="">
+              <img src="../assets/upsearch.jpg" alt="">
+              <p>产品搜索</p>
+              </router-link>
           </div>
         </div>
         <transition name="slide-fade">
@@ -73,7 +79,7 @@
             </dl>
           </div>
         </div>
-        <pUpkeep v-if="screenWidth > 700"></pUpkeep>
+        <pUpkeep class="mt" v-if="screenWidth > 700"></pUpkeep>
         <!-- 移动端 -->
         <div class="m-list"></div>
       </div>
@@ -104,6 +110,9 @@ export default {
             { name: "小保养", id: "1", checked: true },
             { name: "前雨刷", id: "2", checked: false },
             { name: "前雨刷1", id: "3", checked: false },
+            { name: "前雨刷1", id: "3", checked: false },
+            { name: "前雨刷1", id: "3", checked: false },
+            { name: "前雨刷2", id: "4", checked: false },
             { name: "前雨刷2", id: "4", checked: false },
           ],
         },
@@ -111,6 +120,7 @@ export default {
           title: "深度保养",
           childrenList: [
             { name: "刹车油", id: "5", checked: false },
+            { name: "变速箱油", id: "6", checked: false },
             { name: "变速箱油", id: "6", checked: false },
           ],
         },
@@ -193,17 +203,18 @@ export default {
   width: 90%;
 }
 .byTitle {
-  padding: 10px;
+  margin:8px 0 0 10px;
   width: 84px;
+  font-weight: bold;
 }
 .clearfix dd {
   border: 2px solid #999;
   cursor: pointer;
-  padding: 10px;
-  width: 164px;
+padding: 5px 10px;
+    width: 138px;
 }
 .pcwhite .dib {
-  margin: 15px 0 15px 16px;
+  margin: 0 0 15px 16px;
 }
 .checked {
   color: #f89776;
@@ -232,11 +243,11 @@ export default {
 }
 
 .ivu-btn-primary {
-  background-color: yellowgreen;
-  border-color: yellowgreen;
+  background-color: #7bb10a;
+  border-color: #7bb10a;
 }
 .UnSelect{
-  
+  padding-top: 20px;
 }
 /* 可以设置不同的进入和离开动画 */
 /* 设置持续时间和动画函数 */
@@ -256,14 +267,11 @@ export default {
   margin-left: 10px;
   padding: 5px; font-size: 14px;
 }
-.input-group:focus,
 .input-group:hover {
-  border-color: #5cadff;
+  border-color: #7bb10a;
+  box-shadow: 0 0 0 2px rgba(123, 177, 10, 0.1);
 }
-.input-group:focus {
-  outline: 0;
-  box-shadow: 0 0 0 2px rgba(51, 153, 255, 0.2);
-}
+
 .input-group input{
   width: 80%;
 }
@@ -277,4 +285,14 @@ export default {
   margin: 0;
 }
 a{color: #333;}
+@media only screen and (max-width: 1200px) {
+  .head{width: 100%;}
+}
+@media only screen and (max-width: 860px) {
+ .pcwhite {width: 85%;}
+}
+@media only screen and (max-width: 700px) {
+ .pcwhite {display: none;}
+}
+
 </style>

@@ -1,50 +1,56 @@
 <template>
   <div>
-     <!-- 保养项 -->
-      <div  class="w pc-list">
-        <div class="pc-upkeep-left fl">
-          <div class="upkeep-title">
-            <ul class="fbox fbox-acenter color-white">
-              <li class="tc" style="width:130px">保养项目</li>
-              <li class="tc" style="width:280px">已选购产品</li>
-              <li class="tc" style="width:160px">单价</li>
-              <li class="tc" style="width:160px">数量</li>
-            </ul>
-          </div>
-          <div class="tl upkeep-left-title">
-            <h4 class="dib">小保养服务</h4>
-          </div>
-          <div class="upkeep-list">
-            <table>
-              <tbody>
-                <tr>
-                  <td width="130" class="tc">更换防冻冷却液</td>
-                  <td class="hover-bor">
-                    <div
-                      class="pack_biaoti"
-                    >冠军/CHAMPION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）</div>
-                    <div class="pck_price tc color-red">¥99.00</div>
-                    <div class="pck_num tc">1.6L</div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+    <!-- 保养项 -->
+    <div class="w pc-list">
+      <div class="pc-upkeep-left fl">
+        <div class="upkeep-title">
+          <ul class="fbox fbox-acenter color-white">
+            <li class="tc" style="width:130px">保养项目</li>
+            <li class="tc" style="width:310px">已选购产品</li>
+            <li class="tc" style="width:130px">单价</li>
+            <li class="tc" style="width:160px">数量</li>
+          </ul>
         </div>
-        <div class="pc-upkeep-right fl">
-          <h4 class>更多产品</h4>
-          <div class="upkeep-right-font">
-            <div class="fl dib">
-              <img src="../assets/logo.png" alt />
+        <div class="tl upkeep-left-title">
+          <h4 class="dib">小保养服务</h4>
+          <div class="pc-upkeep-right pbupkeep">
+            <h4>
+              <i></i> 更多推荐产品
+            </h4>
+            <div>
+              <div class="upkeep-right-font">
+                <div class="fl dib">
+                  <img src="../assets/logo.png" alt />
+                </div>
+                <h4 class="fl mr">冠军/CHAMPION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）</h4>
+                <p class="fl mr upkeep-right-price">￥199.00</p>
+                <p class="fl mr upkeep-right-num">1.6L</p>
+                <div class="clearfix"></div>
+              </div>
             </div>
-            <h4 class="fl mr">冠军/CHAMPION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）</h4>
-            <p class="fl mr upkeep-right-price">￥199.00</p>
-            <p class="fl mr upkeep-right-num">1.6L</p>
-            <div class="clearfix"></div>
           </div>
         </div>
-        <div class="clearfix"></div>
+        <div class="upkeep-list">
+          <table>
+            <tbody>
+              <tr>
+                <td width="130" class="tc">更换防冻冷却液</td>
+                <td class="hover-bor">
+                  <div class="pack_biaoti">
+                    <img class="fl" src="../assets/logo.png" alt />
+                    <div >冠军/CHAMPION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）</div>
+                  </div>
+                  <div class="pck_price tc color-red">¥99.00</div>
+                  <div class="pck_num tc">1.6L</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      <div class="clearfix"></div>
+    </div>
   </div>
 </template>
 
@@ -52,33 +58,37 @@
 export default {
   name: "pUpkeep",
   data() {
-    return {
-      
-    };
+    return {};
   },
-  props: {},
-  methods:{
-
-  }
-
+  props: {
+    list:Array
+  },
+  methods: {},
 };
 </script>
 
 
 <style scoped>
 .upkeep-left-title {
-  background-color: #f1f2f3;
+  background-color: #f6f7f9;
+  color: #7bb10a;
+  font-size: 18px;
+  position: relative;
+  box-sizing: border-box;
 }
-.upkeep-left-title h4 {
+.upkeep-left-title > h4 {
   cursor: pointer;
   padding: 10px;
 }
 .pc-upkeep-left {
   width: 750px;
 }
+.upkeep-title {
+  background-color: #212531;
+}
 .upkeep-title ul {
   width: 100%;
-  background: #999;
+  background-color: #212531;
 }
 .upkeep-title li {
   box-sizing: border-box;
@@ -92,47 +102,90 @@ export default {
   border-spacing: 0;
   width: 100%;
 }
+.upkeep-list table tr td {
+  box-sizing: border-box;
+}
 .upkeep-list table tr td:first-child {
   border-right: none;
 }
+/* .bor-top{border-top: 1px solid  #dcdcdc !important;} */
+/* .bor-top:hover{border-color: #7bb10a !important;} */
 .upkeep-list td {
   overflow: hidden;
   box-sizing: border-box;
-  border: 1px solid #000;
+  border: 1px solid #dcdcdc;
+  border-bottom-color: transparent;
 }
 .hover-bor {
   cursor: pointer;
 }
 .hover-bor:hover {
-  border: 1px solid yellowgreen;
+  border: 1px solid #7bb10a;
 }
 .upkeep-list td div {
   float: left;
   padding: 10px;
 }
 .pack_biaoti {
-  width: 280px;
+  width: 310px;
+  position: relative;
 }
-.pck_num,
+.pack_biaoti div{
+  width: 220px;
+  float: right !important;
+  padding: 0 !important;
+}
+.pack_biaoti img{
+  position: absolute;
+  top: 50%;
+  margin-top: -25px;
+  left: 15px;
+  width: 50px;
+  height: 50px;
+  border:1px solid #D8D8D8;
+  background-color: #fff;
+  object-fit: unset;
+}
+.pck_num{width: 160px;}
 .pck_price {
-  width: 160px;
+  width: 130px;
 }
-
+.pbupkeep {
+  position: absolute;
+  right: -420px;
+  top: -44px;
+}
 .pc-upkeep-right {
   width: 420px;
+  /* padding: 10px; */
+  max-height: 400px;
   box-sizing: border-box;
-  padding: 10px;
-  background-color: #e8e8e8;
+  border: 1px solid #dcdde1;
+  background-color: #edeef2;
+  border-left: none;
+  border-bottom: none;
 }
 .pc-upkeep-right > h4 {
-  border-bottom: 1px solid #000;
-  padding-bottom: 10px;
+  border-bottom: 1px solid #dcdde1;
+  position: relative;
+  font-size: 18px;
+  padding: 10px 20px;
 }
+.pc-upkeep-right > h4 > i {
+  position: absolute;
+  left: 10px;
+  width: 3px;
+  height: 22px;
+  background-color: #7bb10a;
+  top: 50%;
+  margin-top: -13px;
+}
+
 .upkeep-right-font {
   overflow: hidden;
   position: relative;
-  border-bottom: 1px solid #000;
-  padding: 10px 0;
+  border-bottom: 1px solid #dcdde1;
+  padding:15px 10px;
 }
 .upkeep-right-font .dib {
   position: absolute;
@@ -141,20 +194,21 @@ export default {
   background-color: white;
 }
 .upkeep-right-font div {
-  width: 70px;
-  height: 70px;
+ width: 50px;
+  height: 50px;
   object-fit: fill;
   text-align: center;
 }
 .upkeep-right-font div img {
   width: 50px;
   height: 50px;
-  margin-top: 10px;
 }
 .upkeep-right-font h4 {
   font-size: 14px;
   width: 160px;
   margin-left: 80px;
+  font-weight: 100;
+  color: #333;
 }
 .upkeep-right-font p {
   height: 22px;
@@ -165,8 +219,13 @@ export default {
 }
 .upkeep-right-price {
   right: 70px;
+  color: #cd6066;
 }
 .upkeep-right-num {
   right: 10px;
+  color: #333;
+}
+table {
+  border-bottom: 1px solid #dcdcdc;
 }
 </style>

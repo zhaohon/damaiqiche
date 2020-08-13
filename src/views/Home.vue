@@ -68,7 +68,6 @@ export default {
 .head .head-r image{width:50px;height:50px;}
 @media only screen and (max-width: 1200px) {
   .head{width: 100%;}
- 
 }
 </style>
 
