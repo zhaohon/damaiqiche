@@ -106,11 +106,11 @@
 
       <!-- 产品搜索 -->
       <div class="chanpin-box fbox fbox-ac" v-if="tab == 3">
-          <div class="chanpin-item fbox fbox-ac fbox-w" >
+          <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                 <div>机滤</div>
-                <div>
+                <div class="chanpin-xian">
                   <!-- 下拉框 -->
-                  <Select v-model="model1" style="width:200px">
+                  <Select v-model="model1" placeholder="全部" >
                       <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                   </Select>
                 </div>
@@ -248,7 +248,10 @@ export default {
 /* 产品 */
 .chanpin-box{width: 100%;background: #EDEEF2;box-sizing: border-box;}
 .chanpin-item{width:240px;height:36px;background:#FFFFFF;border:2px solid #DDDDDD;border-radius:2px;box-sizing: border-box;}
-
+.chanpin-xian{position: relative;}
+.chanpin-xian::after{position: absolute;content: "";width: 0;height: 20px;border-left: 1px solid #DDDDDD;left: -10px;top: 6px;}
+.chanpin-xian .ivu-select-selection{border: none !important;}
+.ivu-select-visible .ivu-select-selection{border-color: white !important;}
 
 @media only screen and (max-width: 1200px) {
   .box{width: 100%;}
