@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <!-- 保养项 -->
     <div class="w pc-list">
       <div class="pc-upkeep-left fl">
@@ -14,8 +15,14 @@
 
         <div v-for="(item,index) in list" :key="index">
           <div class="tl upkeep-left-title">
-            <h4 class="dib">{{item.title}}</h4>
-            <div class="pc-upkeep-right pbupkeep">
+            <h4 class="dib pore" @mouseenter="mousepop(index + '1')" @mouseleave="outStyle(index + '1')" @click="introtap">{{item.title}} 
+              <div class="popup" v-if="act == index + '1'">
+                  <img class="popsj" src="../assets/sj.png" alt="">
+                  <span class="dib ell_3">小保养的时间取决于所用机油和机油滤芯的有效时间或里程。不同品牌级别的矿物质机油、半合成机油、全合成机油有效期也不尽相同，请以厂</span>
+                  <p class="color-page db" >查看详情 ></p>
+              </div> 
+            </h4>
+            <div class="pc-upkeep-right pbupkeep" v-if="item.title == title">
               <h4><i></i> 更多推荐产品</h4>
               <div>
                 <div class="upkeep-right-font">
@@ -34,7 +41,7 @@
               <tbody>
                 <tr v-for="(items,indexs) in item.list" :key="indexs">
                   <td width="130" class="tc">{{items.name}}</td>
-                  <td class="hover-bor">
+                  <td class="hover-bor" :class="hovernum == index + String(indexs)?'hoverbg':''" @click="listtap(items,item.title,index + String(indexs))">
                     <div class="pack_biaoti">
                       <img class="fl" :src="items.img" alt />
                       <div>{{items.ell}}</div>
@@ -48,8 +55,13 @@
           </div>
         </div>
       </div>
-
+      <div class="tr fl comemoney">
+          商品总价<span class="color-light-gray">（不含工时费）</span>: <span class="color-red font-bold">￥1999</span>
+      </div>
       <div class="clearfix"></div>
+    </div>
+    <div class="videointro" v-if="videointro">
+      1321321
     </div>
   </div>
 </template>
@@ -58,17 +70,77 @@
 export default {
   name: "pUpkeep",
   data() {
-    return {};
+    return {
+      title:'',
+      hovernum:'',
+      act:'',
+      videointro:false
+    };
   },
   props: {
     list: Array,
   },
-  methods: {},
+  methods: {
+    listtap(item,title,indexs){
+        console.log('e',item,title)
+        this.title = title
+        this.hovernum = indexs
+    },
+    mousepop(e){
+      this.act = e
+    },
+    outStyle(e){
+      this.act = ''
+    },
+    introtap(){
+      this.videointro = !this.videointro
+    }
+  },
 };
 </script>
 
 
 <style scoped>
+.videointro{
+  background-color: #000;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+.popup{
+  position: absolute;
+  color: #333;
+  font-size: 12px;
+  top: 45px;
+  width: 252px;
+  padding: 10px;
+  z-index: 999;
+  background-color:#fff ;
+  font-weight: 100;
+  border:2px solid #DDDDDD;
+  cursor: inherit !important;
+}
+.popup p{cursor: pointer;}
+.popsj{
+  position: absolute;
+  top:-11px;
+  left: 20px;
+}
+.hoverbg{
+  border-right: none !important;
+  background-color: #edeef2;
+}
+.comemoney{
+  height: 50px;
+  line-height: 50px;
+  width: 750px;
+  padding: 0 30px;
+  font-size: 18px;
+  background-color: #F5F7F9;
+}
 .upkeep-left-title {
   background-color: #f6f7f9;
   color: #7bb10a;

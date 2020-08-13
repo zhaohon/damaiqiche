@@ -173,6 +173,9 @@ export default {
 	font-weight: 300;
 	font-size: .85em;
 	letter-spacing: 4px;
-	color: rgba(0, 0, 0, 0.8);
+	color: rgba(0, 0, 0, 1);
+}
+.how-to span{
+	font-weight: bold;
 }
 </style>

@@ -29,26 +29,15 @@
           </form>
           <div class="fbox fbox-acenter mr">
             <div class="reselection mr tc mr">
-              <img src="../assets/reelect.jpg" alt />
-              <p>重选车型</p>
+              <img src="../assets/reelect.png" alt />
             </div>
-            <router-link class to>
-              <img src="../assets/upsearch.jpg" alt />
-              <p>产品搜索</p>
+            <router-link class="reselection" to>
+              <img src="../assets/upsearch.png" alt />
             </router-link>
           </div>
         </div>
         <transition name="slide-fade">
           <div class="carDetail" v-show="carshow" ref="carDetail">
-            <div>产看</div>
-            <div>产看</div>
-            <div>产看</div>
-            <div>产看</div>
-            <div>产看</div>
-            <div>产看</div>
-            <div>产看</div>
-            <div>产看</div>
-            <div>产看</div>
             <div>产看</div>
             <div>产看</div>
             <div>产看</div>
@@ -78,6 +67,7 @@
                     :data-id="childrenItem.cat_id"
                   >
                     <div class="inner">{{ childrenItem.name }}</div>
+                    <img class="inner-img" src="../assets/triangle.png" alt />
                   </dd>
                 </div>
               </div>
@@ -90,6 +80,8 @@
       </div>
     </div>
     <Loading v-if="show" />
+
+    <div style="height:75px"></div>
   </div>
 </template>
 <script>
@@ -156,18 +148,18 @@ export default {
           title: "前雨刷",
           list: [
             {
-              name: "更换防冻冷却液",
+              name: "更换防2冻冷却液",
               img: "../assets/logo.png",
               ell:
-                "冠军/CHAMPION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）",
+                "冠军/CHAMP3ION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）",
               money: "99.00",
               num: "1.6L",
             },
             {
-              name: "更卡里克放开了",
+              name: "更卡里克放开了1",
               img: "../assets/logo.png",
               ell:
-                "是否会或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或撒飒飒飒飒）",
+                "是否会或或或2或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或撒飒飒飒飒）",
               money: "99.00",
               num: "1.6L",
             },
@@ -226,6 +218,7 @@ export default {
     });
     this.arr = arr;
     console.log(this.$http);
+    this.show = false;
     this.$http
       .submitprice({
         paragraph: "2013年生产",
@@ -257,18 +250,32 @@ export default {
   font-weight: bold;
 }
 .clearfix dd {
-  border: 2px solid #999;
+  border: 1px solid #DDDDDD;
   cursor: pointer;
-  padding: 5px 10px;
-  width: 138px;
+  padding: 5px 30px;
+  min-width: 138px;
+  background: #fff;
+  box-sizing: border-box;
+  font-size: 14px;
 }
 .pcwhite .dib {
   margin: 0 0 15px 16px;
+  box-sizing: border-box;
+}
+.inner-img{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: none;
 }
 .checked {
-  color: #f89776;
-  border-color: #f89776 !important;
+  padding: 4px 30px !important;
+  color: #7bb10a;
+  border:2px solid #7bb10a !important;
+  position: relative;
+  box-sizing: border-box;
 }
+.checked .inner-img{display: block;}
 .carData {
   border-top: 2px solid #7bb10a;
   background-color: #f6f7fb;
@@ -341,7 +348,7 @@ a {
     width: 100%;
   }
 }
-@media only screen and (max-width: 860px) {
+@media only screen and (max-width: 960px) {
   .pcwhite {
     width: 85%;
   }
@@ -350,5 +357,9 @@ a {
   .pcwhite {
     display: none;
   }
+}
+.reselection img {
+  width: 70px;
+  height: 70px;
 }
 </style>

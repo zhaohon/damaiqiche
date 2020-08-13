@@ -3,31 +3,36 @@
     <div class="box">
       <div class="tab fbox">
         <div class="fbox fbox-ac fbox-jc" :class="tab == 1?'tabActive':''" @click="tabC(1)" >
-          <img class="car" src="../assets/car.png" alt="" v-if="tab == 1">
-          <img class="car" src="../assets/cara.png" alt="" v-else>
+          <img class="car" src="../assets/cara.png" alt="" v-if="tab == 1">
+          <img class="car" src="../assets/car.png" alt="" v-else>
           <div>车型选择</div>
         </div>
         <div class="fbox fbox-ac fbox-jc" :class="tab == 2?'tabActive':''" @click="tabC(2)">
-          <img class="serch" src="../assets/serch.png" alt=""  v-if="tab == 2">
-          <img class="serch" src="../assets/sercha.png" alt="" v-else>
+          <img class="serch" src="../assets/sercha.png" alt=""  v-if="tab == 2">
+          <img class="serch" src="../assets/serch.png" alt="" v-else>
           <div>车型搜索</div>
+        </div>
+        <div class="fbox fbox-ac fbox-jc" :class="tab == 3?'tabActive':''" @click="tabC(3)">
+          <img class="bao" src="../assets/baoa.png" alt=""  v-if="tab == 3">
+          <img class="bao" src="../assets/bao.png" alt="" v-else>
+          <div>产品搜索</div>
         </div>
       </div>
       <!-- 内容 -->
       <div class="content" v-if="tab == 1">
         <!-- 筛选导航 -->
         <div class="nav fbox fbox-ac fbox-wrap">
-          <p class="fbox fbox-ac active"><span>1</span>厂家</p>
-          <p class="fbox fbox-ac" v-bind:class="yixuan.length > 0?'active':''"><span>2</span>品牌</p>
-          <p class="fbox fbox-ac" v-bind:class="yixuan.length > 1?'active':''"><span>3</span>车系</p>
-          <p class="fbox fbox-ac" v-bind:class="yixuan.length > 2?'active':''"><span>4</span>车型</p>
-          <p class="fbox fbox-ac" v-bind:class="yixuan.length > 3?'active':''"><span>5</span>排量</p>
-          <p class="fbox fbox-ac" v-bind:class="yixuan.length > 4?'active':''"><span>6</span>年份</p>
-          <p class="fbox fbox-ac" v-bind:class="yixuan.length > 5?'active':''"><span>7</span>款型</p>
-          <p class="xinghao fbox fbox-ac" v-bind:class="yixuan.length > 6?'active':''" ><span>8</span>发动机型号</p>
-          <p class="gonglv fbox fbox-ac" v-bind:class="yixuan.length > 7?'active':''" ><span>9</span>最大功率</p>
+          <p class="fbox fbox-ac active"><span>1</span>品牌</p>
+          <p class="fbox fbox-ac" v-bind:class="yixuan.length > 0?'active':''"><span>2</span>车系</p>
+          <p class="fbox fbox-ac" v-bind:class="yixuan.length > 1?'active':''"><span>3</span>车型</p>
+          <p class="fbox fbox-ac" v-bind:class="yixuan.length > 2?'active':''"><span>4</span>排量</p>
+          <p class="fbox fbox-ac" v-bind:class="yixuan.length > 3?'active':''"><span>5</span>年份</p>
+          <p class="fbox fbox-ac" v-bind:class="yixuan.length > 4?'active':''"><span>6</span>款型</p>
+          <p class="xinghao fbox fbox-ac" v-bind:class="yixuan.length > 5?'active':''" ><span>7</span>发动机型号</p>
+          <p class="gonglv fbox fbox-ac" v-bind:class="yixuan.length > 6?'active':''" ><span>8</span>最大功率</p>
         </div>
-         <div class="remen fbox fbox-ac fbox-wrap mt" v-if="yixuan.length == 1">
+
+         <div class="remen fbox fbox-ac fbox-wrap mt" v-if="yixuan.length == 0">
           <p v-for="(item,index) in remen" :key="index" @mouseover="mouseOver(index)" @click="mouseOver(index)" v-bind:class=" hover == index ?'ractive':''" >{{item}}</p>
         </div>
         <!-- 已选 -->
@@ -39,49 +44,50 @@
           </div>
         </div>
 
-        <!-- 选择厂家 -->
-        <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 0">
-          <p v-for="(item,index) in changjia" :key="index" @click="rit(item)" >{{item}}</p>
-        </div>
-
          <!-- 选择品牌 -->
         
-        <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 1">
-          <p v-for="(item,index) in pinpai" :key="index" @click="rit(item)" >{{item}}</p>
+        <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 0">
+          <p v-for="(item,index) in pinpai" :key="index" @click="rit(item.brand)" >{{item.brand}}</p>
         </div>
 
          <!-- 选择车系 -->
-        <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 2">
-          <p v-for="(item,index) in chexi" :key="index" @click="rit(item)" >{{item}}</p>
-        </div>
+         <div class="mt" v-if="yixuan.length == 1">
+            <div v-for="(item,index) in chexi" :key="index">
+                <p>{{item.letter}}</p>
+                <div class="item fbox fbox-ac fbox-wrap">
+                  <p v-for="(t,i) in item.data" :key="i" @click="rit(t)">{{t}}</p>
+                </div>
+            </div>
+         </div>
+        
 
          <!-- 选择车型 -->
-        <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 3">
+        <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 2">
           <p v-for="(item,index) in chexing" :key="index" @click="rit(item)" >{{item}}</p>
         </div>
 
          <!-- 选择排量 -->
-        <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 4">
+        <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 3">
           <p v-for="(item,index) in pailiang" :key="index" @click="rit(item)" >{{item}}</p>
         </div>
 
          <!-- 选择年份 -->
-        <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 5">
+        <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 4">
           <p v-for="(item,index) in nianfen" :key="index" @click="rit(item)" >{{item}}</p>
         </div>
 
         <!-- 选择款型 -->
-        <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 6">
+        <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 5">
           <p v-for="(item,index) in kuanxing" :key="index" @click="rit(item)" >{{item}}</p>
         </div>
 
         <!-- 选择发动机型号 -->
-        <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 7">
+        <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 6">
           <p v-for="(item,index) in fdjxh" :key="index" @click="rit(item)" >{{item}}</p>
         </div>
 
         <!-- 选择最大功率 -->
-        <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 8">
+        <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 7">
           <p v-for="(item,index) in zdgl" :key="index" @click="rit(item)" >{{item}}</p>
         </div>
       </div>
@@ -95,9 +101,20 @@
                   <img class="serch" src="../assets/serch.png" alt="">
                   <p>搜索</p>
               </button>
-
           </form>
+      </div>
 
+      <!-- 产品搜索 -->
+      <div class="chanpin-box fbox fbox-ac" v-if="tab == 3">
+          <div class="chanpin-item fbox fbox-ac fbox-w" >
+                <div>机滤</div>
+                <div>
+                  <!-- 下拉框 -->
+                  <Select v-model="model1" style="width:200px">
+                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
+                </div>
+          </div>
       </div>
     </div>
   </div>
@@ -108,10 +125,37 @@ export default {
   name: "pIndex",
   data() {
     return {
-      tab:2
+      cityList: [
+          {
+              value: 'New York',
+              label: 'New York'
+          },
+          {
+              value: 'London',
+              label: 'London'
+          },
+          {
+              value: 'Sydney',
+              label: 'Sydney'
+          },
+          {
+              value: 'Ottawa',
+              label: 'Ottawa'
+          },
+          {
+              value: 'Paris',
+              label: 'Paris'
+          },
+          {
+              value: 'Canberra',
+              label: 'Canberra'
+          }
+      ],
+      model1: '',
+      tab: 3
     };
   },
-  props: ["yixuan","hover","remen","changjia","pinpai","chexi","chexing","pailiang","nianfen","kuanxing","fdjxh","zdgl"],
+  props: ["yixuan","hover","remen","pinpai","chexi","chexing","pailiang","nianfen","kuanxing","fdjxh","zdgl"],
   methods:{
     // tab切换
     tabC(e){
@@ -145,12 +189,14 @@ export default {
   padding: 20px 0;
   margin: 0 auto;
 }
+.tab{justify-content: flex-end;}
 
-.tab>div{width:147px;height:36px;background: #EDEEF2;border-radius:4px 4px 0px 0px;margin-right: 5px;color: #333333;font-size: 16px;cursor: pointer;}
-.tabActive{background: #212531 !important;}
-.tabActive div{color: #fff;}
+.tab>div{width:147px;height:36px;background: #212531;border-radius:4px 4px 0px 0px;color: #ffffff;margin-left: 5px;font-size: 16px;cursor: pointer;}
+.tabActive{background: #EDEEF2 !important;}
+.tabActive div{color: #333333;}
 .car{width:27px;height:13px;margin-right: 6px;}
 .serch{width:17px;height:17px;margin-right: 6px;}
+.bao{width:18px;height:18px;margin-right: 6px;}
 .content {  width: 100%;background: #EDEEF2;padding: 36px 22px;box-sizing: border-box;}
 
 .nav {  width: 100%;}
@@ -199,6 +245,9 @@ export default {
 .serch-box button p{margin-left: 2px;margin-top: 2px;}
 
 
+/* 产品 */
+.chanpin-box{width: 100%;background: #EDEEF2;box-sizing: border-box;}
+.chanpin-item{width:240px;height:36px;background:#FFFFFF;border:2px solid #DDDDDD;border-radius:2px;box-sizing: border-box;}
 
 
 @media only screen and (max-width: 1200px) {

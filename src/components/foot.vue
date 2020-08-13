@@ -1,15 +1,5 @@
 <template>
   <div class="public">
-	  
-	  <!-- 顶部 -->
-	  <div class="heander-box">
-		  <div class="heander fbox fbox-ac fbox-jb">
-				<a href="" title="大唛养车-汽车保养回归工业化" >
-					<img src="../assets/top-logo.png" alt="大唛养车">
-				</a>
-				<h2>为我的爱车约保养</h2>
-			</div>
-	  </div>
 
 
 	  <!-- 底部 -->
@@ -36,17 +26,13 @@ export default {
 
 
 <style scoped>
-	.heander-box{width: 100%;position: fixed;top: 0;left: 0;background-color: #FFFFFF;height: 116px;border-bottom: 1px solid #F5F6FA;box-sizing: border-box;}
-	.heander{width: 1200px;margin: 0 auto;height: 100%;}
-	.heander h2{font-size: 36px;color: #333333;}
-
+	
 	.footer{
 		width:100%;
 		height:210px;
 		background:#000000;
-		position: fixed;
-		bottom: 0;
-		z-index: 9999;
+		/* position: fixed;
+		bottom: 0; */
 	}
 	.foot-top{
 		padding: 53px 0;
@@ -80,12 +66,8 @@ export default {
 	}
 	.foot-bot .bei a{color: #FFFFFF;font-size: 16px;font-weight: 300 !important;}
 
-@media only screen and (max-width: 1200px) {
-  .heander{width: 100%;}
-}
 @media only screen and (max-width: 800px) {
-	.heander{justify-content: center !important;}
-  .heander h2{display: none;}
+
   .foot-top p{display: none;}
 }
 @media only screen and (max-width: 600px) {
@@ -94,10 +76,6 @@ export default {
 		font-size: 12px;
 	}
 	.foot-bot .bei a{font-size: 12px;}
-}
-@media only screen and (max-width: 500px) {
-	.heander a{width: 90%;margin: 0 auto;}
-	.heander img{width: 100%;}
 }
 
 </style>

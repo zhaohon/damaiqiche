@@ -19,6 +19,21 @@ const api = {
     //      注意get请求params参数外要加{}
     //     return http.get(`${apiUrl}Car/submit_price`,{params});     
     // },
+    // 车型品牌    
+    carName(params) {
+        console.log('params',{params})
+        return http.post(`${apiUrl}Car/brand`,qs.stringify(params))
+    },
+    // 车系  
+    carSeries(params) {
+        console.log('params',{params})
+        return http.post(`${apiUrl}Car/cars`,qs.stringify(params))
+    },
+    // 车型   
+    carType(params) {
+        console.log('params',{params})
+        return http.post(`${apiUrl}Car/engine_capacity`,qs.stringify(params))
+    },
 }
  
 

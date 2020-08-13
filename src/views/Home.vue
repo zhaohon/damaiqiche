@@ -10,27 +10,33 @@
           <p>产品搜索</p>
         </div> -->
     </div>
-    <pIndex @changes="changes" @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :changjia="changjia" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
+    <pIndex @changes="changes" @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
+    <Loading v-if="show" />
+
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import pIndex from '@/components/pIndex.vue'
+import Loading from "@/components/Loading.vue";
+
 
 export default {
   name: 'Home',
   components: {
-    pIndex
+    pIndex,
+    Loading
   },
   data () {
     return {
+      show: true,
       yixuan:[],//已选中
       hover:0,//热门选中
-      changjia:["厂家1","厂家2","厂家3","厂家4","厂家5","厂家6",],
-      remen:["A", "B", "C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "W", "X", "Y", "Z",],
-      pinpai:["品牌1","品牌2","品牌3","品牌4","品牌5","品牌6",],
-      chexi:["车系1","车系2","车系3","车系4","车系5","车系6",],
+      all:[],//全部品牌
+      remen:[],//热门字母
+      pinpai:[],//品牌
+      chexi:[],
       chexing:["车型1","车型2","车型3","车型4","车型5","车型6",],
       pailiang:["排量1","排量2","排量3","排量4","排量5","排量6",],
       nianfen:["年份1","年份2","年份3","年份4","年份5","年份6",],
@@ -43,10 +49,46 @@ export default {
     // 选择
     changes(e){
       console.log(e,"父组件")
-      if(this.yixuan.length == 8){
+      if(this.yixuan.length == 7){
         this.$router.push({ path:'/Upkeep',name:'Upkeep', query: { Shiftid: "1111",Shiftname:"222" }})
       }
-      this.yixuan.push(e)
+      // 车系
+      if(this.yixuan.length == 0){
+        this.$http
+          .carSeries({
+            brand: e || '奥迪',
+            region: ""
+          })
+          .then((res) => {
+            console.log("res接到值了", res.data);
+            this.chexi = res.data
+            this.yixuan.push(e)
+
+          })
+          .catch((err) => {
+            console.log("错误", err), (this.show = false);
+          });
+        return
+      }
+      // 车型接口
+      if(this.yixuan.length == 1){
+        this.$http
+          .carType({
+            brand: this.yixuan[0] || '奥迪',
+            region: ""
+          })
+          .then((res) => {
+            console.log("res接到值了", res.data);
+            this.chexi = res.data
+            this.yixuan.push(e)
+
+          })
+          .catch((err) => {
+            console.log("错误", err), (this.show = false);
+          });
+        return
+
+      }
     },
     // 删除
     del(e){
@@ -56,7 +98,29 @@ export default {
     // 鼠标悬停
      mouseOver(e){
       this.hover = e
+      this.pinpai = this.all[e].data
     }
+  },
+  mounted(){
+    this.$http
+      .carName({
+        longitude: "114.53122%2C38.0061",
+        city: ""
+      })
+      .then((res) => {
+        console.log("res接到值了", res.data.car);
+        this.all = res.data.car//全部参数
+        this.pinpai = res.data.car[0].data//默认品牌
+        let remens = []
+        res.data.car.forEach((item,index) => {
+            remens.push(item.letter)
+        });
+        this.remen = remens//字母排序
+        this.show = false;//隐藏动画
+      })
+      .catch((err) => {
+        console.log("错误", err), (this.show = false);
+      });
   }
 }
 </script>
