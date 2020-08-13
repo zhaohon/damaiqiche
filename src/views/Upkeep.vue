@@ -15,7 +15,7 @@
               <div>
                 <span>发动机型号：EA888</span>
                 <span>最大功率：110KW</span>
-                <button @click="carshow = !carshow" class="ml ">查看详情</button>
+                <button @click="carshow = !carshow" class="ml color-page small-text">查看详情 ></button>
               </div>
             </div>
           </div>
@@ -27,8 +27,9 @@
             </div>
             <button class="btn" @click="onSubmit()">查看推荐</button>
           </form>
-          <div>
-            <div class=""></div>
+          <div class="fbox fbox-acenter mr">
+            <div class="reselection mr">重选车型</div>
+            <router-link class="" to="">产品搜索</router-link>
           </div>
         </div>
         <transition name="slide-fade">
@@ -47,8 +48,8 @@
             <div>产看</div>
           </div>
         </transition>
-        <div class="byType UnSelect">
-          <div v-for="(item, byindex) in bytitle" :key="byindex">
+        <div class="byType  mt">
+          <div v-for="(item, byindex) in bytitle" :key="byindex" class="UnSelect" :style="byindex%2?'background:#F7F8FA':'background:#EDEEF2'">
             <dl class="clearfix">
               <dt class="byTitle fl">
                 <span>{{ item.title }}</span>
@@ -192,7 +193,6 @@ export default {
   width: 90%;
 }
 .byTitle {
-  background-color: #f8f8f8;
   padding: 10px;
   width: 84px;
 }
@@ -203,7 +203,7 @@ export default {
   width: 164px;
 }
 .pcwhite .dib {
-  margin: 0 0 10px 16px;
+  margin: 15px 0 15px 16px;
 }
 .checked {
   color: #f89776;
@@ -234,6 +234,9 @@ export default {
 .ivu-btn-primary {
   background-color: yellowgreen;
   border-color: yellowgreen;
+}
+.UnSelect{
+  
 }
 /* 可以设置不同的进入和离开动画 */
 /* 设置持续时间和动画函数 */
@@ -273,4 +276,5 @@ export default {
   -webkit-appearance: none !important;
   margin: 0;
 }
+a{color: #333;}
 </style>
