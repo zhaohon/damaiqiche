@@ -5,15 +5,33 @@
       <router-link to="/about">About</router-link> |
       <router-link to="/pages">Pages</router-link>
     </div>
+    <Public />
+    <!-- 顶部占位 -->
+    <div style="width:100%;height:116px;"></div>
     <router-view/>
+    <!-- 底部占位 -->
+    <div style="width:100%;height:210px;"></div>
   </div>
 </template>
+<script>
+// @ is an alias to /src
+import Public from '@/components/public.vue'
 
-<style>
-body{background-color: #F5F6FA;width: 100%;}
-#app{width: 1400px;background-color: #ffffff;margin: 0 auto;}
-
-@media only screen and (max-width: 1400px) {
-	#app{width: 100%;}
+export default {
+  name: 'public',
+  components: {
+    Public
+  },
+  data () {
+    return {
+      
+    }
+  },
+  methods:{
+    
+  }
 }
+</script>
+<style>
+
 </style>
