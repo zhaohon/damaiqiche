@@ -6,8 +6,8 @@
         <div class="carData pb pt fbox fbox-acenter fbox-jbetween">
           <!-- <img class="dib" src="../assets/logo.png" alt="logo" /> -->
           <div>
-            <div class="mr ml">大众 帕萨特 1.4L 2016年产</div>
-            <div class="ml">
+            <div class="mr ml large-text font-bold">大众 帕萨特 1.4L 2016年产</div>
+            <div class="ml small-text">
               <div>
                 <span>2016年产</span>
                 <span>2.0T(380TSI) 豪华版</span>
@@ -31,16 +31,25 @@
             <div class="reselection mr tc mr">
               <img src="../assets/reelect.png" alt />
             </div>
-            <router-link class="reselection" to>
+            <router-link class="reselection" to="/">
               <img src="../assets/upsearch.png" alt />
             </router-link>
           </div>
         </div>
         <transition name="slide-fade">
+          <!-- v-show="carshow" -->
           <div class="carDetail" v-show="carshow" ref="carDetail">
-            <div>产看</div>
-            <div>产看</div>
-            <div>产看</div>
+            <div>发动机位置</div>
+            <div>驱动方式</div>
+            <div>供油技术</div>
+            <div>启停技术</div>
+            <div>正时技术</div>
+            <div>变速箱档位数</div>
+            <div>变速器描述</div>
+            <div>变速箱型号</div>
+            <div>燃油滤清器位置</div>
+            <div>转向助力类型</div>
+            <div>工位要求</div>
           </div>
         </transition>
         <div class="byType mt">
@@ -295,7 +304,8 @@ export default {
   font-size: 14px;
 }
 .carDetail {
-  background-color: #fdffe6;
+  background-color: #f6f7fb;
+  padding: 0 20px 20px;
 }
 
 .ivu-btn-primary {

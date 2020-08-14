@@ -18,7 +18,7 @@
             <h4 class="dib pore" @mouseenter="mousepop(index + '1')" @mouseleave="outStyle(index + '1')" @click="introtap">{{item.title}} 
               <div class="popup" v-if="act == index + '1'">
                   <img class="popsj" src="../assets/sj.png" alt="">
-                  <span class="dib ell_3">小保养的时间取决于所用机油和机油滤芯的有效时间或里程。不同品牌级别的矿物质机油、半合成机油、全合成机油有效期也不尽相同，请以厂</span>
+                  <span class="dib ell_3">小 保养的时间取决于所用机油和机油滤芯的有效时间或里程。不同品牌级别的矿物质机油、半合成机油、全合成机油有效期也不尽相同，请以厂</span>
                   <p class="color-page db" >查看详情 ></p>
               </div> 
             </h4>
@@ -27,7 +27,7 @@
               <div>
                 <div class="upkeep-right-font">
                   <div class="fl dib"><img src="../assets/logo.png" alt /></div>
-                  <h4 class="fl mr">冠军/CHAMPION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）</h4>
+                  <h4 class="fl mr ">冠军/CHAMPION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）</h4>
                   <p class="fl mr upkeep-right-price">￥199.00</p>
                   <p class="fl mr upkeep-right-num">1.6L</p>
                   <div class="clearfix"></div>
@@ -61,8 +61,16 @@
       <div class="clearfix"></div>
     </div>
     <div class="videointro" v-if="videointro">
-      1321321
+      <div class="end">
+        <span class="fl">详情</span>
+        <img class="fr" @click="endTap" src="../assets/end.png" alt="">
+      </div>
+        <video src=""></video>
+        <div class="desc">
+
+        </div>
     </div>
+    <div class="shade" v-if="videointro"></div>
   </div>
 </template>
 
@@ -81,6 +89,9 @@ export default {
     list: Array,
   },
   methods: {
+    endTap(){
+      this.videointro = false
+    },
     listtap(item,title,indexs){
         console.log('e',item,title)
         this.title = title
@@ -101,14 +112,48 @@ export default {
 
 
 <style scoped>
+.end{
+  background-color: #fff;
+  width: 100%;
+  overflow: hidden;
+  padding: 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.end img{
+  margin-top: 2px;
+  width: 20px;
+}
 .videointro{
+  position: fixed;
+  width: 680px;
+  top: 50%;
+  margin-top: -265px;
+  z-index: 8889;
+  right: 50%;
+  margin-right:-340px ;
+}
+.videointro video{
+  width: 680px;
+  height: 260px;
+  background-color: red;
+  display: block;
+}
+.desc{
+    height: 320px;
+    padding: 0 20px 20px;
+    overflow-y: auto;
+    background-color: #fff;
+}
+.shade{
+  opacity: .5;
   background-color: #000;
   position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 9999;
+  z-index: 8888;
 }
 .popup{
   position: absolute;
