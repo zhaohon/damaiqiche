@@ -4,7 +4,7 @@
       <div class="mtitle">保养产品</div>
       <div v-for="(item,index) in list" :key="index">
         <div class="tl m-upkeep-title">
-          <h4 class="fbox fbox-acenter fbox-jbetween" >
+          <h4 class="fbox fbox-acenter fbox-jbetween">
             <span @click="introtap">
               {{item.title}}
               <i class="myou"></i>
@@ -14,7 +14,10 @@
         </div>
         <div class="upkeep-list">
           <div v-for="(items,indexs) in item.list" :key="indexs">
-            <h4 class="tl fbox fbox-acenter fbox-jbetween"><span>{{items.name}}</span><span @click="moreTap(item.title)" class="norm-text color-light-gray">更多 ></span></h4>
+            <h4 class="tl fbox fbox-acenter fbox-jbetween">
+              <span>{{items.name}}</span>
+              <span @click="moreTap(item.title)" class="norm-text color-light-gray">更多 ></span>
+            </h4>
             <div
               class="mpad fbox fbox-acenter"
               v-if="item.check"
@@ -37,12 +40,11 @@
         <div class="mbupkeep" v-if="item.title == title">
           <h4 class="fbox fbox-acenter fbox-jbetween">
             <i></i> 更多推荐产品
-            <img src="../assets/off.png" alt="">
+            <img src="../assets/offw.png" alt />
             <div class="moreTap" @click="moreTap('')"></div>
           </h4>
-          <div
-              class="mpad fbox fbox-acenter"
-            >
+          <div style="max-height:200px;overflow: scroll;overflow-x: hidden;">
+            <div class="mpad fbox fbox-acenter">
               <div class="fbox fbox-acenter">
                 <img src="../assets/you.png" alt />
               </div>
@@ -54,6 +56,7 @@
                 </div>
               </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
@@ -76,20 +79,22 @@ export default {
     list: Array,
   },
   methods: {
-    introtap(){
-      this.videointro = !this.videointro
+    introtap() {
+      this.videointro = !this.videointro;
     },
-    moreTap(e){
-      console.log(e)
-      this.title = e
-    }
+    moreTap(e) {
+      console.log(e);
+      this.title = e;
+    },
   },
 };
 </script>
 
 
 <style scoped>
-.m-list{position: relative;}
+.m-list {
+  position: relative;
+}
 .shade {
   opacity: 0.5;
   background-color: #000;
@@ -112,6 +117,7 @@ export default {
   font-size: 14px;
   position: relative;
   box-sizing: border-box;
+  z-index: 1;
 }
 .m-upkeep-title > h4 img {
   width: 18px;
@@ -145,32 +151,35 @@ export default {
   background-size: 100%;
   background-position-y: 16px;
 }
-.mbupkeep{
+.mbupkeep {
   position: fixed;
   bottom: 0;
   width: 100%;
-  height:30vh;
   background: #fff;
+  z-index: 9;
 }
-.mbupkeep>h4{
+.mbupkeep > h4 {
   position: relative;
   padding: 10px 20px;
-  background-color: #fbfbfb;
+  background-color: #333;
+  color: #fff;
 }
-.mbupkeep > h4 > i{
-    position: absolute;
-    left: 10px;
-    width: 3px;
-    height: 12px;
-    background-color: #7bb10a;
-    top: 50%;
-    margin-top: -6px;
+.mbupkeep > h4 > i {
+  position: absolute;
+  left: 10px;
+  width: 3px;
+  height: 12px;
+  background-color: #7bb10a;
+  top: 50%;
+  margin-top: -6px;
 }
-.moreTap{
+.mbupkeep>h4>img{
+  width: 15px;
+}
+.moreTap {
   position: absolute;
   right: 0;
   height: 40px;
   width: 40px;
-
 }
 </style>

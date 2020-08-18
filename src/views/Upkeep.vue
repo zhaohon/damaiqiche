@@ -7,7 +7,7 @@
           <!-- <img class="dib" src="../assets/logo.png" alt="logo" /> -->
           <div>
             <div class="mr ml large-text font-bold">大众 帕萨特 1.4L 2016年产</div>
-            <div class="ml small-text">
+            <div class="ml small-text pmfont">
               <div>
                 <span>2016年产</span>
                 <span>2.0T(380TSI) 豪华版</span>
@@ -372,11 +372,13 @@ a {
   width: 70px;
   height: 70px;
 }
+.pmfont span{
+  margin-right: 15px;
+}
 @media only screen and (max-width: 1200px) {
   .head {
     width: 100%;
   }
-  
 }
 @media only screen and (max-width: 920px) {
    .v-align.small-text{display:none}
@@ -395,6 +397,7 @@ a {
   .m-form .btn{margin-top: 10px;}
 }
 @media only screen and (max-width: 700px) {
+  .pmfont{}
   .byTitle {
     float:inherit
   }
