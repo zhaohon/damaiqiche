@@ -304,7 +304,7 @@
             <p class="list-w2">产品名称</p>
             <p class="list-w3">适用车型</p>
           </div>
-          <div class="chanpin-table-box fbox">
+          <div class="chanpin-table-box fbox fbox-w">
             <div class="list-left">
                 <p class="pl">燃油滤</p>
                 <div class="fbox fbox-ac">
@@ -486,18 +486,18 @@ export default {
 .list-w2{width: 600px;}
 .list-w3{width: 403px;}
 .chanpin-table-box{width: 100%;}
-.list-left{width: 767px;}
+.list-left{width: 60%;min-width: 590px;}
 .list-left>p{color: #77B110;font-size: 18px;font-weight: bold;line-height: 50px;background: #F6F7F9;}
-.list-left>div{height: 88px;border: 1px solid #DDDDDD;}
-.list-left>div .name{line-height: 88px;color: #333333;font-size: 16px;font-weight: bold;width: 140px;}
-.list-left>div .name-right{padding: 20px 30px;box-sizing: border-box;border-left: 1px solid #DDDDDD;}
+.list-left>div{height: 88px;border: 1px solid #DDDDDD;box-sizing: border-box;width: 100%;}
+.list-left>div .name{line-height: 88px;color: #333333;font-size: 16px;font-weight: bold;width: 15%;}
+.list-left>div .name-right{padding: 20px 30px;box-sizing: border-box;border-left: 1px solid #DDDDDD;width: 85%;box-sizing: border-box;}
 .list-left>div .name-right img{width:49px;height:49px;border: 1px solid #DDDDDD;box-sizing: border-box;}
 
-.list-left>div .name-right p{margin-left: 16px;width: 300px;}
+.list-left>div .name-right p{width: 100%;}
 
 
 
-.list-right{width: 433px;color: #333333;padding: 20px 0;box-sizing: border-box;border: 1px solid #DDDDDD;}
+.list-right{width: 40%;min-width: 395px;color: #333333;padding: 20px 0;box-sizing: border-box;border: 1px solid #DDDDDD;}
 .list-right>div{box-sizing: border-box;line-height: 1.8;border-top: 1px solid #DDDDDD;padding: 10px 20px;}
 .list-right>div:nth-child(1){border-top: none;}
 
@@ -512,10 +512,32 @@ export default {
   .box{width: 100%;}
  
 }
+@media only screen and (max-width: 1000px) {
+  .list-left{width: 100%;min-width: 0;}
+  .list-right{width: 100%;min-width: 0;}
+ 
+}
+@media only screen and (max-width: 830px) {
+  .chanpin-box .list{justify-content: center;}
 
+ 
+}
 @media only screen and (max-width: 570px) {
   .chanpin-item{width: 45%;margin: 0 2% 10px;}
   .serch-box form{width: 100%;}
+  .list-left>div{height: 60px;}
+  .list-left>div .name{line-height: 60px;color: #333333;font-size: 12px;font-weight: bold;width: 20%;}
+.list-left>div .name-right{padding: 10px 10px;box-sizing: border-box;border-left: 1px solid #DDDDDD;box-sizing: border-box;width: 80%;}
+.list-left>div .name-right img{width:40px;height:40px;border: 1px solid #DDDDDD;box-sizing: border-box;}
+.list-left>div .name-right p{margin-left: 6px;width: 80%;font-size: 12px;}
+.list-right>div{font-size: 12px;}
+.list-right .title{font-size: 14px;}
+.list-right .con{font-size: 12px;}
+.list-w1{width: 30%;}
+.list-w2{width: 30%;}
+.list-w3{width: 40%;}
+
+
 
 
 }
