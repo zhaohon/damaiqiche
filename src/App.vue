@@ -1,13 +1,15 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/pages">Pages</router-link>
-    </div>
+    </div> -->
     <Head />
     <!-- 顶部占位 -->
-    <router-view/>
+    <div id="v-content" v-bind:style="{minHeight: Height+'px'}">
+      <router-view />
+    </div>
     <!-- 底部占位 -->
     <Foot />
   </div>
@@ -26,14 +28,19 @@ export default {
   },
   data () {
     return {
-      
+      Height:''
     }
   },
+  mounted(){
+    //header+footer 325px
+    this.Height = document.documentElement.clientHeight - 334
+　　//监听浏览器窗口变化　
+    window.onresize = ()=> {this.Height = document.documentElement.clientHeight - 334}
+  },
   methods:{
-    
+      
   }
 }
 </script>
 <style>
-
 </style>
