@@ -18,8 +18,6 @@
 // @ is an alias to /src
 import Head from '@/components/head.vue'
 import Foot from '@/components/foot.vue'
-
-
 export default {
   name: 'App',
   components: {
