@@ -105,8 +105,9 @@
       </div>
 
       <!-- 产品搜索 -->
-      <div class="chanpin-box fbox fbox-ac" v-if="tab == 3">
-          <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+      <div class="chanpin-box pl" v-if="tab == 3">
+          <div class="list fbox fbox-ac fbox-w">
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                 <div>机滤</div>
                 <div class="chanpin-xian">
                   <!-- 下拉框 -->
@@ -114,6 +115,230 @@
                       <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                   </Select>
                 </div>
+            </div>
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                  <div>机滤</div>
+                  <div class="chanpin-xian">
+                    <!-- 下拉框 -->
+                    <Select v-model="model1" placeholder="全部" >
+                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                  </div>
+            </div>
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                  <div>机滤</div>
+                  <div class="chanpin-xian">
+                    <!-- 下拉框 -->
+                    <Select v-model="model1" placeholder="全部" >
+                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                  </div>
+            </div>
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                  <div>机滤</div>
+                  <div class="chanpin-xian">
+                    <!-- 下拉框 -->
+                    <Select v-model="model1" placeholder="全部" >
+                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                  </div>
+            </div>
+          </div>
+          <div class="list fbox fbox-ac fbox-w">
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                <div>机滤</div>
+                <div class="chanpin-xian">
+                  <!-- 下拉框 -->
+                  <Select v-model="model1" placeholder="全部" >
+                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
+                </div>
+            </div>
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                  <div>机滤</div>
+                  <div class="chanpin-xian">
+                    <!-- 下拉框 -->
+                    <Select v-model="model1" placeholder="全部" >
+                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                  </div>
+            </div>
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                  <div>机滤</div>
+                  <div class="chanpin-xian">
+                    <!-- 下拉框 -->
+                    <Select v-model="model1" placeholder="全部" >
+                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                  </div>
+            </div>
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                  <div>机滤</div>
+                  <div class="chanpin-xian">
+                    <!-- 下拉框 -->
+                    <Select v-model="model1" placeholder="全部" >
+                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                  </div>
+            </div>
+          </div>
+          <div class="list fbox fbox-ac fbox-w">
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                <div>机滤</div>
+                <div class="chanpin-xian">
+                  <!-- 下拉框 -->
+                  <Select v-model="model1" placeholder="全部" >
+                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
+                </div>
+            </div>
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                  <div>机滤</div>
+                  <div class="chanpin-xian">
+                    <!-- 下拉框 -->
+                    <Select v-model="model1" placeholder="全部" >
+                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                  </div>
+            </div>
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                  <div>机滤</div>
+                  <div class="chanpin-xian">
+                    <!-- 下拉框 -->
+                    <Select v-model="model1" placeholder="全部" >
+                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                  </div>
+            </div>
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                  <div>机滤</div>
+                  <div class="chanpin-xian">
+                    <!-- 下拉框 -->
+                    <Select v-model="model1" placeholder="全部" >
+                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                  </div>
+            </div>
+          </div>
+          <div class="list fbox fbox-ac fbox-w">
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                <div>机滤</div>
+                <div class="chanpin-xian">
+                  <!-- 下拉框 -->
+                  <Select v-model="model1" placeholder="全部" >
+                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
+                </div>
+            </div>
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                  <div>机滤</div>
+                  <div class="chanpin-xian">
+                    <!-- 下拉框 -->
+                    <Select v-model="model1" placeholder="全部" >
+                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                  </div>
+            </div>
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                  <div>机滤</div>
+                  <div class="chanpin-xian">
+                    <!-- 下拉框 -->
+                    <Select v-model="model1" placeholder="全部" >
+                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                  </div>
+            </div>
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                  <div>机滤</div>
+                  <div class="chanpin-xian">
+                    <!-- 下拉框 -->
+                    <Select v-model="model1" placeholder="全部" >
+                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                  </div>
+            </div>
+          </div>
+          <div class="list fbox fbox-ac fbox-w">
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                <div>机滤</div>
+                <div class="chanpin-xian">
+                  <!-- 下拉框 -->
+                  <Select v-model="model1" placeholder="全部" >
+                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
+                </div>
+            </div>
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                  <div>机滤</div>
+                  <div class="chanpin-xian">
+                    <!-- 下拉框 -->
+                    <Select v-model="model1" placeholder="全部" >
+                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                  </div>
+            </div>
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                  <div>机滤</div>
+                  <div class="chanpin-xian">
+                    <!-- 下拉框 -->
+                    <Select v-model="model1" placeholder="全部" >
+                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                  </div>
+            </div>
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
+                  <div>机滤</div>
+                  <div class="chanpin-xian">
+                    <!-- 下拉框 -->
+                    <Select v-model="model1" placeholder="全部" >
+                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                  </div>
+            </div>
+          </div>
+      </div>
+      <!-- 产品列表 -->
+      <div class="chanpin-table" v-if="tab == 3">
+          <div class="chanpin-table-title fbox fbox-ac">
+            <p class="list-w1">产品分类</p>
+            <p class="list-w2">产品名称</p>
+            <p class="list-w3">适用车型</p>
+          </div>
+          <div class="chanpin-table-box fbox">
+            <div class="list-left">
+                <p class="pl">燃油滤</p>
+                <div class="fbox fbox-ac">
+                  <div class="name tc">燃油滤清器</div>
+                  <div class="name-right fbox fbox-ac">
+                    <img src="../assets/logo.png" alt="">
+                    <p class="ell_2">【正品授权】壳牌/Shell 金装极净超凡喜力全合成机油ULTRA SN 0W-20 </p>
+                  </div>
+                </div>
+            </div>
+            <div class="list-right">
+              <div class="fbox fbox-jb pl pr">
+                <div class="fg1">
+                  <p class="title">【007】大众汽车 - 途观</p>
+                  <p class="con">2016年产    2.0T（380TSI）     发动机型号：EA888</p>
+                </div>
+                <p class="jiucuo ml fsh">纠错</p>
+              </div>
+              <div class="fbox fbox-jb pl pr">
+                <div class="fg1">
+                  <p class="title">【007】大众汽车 - 途观</p>
+                  <p class="con">2016年产    2.0T（380TSI）     发动机型号：EA888</p>
+                </div>
+                <p class="jiucuo ml fsh">纠错</p>
+              </div>
+              <div class="fbox fbox-jb pl pr">
+                <div class="fg1">
+                  <p class="title">【007】大众汽车 - 途观</p>
+                  <p class="con">2016年产    2.0T（380TSI）     发动机型号：EA888</p>
+                </div>
+                <p class="jiucuo ml fsh">纠错</p>
+              </div>
+            </div>
+
           </div>
       </div>
     </div>
@@ -247,14 +472,51 @@ export default {
 
 /* 产品 */
 .chanpin-box{width: 100%;background: #EDEEF2;box-sizing: border-box;}
-.chanpin-item{width:240px;height:36px;background:#FFFFFF;border:2px solid #DDDDDD;border-radius:2px;box-sizing: border-box;}
+.chanpin-item{width:240px;height:36px;background:#FFFFFF;border:2px solid #DDDDDD;border-radius:2px;box-sizing: border-box;padding-left: 12px;margin-right: 25px;margin-bottom: 10px;}
+.chanpin-box .list{padding: 16px 0 6px;}
+.chanpin-box .list:nth-child(2n){background: #F7F8FA;}
 .chanpin-xian{position: relative;}
 .chanpin-xian::after{position: absolute;content: "";width: 0;height: 20px;border-left: 1px solid #DDDDDD;left: -10px;top: 6px;}
 .chanpin-xian .ivu-select-selection{border: none !important;}
 .ivu-select-visible .ivu-select-selection{border-color: white !important;}
 
+.chanpin-table{margin: 30px 0 70px;}
+.chanpin-table-title{width: 100%;height: 40px;background-color: #212531;color: #FFFFFF;font-size: 14px;padding: 0 20px;box-sizing: border-box;}
+.list-w1{width: 200px;}
+.list-w2{width: 600px;}
+.list-w3{width: 403px;}
+.chanpin-table-box{width: 100%;}
+.list-left{width: 767px;}
+.list-left>p{color: #77B110;font-size: 18px;font-weight: bold;line-height: 50px;background: #F6F7F9;}
+.list-left>div{height: 88px;border: 1px solid #DDDDDD;}
+.list-left>div .name{line-height: 88px;color: #333333;font-size: 16px;font-weight: bold;width: 140px;}
+.list-left>div .name-right{padding: 20px 30px;box-sizing: border-box;border-left: 1px solid #DDDDDD;}
+.list-left>div .name-right img{width:49px;height:49px;border: 1px solid #DDDDDD;box-sizing: border-box;}
+
+.list-left>div .name-right p{margin-left: 16px;width: 300px;}
+
+
+
+.list-right{width: 433px;color: #333333;padding: 20px 0;box-sizing: border-box;border: 1px solid #DDDDDD;}
+.list-right>div{box-sizing: border-box;line-height: 1.8;border-top: 1px solid #DDDDDD;padding: 10px 20px;}
+.list-right>div:nth-child(1){border-top: none;}
+
+
+
+.list-right .title{font-size: 16px;color: #333333;font-weight: bold;}
+.list-right .con{font-size: 14px;}
+.list-right .jiucuo{font-size: 14px;color: #777777;}
+
+
 @media only screen and (max-width: 1200px) {
   .box{width: 100%;}
  
+}
+
+@media only screen and (max-width: 570px) {
+  .chanpin-item{width: 45%;margin: 0 2% 10px;}
+  .serch-box form{width: 100%;}
+
+
 }
 </style>
