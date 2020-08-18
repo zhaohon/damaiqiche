@@ -299,7 +299,7 @@
       </div>
       <!-- 产品列表 -->
       <div class="chanpin-table" v-if="tab == 3">
-          <div class="chanpin-table-title fbox fbox-ac">
+          <div class="chanpin-table-title fbox fbox-ac top-title">
             <p class="list-w1">产品分类</p>
             <p class="list-w2">产品名称</p>
             <p class="list-w3">适用车型</p>
@@ -316,6 +316,9 @@
                 </div>
             </div>
             <div class="list-right">
+              <div class="bot-title chanpin-table-title fbox fbox-ac">
+                <p class="list-w3">适用车型</p>
+              </div>
               <div class="fbox fbox-jb pl pr">
                 <div class="fg1">
                   <p class="title">【007】大众汽车 - 途观</p>
@@ -505,20 +508,25 @@ export default {
 
 .list-right .title{font-size: 16px;color: #333333;font-weight: bold;}
 .list-right .con{font-size: 14px;}
-.list-right .jiucuo{font-size: 14px;color: #777777;}
+.list-right .jiucuo{font-size: 14px;color: #777777;cursor: pointer;}
+
+
+.bot-title{display: none;}
 
 
 @media only screen and (max-width: 1200px) {
   .box{width: 100%;}
  
 }
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1004px) {
   .list-left{width: 100%;min-width: 0;}
   .list-right{width: 100%;min-width: 0;}
- 
+  .top-title .list-w3{display: none;}
+  .bot-title{display: block;}
 }
 @media only screen and (max-width: 830px) {
   .chanpin-box .list{justify-content: center;}
+  .bot-title .list-w3{font-size: 14px;}
 
  
 }
@@ -536,7 +544,9 @@ export default {
 .list-w1{width: 30%;}
 .list-w2{width: 30%;}
 .list-w3{width: 40%;}
+  .bot-title .list-w3{font-size: 14px;}
 
+.item p {margin-right: 5px;margin-bottom: 5px;}
 
 
 
