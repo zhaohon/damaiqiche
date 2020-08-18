@@ -19,7 +19,7 @@
               </div>
             </div>
           </div>
-          <form action class>
+          <form action class="m-form">
             <p class="small-text dib v-align">当前里程数:</p>
             <div class="input-group dib v-align">
               <input type="number" class="fl" placeholder="请输入里程数" />
@@ -27,7 +27,7 @@
             </div>
             <button class="btn dib v-align" @click="onSubmit()">查看推荐</button>
           </form>
-          <div class="fbox fbox-acenter mr">
+          <div class="fbox fbox-acenter mr m-keepimg">
             <div class="reselection mr tc mr">
               <img src="../assets/reelect.png" alt />
             </div>
@@ -60,10 +60,11 @@
             :style="byindex%2?'background:#F7F8FA':'background:#EDEEF2'"
           >
             <dl class="clearfix">
-              <dt class="byTitle fl">
+              <dt class="byTitle fl" @click="indtap(item.check,byindex)">
                 <span>{{ item.title }}</span>
+                <img src="../assets/xia.png" :class="item.check?'mimg':''" alt="">
               </dt>
-              <div class="fl dib pcwhite">
+              <div class="fl dib pcwhite" v-if="item.check">
                 <div
                   v-for="(childrenItem, index) in item.childrenList"
                   :key="index"
@@ -84,6 +85,7 @@
           </div>
         </div>
         <pUpkeep class="mt" :list="upkeepList" v-if="screenWidth > 700"></pUpkeep>
+        <mUpkeep :list="upkeepList"></mUpkeep>
         <!-- 移动端 -->
         <div class="m-list"></div>
       </div>
@@ -96,11 +98,13 @@
 <script>
 import Loading from "@/components/Loading.vue";
 import pUpkeep from "@/components/pUpkeep.vue";
+import mUpkeep from "@/components/mUpkeep.vue";
 export default {
   name: "Upkeep",
   components: {
     Loading,
     pUpkeep,
+    mUpkeep,
   },
   data() {
     return {
@@ -109,9 +113,11 @@ export default {
       carshow: false,
       arr: [],
       formItem: { input: "" },
+      byind:0,
       bytitle: [
         {
           title: "常规保养",
+          check:true,
           childrenList: [
             { name: "小保养", id: "1", checked: true },
             { name: "前雨刷", id: "2", checked: false },
@@ -124,6 +130,7 @@ export default {
         },
         {
           title: "深度保养",
+          check:true,
           childrenList: [
             { name: "刹车油", id: "5", checked: false },
             { name: "变速箱油", id: "6", checked: false },
@@ -134,10 +141,11 @@ export default {
       upkeepList: [
         {
           title: "小保养",
+          check:true,
           list: [
             {
               name: "更换防冻冷却液",
-              img: "../assets/logo.png",
+              img: "https://img-blog.csdnimg.cn/20190405120402534.png?x-oss-process=image/resize,m_fixed,h_64,w_64",
               ell:
                 "冠军/CHAMPION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）",
               money: "99.00",
@@ -145,7 +153,7 @@ export default {
             },
             {
               name: "更卡里克放开了",
-              img: "../assets/logo.png",
+              img: "https://wx.qlogo.cn/mmhead/Q3auHgzwzM4Od6icjhInmnGjhVZGIX0U2S6fMJ18AAAicxBAvU1UdadA/0",
               ell:
                 "是否会或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或撒飒飒飒飒）",
               money: "99.00",
@@ -155,10 +163,11 @@ export default {
         },
         {
           title: "前雨刷",
+          check:true,
           list: [
             {
               name: "更换防2冻冷却液",
-              img: "../assets/logo.png",
+              img: "https://wx.qlogo.cn/mmhead/Q3auHgzwzM4Od6icjhInmnGjhVZGIX0U2S6fMJ18AAAicxBAvU1UdadA/0",
               ell:
                 "冠军/CHAMP3ION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）",
               money: "99.00",
@@ -166,7 +175,7 @@ export default {
             },
             {
               name: "更卡里克放开了1",
-              img: "../assets/logo.png",
+              img: "https://wx.qlogo.cn/mmhead/Q3auHgzwzM4Od6icjhInmnGjhVZGIX0U2S6fMJ18AAAicxBAvU1UdadA/0",
               ell:
                 "是否会或或或2或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或撒飒飒飒飒）",
               money: "99.00",
@@ -192,6 +201,10 @@ export default {
     },
   },
   methods: {
+    indtap(e,ind){
+      // 移动端
+      this.bytitle[ind].check = !e
+    },
     listTap(obj) {
       this.bytitle[obj.byindex].childrenList[obj.index].checked = !this.bytitle[
         obj.byindex
@@ -273,8 +286,8 @@ export default {
 }
 .inner-img{
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom:-1px;
+  right:-1px;
   display: none;
 }
 .checked {
@@ -315,6 +328,8 @@ export default {
 .UnSelect {
   padding-top: 20px;
 }
+
+/* 查看车辆信息动画 */
 /* 可以设置不同的进入和离开动画 */
 /* 设置持续时间和动画函数 */
 .slide-fade-enter-active {
@@ -338,7 +353,7 @@ export default {
   border-color: #7bb10a;
   box-shadow: 0 0 0 2px rgba(123, 177, 10, 0.1);
 }
-
+.byTitle img{display: none;}
 .input-group input {
   width: 80%;
 }
@@ -353,23 +368,96 @@ export default {
 a {
   color: #333;
 }
+.reselection img {
+  width: 70px;
+  height: 70px;
+}
 @media only screen and (max-width: 1200px) {
   .head {
     width: 100%;
   }
+  
+}
+@media only screen and (max-width: 920px) {
+   .v-align.small-text{display:none}
 }
 @media only screen and (max-width: 960px) {
   .pcwhite {
     width: 85%;
   }
 }
+@media only screen and (max-width: 850px) {
+  .m-form{
+    display: block;
+    text-align: center;
+  }
+  .color-page.small-text.ml{margin-left: 0;}
+  .m-form .btn{margin-top: 10px;}
+}
 @media only screen and (max-width: 700px) {
+  .byTitle {
+    float:inherit
+  }
   .pcwhite {
-    display: none;
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap:wrap ;
+  }
+  .pcwhite .dib{
+    margin: 0 0 10px 10px;
+    width: 46%;
+    float:inherit !important;
+  }
+  .clearfix dd{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 5px 20px !important;
+    justify-content: center;
+  }
+  .checked{
+     padding: 5px 20px !important;
+  }
+  .carData{display: block;}
+  .m-form{
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 12px;
+    text-align: left;
+  }
+  .input-group{
+    margin-left: 0;
+  }
+  .m-form .btn{margin-top: 0;}
+  .m-keepimg{
+    margin-right: 0;
+    justify-content:space-around;
+    padding:0 20px;
+  }
+  .UnSelect{
+    padding: 10px 0;
+    background-color: inherit !important;
+  }
+  .byTitle{
+    margin: 0;
+    padding: 10px;
+    width: 100%;
+    background: #f6f7f9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .byTitle img{
+    width: 14px;
+    height: 14px;
+    display: block;
   }
 }
-.reselection img {
-  width: 70px;
-  height: 70px;
+/* 移动端箭头旋转 */
+.mimg{
+  transform: rotateX(180deg);
+  transition: all 200ms ease-out 0.1s;
 }
 </style>
