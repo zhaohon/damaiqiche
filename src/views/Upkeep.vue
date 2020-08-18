@@ -380,7 +380,7 @@ a {
     width: 100%;
   }
 }
-@media only screen and (max-width: 920px) {
+@media only screen and (max-width: 940px) {
    .v-align.small-text{display:none}
 }
 @media only screen and (max-width: 960px) {
@@ -388,13 +388,16 @@ a {
     width: 85%;
   }
 }
-@media only screen and (max-width: 850px) {
+@media only screen and (max-width: 870px) {
   .m-form{
     display: block;
     text-align: center;
   }
   .color-page.small-text.ml{margin-left: 0;}
   .m-form .btn{margin-top: 10px;}
+  .input-group{
+    width: 71%;
+  }
 }
 @media only screen and (max-width: 700px) {
   .pmfont{}

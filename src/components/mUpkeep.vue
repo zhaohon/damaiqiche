@@ -9,10 +9,10 @@
               {{item.title}}
               <i class="myou"></i>
             </span>
-            <img src="../assets/xia1.png" alt />
+            <!-- <img src="../assets/xia1.png" alt /> -->
           </h4>
         </div>
-        <div class="upkeep-list">
+        <div class="upkeep-list" >
           <div v-for="(items,indexs) in item.list" :key="indexs">
             <h4 class="tl fbox fbox-acenter fbox-jbetween">
               <span>{{items.name}}</span>
@@ -48,8 +48,8 @@
               <div class="fbox fbox-acenter">
                 <img src="../assets/you.png" alt />
               </div>
-              <div class="fbox fbox-acenter fbox-col ml">
-                <div>阿的嘎的观点郭德纲大哥大哥大哥大哥大哥大哥大哥大哥大哥大哥大哥大哥大哥大哥大哥大哥</div>
+              <div class="fbox fbox-acenter fbox-col ml minwidth">
+                <div class="tl" style="width:100%">阿的哥大哥</div>
                 <div class="fbox fbox-acenter fbox-jbetween" style="width:100%">
                   <div class="pck_price tc color-red">¥192</div>
                   <div class="pck_num tc">12L</div>
@@ -61,7 +61,19 @@
       </div>
     </div>
     <!-- 保养项 -->
+    <div class="rishtext" v-if="videointro">
+      <h4 class="fbox fbox-acenter fbox-jbetween">
+        <span >详情</span>
+        <img @click="introtap" src="../assets/end.png" alt="">
+      </h4>
+    
+      <video src=""></video>
+      <div >
+          飒飒飒飒少时诵诗书所所所少时诵诗书所所所是是是所所所
+      </div>
+    </div>
     <div class="shade" v-if="videointro"></div>
+     <!-- v-if="videointro" -->
   </div>
 </template>
 
@@ -92,6 +104,40 @@ export default {
 
 
 <style scoped>
+.rishtext video{
+  background-color: red;
+  width: 100%;
+  height: 45vw;
+  display: inherit;
+}
+.rishtext{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width:80vw;
+  background: #fff;
+  z-index: 8889;
+      border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+.rishtext div{
+  padding: 10px;
+     max-height: 67vw;
+    overflow-y: scroll;
+}
+.rishtext h4{
+  padding: 8px 10px;
+  box-sizing: border-box;
+  font-size:14px ;
+}
+.rishtext h4>img{
+  width: 15px;
+  height: 15px;
+}
+.minwidth{
+  min-width: 77%;
+}
 .m-list {
   position: relative;
 }
