@@ -85,7 +85,7 @@
           </div>
         </div>
         <pUpkeep class="mt" :list="upkeepList" v-if="screenWidth > 700"></pUpkeep>
-        <mUpkeep :list="upkeepList"></mUpkeep>
+        <mUpkeep :list="upkeepList" v-if="screenWidth < 700"></mUpkeep>
         <!-- 移动端 -->
         <div class="m-list"></div>
       </div>
