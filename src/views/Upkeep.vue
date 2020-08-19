@@ -202,8 +202,12 @@ export default {
   },
   methods: {
     indtap(e,ind){
-      // 移动端
-      this.bytitle[ind].check = !e
+      console.log(document.body.clientWidth)
+      if(document.body.clientWidth <= 684){
+        // 移动端 
+        this.bytitle[ind].check = !e
+      }
+        
     },
     listTap(obj) {
       this.bytitle[obj.byindex].childrenList[obj.index].checked = !this.bytitle[
