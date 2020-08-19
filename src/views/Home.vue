@@ -110,8 +110,7 @@ export default {
 
   },
   mounted(){
-    this.tabind = Number(this.$router.history.current.query.tabind);
-    console.log('tabind',this.tabind,this.$router)
+    this.tabind = Number(this.$router.history.current.params.tabind) || 1;
     this.$http
       .carName({
         longitude: "114.53122%2C38.0061",

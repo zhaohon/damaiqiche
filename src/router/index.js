@@ -8,7 +8,7 @@ Vue.use(VueRouter)
   {
     path: '/',
     name: 'Home',
-    component:  resolve=>(require(["@/views/Home.vue"],resolve)),
+    component:Home,
     meta:{
       title: '大唛养车',
       keepAlive: true
