@@ -20,8 +20,6 @@
 // @ is an alias to /src
 import pIndex from '@/components/pIndex.vue'
 import Loading from "@/components/Loading.vue";
-
-
 export default {
   name: 'Home',
   components: {
@@ -111,6 +109,7 @@ export default {
   },
   mounted(){
     this.tabind = Number(this.$router.history.current.params.tabind) || 1;
+
     this.$http
       .carName({
         longitude: "114.53122%2C38.0061",

@@ -122,19 +122,19 @@ export default {
             { name: "小保养", id: "1", checked: true },
             { name: "前雨刷", id: "2", checked: false },
             { name: "前雨刷1", id: "3", checked: false },
-            { name: "前雨刷1", id: "3", checked: false },
-            { name: "前雨刷1", id: "3", checked: false },
-            { name: "前雨刷2", id: "4", checked: false },
-            { name: "前雨刷2", id: "4", checked: false },
+            { name: "前雨刷1", id: "4", checked: true },
+            { name: "前雨刷1", id: "5", checked: false },
+            { name: "前雨刷2", id: "6", checked: false },
+            { name: "前雨刷2", id: "7", checked: false },
           ],
         },
         {
           title: "深度保养",
           check:true,
           childrenList: [
-            { name: "刹车油", id: "5", checked: false },
-            { name: "变速箱油", id: "6", checked: false },
-            { name: "变速箱油", id: "6", checked: false },
+            { name: "刹车油", id: "8", checked: false },
+            { name: "变速箱油", id: "9", checked: false },
+            { name: "变速箱油", id: "10", checked: false },
           ],
         },
       ],
@@ -194,7 +194,6 @@ export default {
         this.timer = true;
         let that = this;
         setTimeout(function () {
-          console.log(that.screenWidth);
           that.timer = false;
         }, 400);
       }
@@ -202,7 +201,6 @@ export default {
   },
   methods: {
     indtap(e,ind){
-      console.log(document.body.clientWidth)
       if(document.body.clientWidth <= 684){
         // 移动端 
         this.bytitle[ind].check = !e
@@ -243,11 +241,10 @@ export default {
     let arr = new Array();
     this.bytitle.forEach((i) => {
       i.childrenList.forEach((k) => {
-        if (k.checked) arr.push({ name: k.name, id: k.cat_id });
+        if (k.checked) arr.push({ name: k.name, id: k.id });
       });
     });
     this.arr = arr;
-    console.log(this.$http);
     this.show = false;
     this.$http
       .submitprice({
@@ -261,11 +258,12 @@ export default {
         model: "2011款 2.0 无级 GLX",
       })
       .then((res) => {
-        console.log("res接到值了", res);
+        // console.log("res接到值了", res);
         this.show = false;
       })
       .catch((err) => {
-        console.log("错误", err), (this.show = false);
+         this.show = false;
+         console.log("错误", err)
       });
   },
 };
