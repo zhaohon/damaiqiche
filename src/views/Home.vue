@@ -12,6 +12,7 @@
     </div>
     <pIndex :tab="tabind" @changes="changes" @tabC="tabC"  @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
     <Loading v-if="show" />
+    
 
   </div>
 </template>

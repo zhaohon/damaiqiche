@@ -338,14 +338,27 @@
                   <p class="title">【007】大众汽车 - 途观</p>
                   <p class="con">2016年产    2.0T（380TSI）     发动机型号：EA888</p>
                 </div>
-                <p class="jiucuo ml fsh">纠错</p>
+                <p class="jiucuo ml fsh" @click="showModalO">纠错</p>
               </div>
             </div>
 
           </div>
       </div>
+
+      <!-- 纠错 -->
+
+    <div class="mask" v-if="showModal" @click="showModalF"></div>
+    <div class="pop" v-if="showModal">
+          <div class="tc mb">纠错</div>
+          <textarea v-model="content"></textarea>
+          <div class="fbox fbox-ac fbox-jc mt">
+            <button @click="showModalF" class="btn">取消</button>
+            <button @click="showModalT" class="btns btn">确定</button>
+          </div>
+    </div>
     </div>
   </div>
+  
 </template>
 
 <script>
@@ -380,6 +393,9 @@ export default {
           }
       ],
       model1: '',
+      tab: 3,
+      showModal: false,
+      content:''
     };
   },
   props:{
@@ -410,6 +426,27 @@ export default {
     mouseOver(e){
       this.$emit("mouseOver",e)
     },
+    showModalO () {
+      this.showModal = true
+    },
+    showModalF () {
+      this.showModal = false
+      this.warning()
+    },
+    showModalT(){
+      console.log(this.content)
+      this.success()
+      this.showModal = false
+    },
+    success () {
+        this.$Message.success('提交成功');
+    },
+    warning () {
+      this.$Message.info('取消');
+    },
+    error () {
+        this.$Message.error('提交失败');
+    }
 
   }
 
@@ -556,7 +593,45 @@ export default {
 
 .item p {margin-right: 5px;margin-bottom: 5px;}
 
-
-
+}
+.mask {
+  background-color: #000;
+  opacity: 0.3;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1
+}
+.pop {
+  background-color: #fff;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 50%;
+  min-width: 220px;
+  z-index: 2;
+  border-radius: 5px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.btn {
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #77B110;
+  padding: 4px 12px;
+}
+.btns{
+  background-color: #77B110;
+  color: #FFFFFF;
+  margin-left: 20px;
+}
+textarea{
+  width: 100%;
+  min-height: 100px;
+  background-color: #F5F6FA;
+  border-radius: 5px;
 }
 </style>
