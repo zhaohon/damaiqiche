@@ -28,10 +28,10 @@
             <button class="btn dib v-align" @click="onSubmit()">查看推荐</button>
           </div>
           <div class="fbox fbox-acenter mr m-keepimg">
-            <router-link class="reselection mr tc mr" to="/?tabind=1">
+            <router-link class="reselection mr tc mr" :to="{name:'Home',params:{tabind:1}}">
               <img src="../assets/reelect.png" alt />
             </router-link>
-            <router-link class="reselection" to="/?tabind=3">
+            <router-link class="reselection" :to="{name:'Home',params:{tabind:3}}">
               <img src="../assets/upsearch.png" alt />
             </router-link>
           </div>

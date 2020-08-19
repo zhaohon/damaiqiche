@@ -10,7 +10,7 @@
           <p>产品搜索</p>
         </div> -->
     </div>
-    <pIndex :tab="tab" @changes="changes" @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
+    <pIndex :tab="tabind" @changes="changes" @tabC="tabC"  @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
     <Loading v-if="show" />
 
   </div>
@@ -43,7 +43,7 @@ export default {
       kuanxing:["款型1","款型2","款型3","款型4","款型5","款型6",],
       fdjxh:["发动机型号1","发动机型号2","发动机型号3","发动机型号4","发动机型号5","发动机型号6",],
       zdgl:["最大功率1","最大功率2","最大功率3","最大功率4","最大功率5","最大功率6",],
-      tab:1
+      tabind:1
     }
   },
   methods:{
@@ -100,14 +100,18 @@ export default {
      mouseOver(e){
       this.hover = e
       this.pinpai = this.all[e].data
+    },
+    tabC(e){
+      console.log('e',e)
+      this.tabind = e
     }
   },
   watch:{
 
   },
   mounted(){
-    this.tab = Number(this.$router.history.current.query.tabind);
-    console.log('tabind',this.tab,this.$router.history.current.query)
+    this.tabind = Number(this.$router.history.current.query.tabind);
+    console.log('tabind',this.tabind,this.$router)
     this.$http
       .carName({
         longitude: "114.53122%2C38.0061",

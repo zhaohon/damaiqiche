@@ -394,7 +394,8 @@ export default {
   methods:{
     // tab切换
     tabC(e){
-      this.tab = e
+      // this.tab = e
+      this.$emit("tabC",e)
     },
     // 删除方法
     del(e){
