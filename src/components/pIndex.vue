@@ -380,10 +380,17 @@ export default {
           }
       ],
       model1: '',
-      tab: 3
     };
   },
-  props: ["yixuan","hover","remen","pinpai","chexi","chexing","pailiang","nianfen","kuanxing","fdjxh","zdgl"],
+  props:{
+      yixuan:Array,hover:Number,remen:Array,pinpai:Array,chexi:Array,chexing:Array,pailiang:Array,nianfen:Array,kuanxing:Array,fdjxh:Array,zdgl:Array,
+      tab:Number,
+    },
+  watch:{
+    tab(e){
+      console.log('tabind',e)
+    }
+  },
   methods:{
     // tab切换
     tabC(e){

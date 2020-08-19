@@ -19,19 +19,19 @@
               </div>
             </div>
           </div>
-          <form action class="m-form">
+          <div class="m-form">
             <p class="small-text dib v-align">当前里程数:</p>
             <div class="input-group dib v-align">
-              <input type="number" class="fl" placeholder="请输入里程数" />
+              <input type="number" class="fl" ref="licheng" placeholder="请输入里程数" />
               <p class="dib fr">公里</p>
             </div>
             <button class="btn dib v-align" @click="onSubmit()">查看推荐</button>
-          </form>
+          </div>
           <div class="fbox fbox-acenter mr m-keepimg">
-            <div class="reselection mr tc mr">
+            <router-link class="reselection mr tc mr" to="/?tabind=1">
               <img src="../assets/reelect.png" alt />
-            </div>
-            <router-link class="reselection" to="/">
+            </router-link>
+            <router-link class="reselection" to="/?tabind=3">
               <img src="../assets/upsearch.png" alt />
             </router-link>
           </div>
@@ -207,7 +207,11 @@ export default {
         // 移动端 
         this.bytitle[ind].check = !e
       }
-        
+    },
+    //里程
+    onSubmit(){
+      let a = this.$refs.licheng.value;
+      console.log('a',a)
     },
     listTap(obj) {
       this.bytitle[obj.byindex].childrenList[obj.index].checked = !this.bytitle[
