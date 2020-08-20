@@ -392,8 +392,6 @@ export default {
               label: 'Canberra'
           }
       ],
-      model1: '',
-      tab: 3,
       showModal: false,
       content:''
     };
