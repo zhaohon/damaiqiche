@@ -47,8 +47,8 @@ export default {
   },
   methods:{
     // 选择
-    changes(e){
-      console.log(e,"父组件")
+    changes(e,s){
+      console.log(e,s,"父组件")
       if(this.yixuan.length == 7){
         this.$router.push({ path:'/Upkeep',name:'Upkeep', query: { Shiftid: "1111",Shiftname:"222" }})
       }
@@ -56,8 +56,7 @@ export default {
       if(this.yixuan.length == 0){
         this.$http
           .carSeries({
-            brand: e || '奥迪',
-            region: ""
+            brand: e ,
           })
           .then((res) => {
             console.log("res接到值了", res.data);
@@ -74,8 +73,9 @@ export default {
       if(this.yixuan.length == 1){
         this.$http
           .carType({
-            brand: this.yixuan[0] || '奥迪',
-            region: ""
+            cars:e,
+            shop:s,
+            brand: this.yixuan[0]
           })
           .then((res) => {
             console.log("res接到值了", res.data);
@@ -113,15 +113,14 @@ export default {
 
     this.$http
       .carName({
-        longitude: "114.53122%2C38.0061",
-        city: ""
+        models: ""
       })
       .then((res) => {
-        console.log("res接到值了", res.data.car);
-        this.all = res.data.car//全部参数
-        this.pinpai = res.data.car[0].data//默认品牌
+        console.log("res接到值了---------", res.data);
+        this.all = res.data//全部参数
+        this.pinpai = res.data[0].data//默认品牌
         let remens = []
-        res.data.car.forEach((item,index) => {
+        res.data.forEach((item) => {
             remens.push(item.letter)
         });
         this.remen = remens//字母排序
