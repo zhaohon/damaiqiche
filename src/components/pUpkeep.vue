@@ -15,14 +15,14 @@
 
         <div v-for="(item,index) in list" :key="index">
           <div class="tl upkeep-left-title">
-            <h4 class="dib pore" @mouseenter="mousepop(index + '1')" @mouseleave="outStyle(index + '1')" @click="introtap">{{item.title}} 
+            <h4 class="dib pore" @mouseenter="mousepop(index + '1')" @mouseleave="outStyle(index + '1')" @click="introtap">{{item.name}} <i class="myou"></i>
               <div class="popup" v-if="act == index + '1'">
                   <img class="popsj" src="../assets/sj.png" alt="">
                   <span class="dib ell_3">小 保养的时间取决于所用机油和机油滤芯的有效时间或里程。不同品牌级别的矿物质机油、半合成机油、全合成机油有效期也不尽相同，请以厂</span>
                   <p class="color-page db" >查看详情 ></p>
               </div> 
             </h4>
-            <div class="pc-upkeep-right pbupkeep" v-if="item.title == title">
+            <div class="pc-upkeep-right pbupkeep" v-if="item.name == title">
               <h4><i></i> 更多推荐产品</h4>
               <div>
                 <div class="upkeep-right-font">
@@ -39,15 +39,15 @@
           <div class="upkeep-list">
             <table>
               <tbody>
-                <tr v-for="(items,indexs) in item.list" :key="indexs">
-                  <td width="130" class="tc">{{items.name}}</td>
-                  <td class="hover-bor" :class="hovernum == index + String(indexs)?'hoverbg':''" @click="listtap(items,item.title,index + String(indexs))">
+                <tr v-for="(items,indexs) in item.grandsonList" :key="indexs">
+                  <td width="130" class="tc">{{items.ZhName}}</td>
+                  <td class="hover-bor" :class="hovernum == index + String(indexs)?'hoverbg':''" @click="listtap(items,item.name,index + String(indexs))">
                     <div class="pack_biaoti">
-                      <img class="fl" :src="items.img" alt />
-                      <div>{{items.ell}}</div>
+                      <img class="fl" :src="items.Image" alt />
+                      <div>{{items.DisplayName}}</div>
                     </div>
-                    <div class="pck_price tc color-red">¥{{items.money}}</div>
-                    <div class="pck_num tc">{{items.num}}</div>
+                    <div class="pck_price tc color-red">¥{{items.Price}}</div>
+                    <div class="pck_num tc">{{items.Count}}</div>
                   </td>
                 </tr>
               </tbody>
@@ -56,7 +56,7 @@
         </div>
       </div>
       <div class="tr fl comemoney">
-          商品总价<span class="color-light-gray">（不含工时费）</span>: <span class="color-red font-bold">￥1999</span>
+          商品总价<span class="color-light-gray">（不含工时费）</span>: <span class="color-red font-bold">￥{{money}}</span>
       </div>
       <div class="clearfix"></div>
     </div>
@@ -82,19 +82,21 @@ export default {
       title:'',
       hovernum:'',
       act:'',
-      videointro:false
+      videointro:false,
+      
     };
   },
   props: {
     list: Array,
+    money:Number,
   },
   methods: {
     endTap(){
       this.videointro = false
     },
-    listtap(item,title,indexs){
-        console.log('e',item,title)
-        this.title = title
+    listtap(item,name,indexs){
+        console.log('e',item,name)
+        this.title = name
         this.hovernum = indexs
     },
     mousepop(e){
@@ -346,5 +348,13 @@ export default {
 }
 table {
   border-bottom: 1px solid #dcdcdc;
+}
+.myou {
+  background: url("../assets/you.png");
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  background-size: 100%;
+  background-position-y: 14px;
 }
 </style>

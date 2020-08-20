@@ -84,8 +84,8 @@
             </dl>
           </div>
         </div>
-        <pUpkeep class="mt" :list="upkeepList" v-if="screenWidth > 700"></pUpkeep>
-        <mUpkeep :list="upkeepList" v-if="screenWidth < 700"></mUpkeep>
+        <pUpkeep class="mt" :money="money" :list="upkeepList" v-if="screenWidth > 700"></pUpkeep>
+        <mUpkeep :money="money" :list="upkeepList" v-if="screenWidth < 700"></mUpkeep>
         <!-- 移动端 -->
         <div class="m-list"></div>
       </div>
@@ -111,7 +111,6 @@ export default {
       screenWidth: "",
       show: true,
       carshow: false,
-      arr: [],
       formItem: { input: "" },
       byind:0,
       bytitle: [
@@ -119,71 +118,108 @@ export default {
           title: "常规保养",
           check:true,
           childrenList: [
-            { name: "小保养", id: "1", checked: true },
-            { name: "前雨刷", id: "2", checked: false },
-            { name: "前雨刷1", id: "3", checked: false },
-            { name: "前雨刷1", id: "4", checked: true },
-            { name: "前雨刷1", id: "5", checked: false },
-            { name: "前雨刷2", id: "6", checked: false },
-            { name: "前雨刷2", id: "7", checked: false },
+            { 
+              name: "小保养", 
+              id: "1", 
+              checked: true,
+              grandsonList:[
+                {
+                  ZhName: "机油",
+                  DisplayName: "【正品授权】美国胜牌/Valvoline All-Climate 曼城版 星跃高级机油 SN 10W-40 4L【881864】",
+                  Image: "https://img1.tuhu.org/Images/Products/422b/04ac/2c19047ef33eb5743fb23aaa_w800_h800.png",
+                  Price: 118,
+                  Count: 1
+                },
+                {
+                  ZhName: "机滤",
+                  DisplayName: "机滤/Valvoline All-Climate 曼城版 星跃高级机油 SN 10W-40 4L【881864】",
+                  Image: "https://img1.tuhu.org/Images/Products/422b/04ac/2c19047ef33eb5743fb23aaa_w800_h800.png",
+                  Price: 1182,
+                  Count: 1
+                }
+              ]
+            },
+            { 
+              name: "前雨刷", 
+              id: "2", 
+              checked: false,
+              grandsonList:[
+                {
+                  ZhName: "机油1",
+                  DisplayName: "1【正品授权】美国胜牌/Valvoline All-Climate 曼城版 星跃高级机油 SN 10W-40 4L【881864】",
+                  Image: "https://img1.tuhu.org/Images/Products/422b/04ac/2c19047ef33eb5743fb23aaa_w800_h800.png",
+                  Price: 222,
+                  Count: 6
+                }
+              ]
+            },
+            { 
+              name: "前雨刷2", 
+              id: "3", 
+              checked: false,
+              grandsonList:[
+                {
+                  ZhName: "机油2",
+                  DisplayName: "2【正品授权】美国胜牌/Valvoline All-Climate 曼城版 星跃高级机油 SN 10W-40 4L【881864】",
+                  Image: "https://img1.tuhu.org/Images/Products/422b/04ac/2c19047ef33eb5743fb23aaa_w800_h800.png",
+                  Price: 122,
+                  Count: 3
+                }
+              ]
+            },
+            { 
+              name: "前雨刷3", 
+              id: "4", 
+              checked: false,
+              grandsonList:[
+                {
+                  ZhName: "机油3",
+                  DisplayName: "3【正品授权】美国胜牌/Valvoline All-Climate 曼城版 星跃高级机油 SN 10W-40 4L【881864】",
+                  Image: "https://img1.tuhu.org/Images/Products/422b/04ac/2c19047ef33eb5743fb23aaa_w800_h800.png",
+                  Price: 2232,
+                  Count: 1
+                }
+              ]
+            },
           ],
         },
         {
           title: "深度保养",
           check:true,
           childrenList: [
-            { name: "刹车油", id: "8", checked: false },
-            { name: "变速箱油", id: "9", checked: false },
-            { name: "变速箱油", id: "10", checked: false },
-          ],
-        },
-      ],
-      upkeepList: [
-        {
-          title: "小保养",
-          check:true,
-          list: [
-            {
-              name: "更换防冻冷却液",
-              img: "https://img-blog.csdnimg.cn/20190405120402534.png?x-oss-process=image/resize,m_fixed,h_64,w_64",
-              ell:
-                "冠军/CHAMPION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）",
-              money: "99.00",
-              num: "1.6L",
+            { 
+              name: "刹车油", 
+              id: "5", 
+              checked: false,
+              grandsonList:[
+                {
+                  ZhName: "刹车油",
+                  DisplayName: "刹车油【正品授权】美国胜牌/Valvoline All-Climate 曼城版 星跃高级机油 SN 10W-40 4L【881864】",
+                  Image: "https://img1.tuhu.org/Images/Products/422b/04ac/2c19047ef33eb5743fb23aaa_w800_h800.png",
+                  Price: 234,
+                  Count: 1
+                }
+              ]
             },
-            {
-              name: "更卡里克放开了",
-              img: "https://wx.qlogo.cn/mmhead/Q3auHgzwzM4Od6icjhInmnGjhVZGIX0U2S6fMJ18AAAicxBAvU1UdadA/0",
-              ell:
-                "是否会或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或撒飒飒飒飒）",
-              money: "99.00",
-              num: "1.6L",
-            },
-          ],
-        },
-        {
-          title: "前雨刷",
-          check:true,
-          list: [
-            {
-              name: "更换防2冻冷却液",
-              img: "https://wx.qlogo.cn/mmhead/Q3auHgzwzM4Od6icjhInmnGjhVZGIX0U2S6fMJ18AAAicxBAvU1UdadA/0",
-              ell:
-                "冠军/CHAMP3ION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）",
-              money: "99.00",
-              num: "1.6L",
-            },
-            {
-              name: "更卡里克放开了1",
-              img: "https://wx.qlogo.cn/mmhead/Q3auHgzwzM4Od6icjhInmnGjhVZGIX0U2S6fMJ18AAAicxBAvU1UdadA/0",
-              ell:
-                "是否会或或或2或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或或撒飒飒飒飒）",
-              money: "99.00",
-              num: "1.6L",
+            { 
+              name: "刹车油1", 
+              id: "5", 
+              checked: false,
+              grandsonList:[
+                {
+                  ZhName: "刹车油1",
+                  DisplayName: "刹车油1【正品授权】美国胜牌/Valvoline All-Climate 曼城版 星跃高级机油 SN 10W-40 4L【881864】",
+                  Image: "https://img1.tuhu.org/Images/Products/422b/04ac/2c19047ef33eb5743fb23aaa_w800_h800.png",
+                  Price: 834,
+                  Count: 1
+                }
+              ]
             },
           ],
         },
       ],
+      upkeepList: [],
+      money:0
     };
   },
   watch: {
@@ -212,39 +248,53 @@ export default {
       console.log('a',a)
     },
     listTap(obj) {
-      this.bytitle[obj.byindex].childrenList[obj.index].checked = !this.bytitle[
-        obj.byindex
-      ].childrenList[obj.index].checked;
+      this.bytitle[obj.byindex].childrenList[obj.index].checked = !this.bytitle[obj.byindex].childrenList[obj.index].checked;//选中状态
       let bytitle = this.bytitle[obj.byindex].childrenList[obj.index]; //当前点击的数据
       if (bytitle.checked) {
-        this.arr.push({ name: bytitle.name, id: bytitle.id }); //向数组添加选中的数据
+        this.upkeepList.push({ name: bytitle.name, id: bytitle.id,grandsonList:bytitle.grandsonList }); //向数组添加选中的数据
+        //选中服务项目 价格相加
+        bytitle.grandsonList.forEach(m=>{
+          this.money += m.Price
+        })
       } else if (!bytitle.checked) {
         //清除取消选中的数据
-        this.arr.forEach((item, key) => {
+        this.upkeepList.forEach((item, key) => {
           if (item.id == bytitle.id) {
-            this.arr.splice(key, 1);
+            this.upkeepList.splice(key, 1);
+            //取消选中价格相减
+            item.grandsonList.forEach(m=>{
+               this.money -= m.Price
+            })
           }
         });
       }
-      console.log(this.arr);
+      console.log(this.upkeepList);
     },
   },
 
   mounted() {
-    this.screenWidth = document.body.clientWidth;
+    this.screenWidth = document.
+    body.clientWidth;
     window.onresize = () => {
       return (() => {
         window.screenWidth = document.body.clientWidth;
         this.screenWidth = window.screenWidth;
       })();
     };
-    let arr = new Array();
+    let upkeepList = new Array();
+    //初始化
     this.bytitle.forEach((i) => {
       i.childrenList.forEach((k) => {
-        if (k.checked) arr.push({ name: k.name, id: k.id });
+        //默认选中 显示相关服务项目 价格相加
+        if (k.checked){
+          upkeepList.push({ name: k.name, id: k.id,grandsonList:k.grandsonList });
+          k.grandsonList.forEach(m=>{
+              this.money += m.Price
+          })
+        } 
       });
     });
-    this.arr = arr;
+    this.upkeepList = upkeepList;
     this.show = false;
     this.$http
       .submitprice({
@@ -472,4 +522,5 @@ a {
   transform: rotateX(180deg);
   transition: all 200ms ease-out 0.1s;
 }
+
 </style>

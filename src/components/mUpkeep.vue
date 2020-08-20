@@ -6,38 +6,38 @@
         <div class="tl m-upkeep-title">
           <h4 class="fbox fbox-acenter fbox-jbetween">
             <span @click="introtap">
-              {{item.title}}
+              {{item.name}}
               <i class="myou"></i>
             </span>
             <!-- <img src="../assets/xia1.png" alt /> -->
           </h4>
         </div>
         <div class="upkeep-list" >
-          <div v-for="(items,indexs) in item.list" :key="indexs">
+          <div v-for="(items,indexs) in item.grandsonList" :key="indexs">
             <h4 class="tl fbox fbox-acenter fbox-jbetween">
-              <span>{{items.name}}</span>
-              <span @click="moreTap(item.title)" class="norm-text color-light-gray">更多 ></span>
+              <span>{{items.ZhName}}</span>
+              <span @click="moreTap(item.name)" class="norm-text color-light-gray">更多 ></span>
             </h4>
             <div
               class="mpad fbox fbox-acenter"
-              v-if="item.check"
-              @click="listtap(items,item.title,index + String(indexs))"
+             
+              @click="listtap(items,item.name,index + String(indexs))"
             >
               <div class="fbox fbox-acenter">
-                <img :src="items.img" alt />
+                <img :src="items.Image" alt />
               </div>
               <div class="fbox fbox-acenter fbox-col ml">
-                <div>{{items.ell}}</div>
+                <div>{{items.DisplayName}}</div>
                 <div class="fbox fbox-acenter fbox-jbetween" style="width:100%">
-                  <div class="pck_price tc color-red">¥{{items.money}}</div>
-                  <div class="pck_num tc">{{items.num}}</div>
+                  <div class="pck_price tc color-red">¥{{items.Price}}</div>
+                  <div class="pck_num tc">{{items.Count}}</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <!--  -->
-        <div class="mbupkeep" v-if="item.title == title">
+        <div class="mbupkeep" v-if="item.name == title">
           <h4 class="fbox fbox-acenter fbox-jbetween">
             <i></i> 更多推荐产品
             <img src="../assets/offw.png" alt />
@@ -59,6 +59,9 @@
           </div>
         </div>
       </div>
+    </div>
+   <div class="tr mmoney">
+          商品总价<span class="color-light-gray">（不含工时费）</span>: <span class="color-red font-bold">￥{{money}}</span>
     </div>
     <!-- 保养项 -->
     <div class="rishtext" v-if="videointro">
@@ -84,11 +87,12 @@ export default {
     return {
       videointro: false,
       hovernum: 0,
-      title: "",
+      title:"",
     };
   },
   props: {
     list: Array,
+    money:Number
   },
   methods: {
     introtap() {
@@ -104,6 +108,10 @@ export default {
 
 
 <style scoped>
+.mmoney{
+  padding: 10px;
+  background-color: #F5F7F9;
+}
 .rishtext video{
   background-color: red;
   width: 100%;

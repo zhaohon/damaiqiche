@@ -393,7 +393,6 @@ export default {
           }
       ],
       model1: '',
-      tab: 3,
       showModal: false,
       content:''
     };
