@@ -392,7 +392,10 @@ export default {
               label: 'Canberra'
           }
       ],
+<<<<<<< HEAD
       model1: '',
+=======
+>>>>>>> zhaohong
       showModal: false,
       content:''
     };
