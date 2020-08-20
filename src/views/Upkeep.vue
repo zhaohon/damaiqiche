@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 <template>
   <div>
     <div style="max-width:1200px;margin:auto">
@@ -37,7 +38,6 @@
           </div>
         </div>
         <transition name="slide-fade">
-          <!-- v-show="carshow" -->
           <div class="carDetail" v-show="carshow" ref="carDetail">
             <div>发动机位置</div>
             <div>驱动方式</div>
@@ -296,8 +296,7 @@ export default {
     });
     this.upkeepList = upkeepList;
     this.show = false;
-    this.$http
-      .submitprice({
+    this.$http.submitprice({
         paragraph: "2013年生产",
         engine_capacity: "2.0L",
         models: "卡罗拉",
@@ -307,6 +306,7 @@ export default {
         cycle: "20000",
         model: "2011款 2.0 无级 GLX",
       })
+      // eslint-disable-next-line no-unused-vars
       .then((res) => {
         // console.log("res接到值了", res);
         this.show = false;
