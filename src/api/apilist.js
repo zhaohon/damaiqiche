@@ -6,7 +6,7 @@
 import http from './http'; // 导入http中创建的axios实例
 // eslint-disable-next-line no-unused-vars
 import qs from 'qs'; // 导入qs模块
-let apiUrl = 'https://www.damaichaxun.com/';
+let apiUrl = 'https://damaichaxun.com/';
 
 const api = {    
     // 大唛保养结果    
@@ -20,16 +20,31 @@ const api = {
     // },
     // 车型品牌    
     carName(params) {
-        return http.post(`${apiUrl}Car/brand`,qs.stringify(params))
+        return http.post(`${apiUrl}Port/GetBrand`,qs.stringify(params))
     },
     // 车系  
     carSeries(params) {
-        return http.post(`${apiUrl}Car/cars`,qs.stringify(params))
+        return http.post(`${apiUrl}Port/GetCars`,qs.stringify(params))
     },
     // 车型   
     carType(params) {
-        return http.post(`${apiUrl}Car/engine_capacity`,qs.stringify(params))
+        return http.post(`${apiUrl}Port/GetModels`,qs.stringify(params))
     },
+    // 排量
+    carQuantity(params) {
+        return http.post(`${apiUrl}Port/GetDisplacement`,qs.stringify(params))
+    },
+    // 年份
+    carYear(params) {
+        return http.post(`${apiUrl}Port/GetYear`,qs.stringify(params))
+    },
+    // 款型
+     carKuan(params) {
+        return http.post(`${apiUrl}Port/GetModel`,qs.stringify(params))
+    },
+
+
+    
 }
  
 

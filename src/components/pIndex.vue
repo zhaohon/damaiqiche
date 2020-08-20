@@ -47,7 +47,7 @@
          <!-- 选择品牌 -->
         
         <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 0">
-          <p v-for="(item,index) in pinpai" :key="index" @click="rit(item.brand)" >{{item.brand}}</p>
+          <p v-for="(item,index) in pinpai" :key="index" @click="rit(item)" >{{item}}</p>
         </div>
 
          <!-- 选择车系 -->
@@ -55,7 +55,7 @@
             <div v-for="(item,index) in chexi" :key="index">
                 <p>{{item.letter}}</p>
                 <div class="item fbox fbox-ac fbox-wrap">
-                  <p v-for="(t,i) in item.data" :key="i" @click="rit(t)">{{t}}</p>
+                  <p v-for="(t,i) in item.data" :key="i" @click="rit(t,item.letter)">{{t}}</p>
                 </div>
             </div>
          </div>
@@ -392,7 +392,6 @@ export default {
               label: 'Canberra'
           }
       ],
-      model1: '',
       showModal: false,
       content:''
     };
@@ -417,7 +416,12 @@ export default {
       this.$emit("del",e)
     },
     // 选择
-    rit(e){
+    rit(e,s){
+      console.log(e,s)
+      if(this.yixuan.length == 1){
+        this.$emit("changes",e,s)
+        return
+      }
       this.$emit("changes",e)
     },
     // 鼠标指向

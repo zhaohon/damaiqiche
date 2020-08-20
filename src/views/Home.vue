@@ -36,7 +36,8 @@ export default {
       remen:[],//热门字母
       pinpai:[],//品牌
       chexi:[],
-      chexing:["车型1","车型2","车型3","车型4","车型5","车型6",],
+      shop:"",
+      chexing:[],
       pailiang:["排量1","排量2","排量3","排量4","排量5","排量6",],
       nianfen:["年份1","年份2","年份3","年份4","年份5","年份6",],
       kuanxing:["款型1","款型2","款型3","款型4","款型5","款型6",],
@@ -47,8 +48,8 @@ export default {
   },
   methods:{
     // 选择
-    changes(e){
-      console.log(e,"父组件")
+    changes(e,s){
+      console.log(e,s,"父组件")
       if(this.yixuan.length == 7){
         this.$router.push({ path:'/Upkeep',name:'Upkeep', query: { Shiftid: "1111",Shiftname:"222" }})
       }
@@ -56,8 +57,7 @@ export default {
       if(this.yixuan.length == 0){
         this.$http
           .carSeries({
-            brand: e || '奥迪',
-            region: ""
+            brand: e ,
           })
           .then((res) => {
             console.log("res接到值了", res.data);
@@ -72,22 +72,79 @@ export default {
       }
       // 车型接口
       if(this.yixuan.length == 1){
+        this.shop = s
         this.$http
           .carType({
-            brand: this.yixuan[0] || '奥迪',
-            region: ""
+            cars:e,
+            shop:s,
+            brand: this.yixuan[0]
           })
           .then((res) => {
             console.log("res接到值了", res.data);
-            this.chexi = res.data
+            this.chexing = res.data
             this.yixuan.push(e)
-
           })
           .catch((err) => {
             console.log("错误", err), (this.show = false);
           });
         return
-
+      }
+      if(this.yixuan.length == 2){
+        this.$http
+          .carQuantity({
+            cars:this.yixuan[1],
+            shop:this.shop,
+            brand: this.yixuan[0],
+            models:e
+          })
+          .then((res) => {
+            console.log("res接到值了", res.data);
+            this.pailiang = res.data
+            this.yixuan.push(e)
+          })
+          .catch((err) => {
+            console.log("错误", err), (this.show = false);
+          });
+        return
+      }
+      if(this.yixuan.length == 3){
+        this.$http
+          .carYear({
+            cars:this.yixuan[1],
+            shop:this.shop,
+            brand: this.yixuan[0],
+            models:this.yixuan[2],
+            displacement:e
+          })
+          .then((res) => {
+            console.log("res接到值了", res.data);
+            this.nianfen = res.data
+            this.yixuan.push(e)
+          })
+          .catch((err) => {
+            console.log("错误", err), (this.show = false);
+          });
+        return
+      }
+      if(this.yixuan.length == 4){
+        this.$http
+          .carKuan({
+            cars:this.yixuan[1],
+            shop:this.shop,
+            brand: this.yixuan[0],
+            models:this.yixuan[2],
+            displacement:this.yixuan[3],
+            year:e
+          })
+          .then((res) => {
+            console.log("res接到值了", res.data);
+            this.kuanxing = res.data
+            this.yixuan.push(e)
+          })
+          .catch((err) => {
+            console.log("错误", err), (this.show = false);
+          });
+        return
       }
     },
     // 删除
@@ -113,15 +170,14 @@ export default {
 
     this.$http
       .carName({
-        longitude: "114.53122%2C38.0061",
-        city: ""
+        models: ""
       })
       .then((res) => {
-        console.log("res接到值了", res.data.car);
-        this.all = res.data.car//全部参数
-        this.pinpai = res.data.car[0].data//默认品牌
+        console.log("res接到值了---------", res.data);
+        this.all = res.data//全部参数
+        this.pinpai = res.data[0].data//默认品牌
         let remens = []
-        res.data.car.forEach((item,index) => {
+        res.data.forEach((item) => {
             remens.push(item.letter)
         });
         this.remen = remens//字母排序
