@@ -36,7 +36,8 @@ export default {
       remen:[],//热门字母
       pinpai:[],//品牌
       chexi:[],
-      chexing:["车型1","车型2","车型3","车型4","车型5","车型6",],
+      shop:"",
+      chexing:[],
       pailiang:["排量1","排量2","排量3","排量4","排量5","排量6",],
       nianfen:["年份1","年份2","年份3","年份4","年份5","年份6",],
       kuanxing:["款型1","款型2","款型3","款型4","款型5","款型6",],
@@ -71,6 +72,7 @@ export default {
       }
       // 车型接口
       if(this.yixuan.length == 1){
+        this.shop = s
         this.$http
           .carType({
             cars:e,
@@ -79,15 +81,70 @@ export default {
           })
           .then((res) => {
             console.log("res接到值了", res.data);
-            this.chexi = res.data
+            this.chexing = res.data
             this.yixuan.push(e)
-
           })
           .catch((err) => {
             console.log("错误", err), (this.show = false);
           });
         return
-
+      }
+      if(this.yixuan.length == 2){
+        this.$http
+          .carQuantity({
+            cars:this.yixuan[1],
+            shop:this.shop,
+            brand: this.yixuan[0],
+            models:e
+          })
+          .then((res) => {
+            console.log("res接到值了", res.data);
+            this.pailiang = res.data
+            this.yixuan.push(e)
+          })
+          .catch((err) => {
+            console.log("错误", err), (this.show = false);
+          });
+        return
+      }
+      if(this.yixuan.length == 3){
+        this.$http
+          .carYear({
+            cars:this.yixuan[1],
+            shop:this.shop,
+            brand: this.yixuan[0],
+            models:this.yixuan[2],
+            displacement:e
+          })
+          .then((res) => {
+            console.log("res接到值了", res.data);
+            this.nianfen = res.data
+            this.yixuan.push(e)
+          })
+          .catch((err) => {
+            console.log("错误", err), (this.show = false);
+          });
+        return
+      }
+      if(this.yixuan.length == 4){
+        this.$http
+          .carKuan({
+            cars:this.yixuan[1],
+            shop:this.shop,
+            brand: this.yixuan[0],
+            models:this.yixuan[2],
+            displacement:this.yixuan[3],
+            year:e
+          })
+          .then((res) => {
+            console.log("res接到值了", res.data);
+            this.kuanxing = res.data
+            this.yixuan.push(e)
+          })
+          .catch((err) => {
+            console.log("错误", err), (this.show = false);
+          });
+        return
       }
     },
     // 删除

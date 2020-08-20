@@ -30,6 +30,21 @@ const api = {
     carType(params) {
         return http.post(`${apiUrl}Port/GetModels`,qs.stringify(params))
     },
+    // 排量
+    carQuantity(params) {
+        return http.post(`${apiUrl}Port/GetDisplacement`,qs.stringify(params))
+    },
+    // 年份
+    carYear(params) {
+        return http.post(`${apiUrl}Port/GetYear`,qs.stringify(params))
+    },
+    // 款型
+     carKuan(params) {
+        return http.post(`${apiUrl}Port/GetModel`,qs.stringify(params))
+    },
+
+
+    
 }
  
 
