@@ -77,7 +77,7 @@
         </div>
 
         <!-- 选择款型 -->
-        <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 5">
+        <div class="items fbox fbox-ac fbox-wrap" v-if="yixuan.length == 5">
           <p v-for="(item,index) in kuanxing" :key="index" @click="rit(item)" >{{item}}</p>
         </div>
 
@@ -85,12 +85,15 @@
         <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 6">
           <p v-for="(item,index) in fdjxh" :key="index" @click="rit(item)" >{{item}}</p>
         </div>
+        <div class="tiaoguo c9" v-if="yixuan.length == 6" @click="tiao" >跳过>></div>
 
         <!-- 选择最大功率 -->
         <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 7">
           <p v-for="(item,index) in zdgl" :key="index" @click="rit(item)" >{{item}}</p>
         </div>
+
       </div>
+
 
 
       <!-- 搜索 -->
@@ -105,7 +108,7 @@
       </div>
 
       <!-- 产品搜索 -->
-      <div class="chanpin-box pl" v-if="tab == 3">
+      <div class="chanpin-box" v-if="tab == 3">
           <div class="list fbox fbox-ac fbox-w">
             <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                 <div>机滤</div>
@@ -392,6 +395,7 @@ export default {
               label: 'Canberra'
           }
       ],
+      model1:"",
       showModal: false,
       content:''
     };
@@ -448,7 +452,12 @@ export default {
     },
     error () {
         this.$Message.error('提交失败');
-    }
+    },
+    // 跳过方法
+    tiao(e){
+      console.log(e)
+      this.$emit("tiao",e)
+    },
 
   }
 
@@ -499,6 +508,10 @@ export default {
 .item p {width: 160px;height: 50px;margin-right: 24px;text-align: center;line-height: 48px;background-color: #fff;margin-bottom: 20px;overflow: hidden;cursor: pointer;border-radius: 2px;}
 .item p:hover{background: #77B110 !important;color: #ffffff !important}
 
+.items{margin-top: 20px;}
+.items p {padding: 0 20px;height: 50px;margin-right: 24px;text-align: center;line-height: 48px;background-color: #fff;margin-bottom: 20px;overflow: hidden;cursor: pointer;border-radius: 2px;}
+.items p:hover{background: #77B110 !important;color: #ffffff !important}
+
 
 /* nav选中 */
 .active{color: #ffffff;background: #77B110 !important;}
@@ -523,7 +536,7 @@ export default {
 /* 产品 */
 .chanpin-box{width: 100%;background: #EDEEF2;box-sizing: border-box;}
 .chanpin-item{width:240px;height:36px;background:#FFFFFF;border:2px solid #DDDDDD;border-radius:2px;box-sizing: border-box;padding-left: 12px;margin-right: 25px;margin-bottom: 10px;}
-.chanpin-box .list{padding: 16px 0 6px;}
+.chanpin-box .list{padding: 16px 0 6px 20px;}
 .chanpin-box .list:nth-child(2n){background: #F7F8FA;}
 .chanpin-xian{position: relative;}
 .chanpin-xian::after{position: absolute;content: "";width: 0;height: 20px;border-left: 1px solid #DDDDDD;left: -10px;top: 6px;}
@@ -559,7 +572,7 @@ export default {
 
 
 .bot-title{display: none;}
-
+.tiaoguo{font-size: 16px;cursor: pointer;}
 
 @media only screen and (max-width: 1200px) {
   .box{width: 100%;}
