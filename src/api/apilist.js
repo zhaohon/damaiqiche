@@ -42,6 +42,22 @@ const api = {
      carKuan(params) {
         return http.post(`${apiUrl}Port/GetModel`,qs.stringify(params))
     },
+    
+    // 型号
+    carEngine(params) {
+        return http.post(`${apiUrl}Port/GetEngine`,qs.stringify(params))
+    },
+    // 功率
+    carPower(params) {
+        return http.post(`${apiUrl}Port/GetPower`,qs.stringify(params))
+    },
+
+
+
+
+
+
+
 
 
     

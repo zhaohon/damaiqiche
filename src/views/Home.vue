@@ -10,7 +10,7 @@
           <p>产品搜索</p>
         </div> -->
     </div>
-    <pIndex :tab="tabind" @changes="changes" @tabC="tabC"  @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
+    <pIndex :tab="tabind" @changes="changes" @tabC="tabC" @tiao="tiao"  @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
     <Loading v-if="show" />
     
 
@@ -146,6 +146,51 @@ export default {
           });
         return
       }
+      
+      if(this.yixuan.length == 5){
+        this.$http
+          .carEngine({
+            cars:this.yixuan[1],
+            shop:this.shop,
+            brand: this.yixuan[0],
+            models:this.yixuan[2],
+            displacement:this.yixuan[3],
+            year:this.yixuan[4],
+            model:e
+
+          })
+          .then((res) => {
+            console.log("res接到值了", res.data);
+            this.fdjxh = res.data
+            this.yixuan.push(e)
+          })
+          .catch((err) => {
+            console.log("错误", err), (this.show = false);
+          });
+        return
+      }
+      if(this.yixuan.length == 6){
+        this.$http
+          .carPower({
+            cars:this.yixuan[1],
+            shop:this.shop,
+            brand: this.yixuan[0],
+            models:this.yixuan[2],
+            displacement:this.yixuan[3],
+            year:this.yixuan[4],
+            model: this.yixuan[5],
+            engine:e
+          })
+          .then((res) => {
+            console.log("res接到值了", res.data);
+            this.zdgl = res.data
+            this.yixuan.push(e)
+          })
+          .catch((err) => {
+            console.log("错误", err), (this.show = false);
+          });
+        return
+      }
     },
     // 删除
     del(e){
@@ -160,6 +205,10 @@ export default {
     tabC(e){
       console.log('e',e)
       this.tabind = e
+    },
+    //跳过
+    tiao(){
+        this.$router.push({ path:'/Upkeep',name:'Upkeep', query: { Shiftid: "1111",Shiftname:"222" }})
     }
   },
   watch:{
