@@ -41,7 +41,8 @@ export default {
       kuanxing:[],
       fdjxh:[],
       zdgl:[],
-      tabind:1
+      tabind:1,
+      messge:{}
     }
   },
   methods:{
@@ -50,6 +51,7 @@ export default {
       //s为车系分类
       console.log(e,s,"父组件")
       if(this.yixuan.length == 7){
+        // localStorage.setItem("车辆信息",this.qs.stringify());
         this.$router.push({ path:'/Upkeep',name:'Upkeep', query: { Shiftid: "1111",Shiftname:"222" }})
       }
       // 车系
@@ -159,12 +161,20 @@ export default {
             displacement:this.yixuan[3],
             year:this.yixuan[4],
             model:e
-
           })
           .then((res) => {
             console.log("型号接口返回", res.data);
             this.fdjxh = res.data
             this.yixuan.push(e)
+            this.messge = {
+              brand:res.brand,
+              cars:res.cars,
+              displacement: res.displacement,
+              model: res.model,
+              models: res.models,
+              shop:res.shop,
+              year:res.year,
+            }
           })
           .catch((err) => {
             console.log("错误", err), (this.show = false);
@@ -212,6 +222,7 @@ export default {
     //跳过
     tiao(e){
       console.log('tiao',e)
+      localStorage.setItem("messge",this.$qs.stringify(this.messge));
       this.$router.push({ path:'/Upkeep',name:'Upkeep', query: { Shiftid: "1111",Shiftname:"222" }})
     }
   },

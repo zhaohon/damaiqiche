@@ -7,11 +7,10 @@
         <div class="carData pb pt fbox fbox-acenter fbox-jbetween">
           <!-- <img class="dib" src="../assets/logo.png" alt="logo" /> -->
           <div>
-            <div class="mr ml large-text font-bold">大众 帕萨特 1.4L 2016年产</div>
+            <div class="mr ml large-text font-bold">{{messge.brand}} {{messge.cars}} {{messge.displacement}} 2016年产</div>
             <div class="ml small-text pmfont">
               <div>
-                <span>2016年产</span>
-                <span>2.0T(380TSI) 豪华版</span>
+                <span>{{messge.model}}</span>
               </div>
               <div>
                 <span>发动机型号：EA888</span>
@@ -108,6 +107,7 @@ export default {
   },
   data() {
     return {
+      messge:{},
       screenWidth: "",
       show: true,
       carshow: false,
@@ -273,6 +273,7 @@ export default {
   },
 
   mounted() {
+    
     this.screenWidth = document.
     body.clientWidth;
     window.onresize = () => {
@@ -281,6 +282,8 @@ export default {
         this.screenWidth = window.screenWidth;
       })();
     };
+    this.messge = this.$qs.parse(localStorage.getItem("messge"))
+    console.log('this.messge',this.messge)
     let upkeepList = new Array();
     //初始化
     this.bytitle.forEach((i) => {

@@ -290,11 +290,9 @@
             </div>
             <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                   <div>机滤</div>
-                  <div class="chanpin-xian">
+                  <div class="chanpin-xian" >
                     <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                   <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-visible-change="handleChangeOnSelect"></cascader>
                   </div>
             </div>
           </div>
@@ -368,35 +366,26 @@ export default {
   name: "pIndex",
   data() {
     return {
-      cityList: [
-          {
-              value: 'New York',
-              label: 'New York'
-          },
-          {
-              value: 'London',
-              label: 'London'
-          },
-          {
-              value: 'Sydney',
-              label: 'Sydney'
-          },
-          {
-              value: 'Ottawa',
-              label: 'Ottawa'
-          },
-          {
-              value: 'Paris',
-              label: 'Paris'
-          },
-          {
-              value: 'Canberra',
-              label: 'Canberra'
-          }
-      ],
+      cityList:[],
       model1:"",
       showModal: false,
-      content:''
+      content:'',
+      value2: ['beijing', 'baidu'],
+      changeOnSelect: false,
+      data4: [
+        {
+          value: 'beijing',
+          label: '北京',
+          children: [],
+          loading: false
+        },
+        {
+          value: 'hangzhou',
+          label: '杭州',
+          children: [],
+          loading:false
+        }
+      ]  
     };
   },
   props:{
@@ -409,6 +398,44 @@ export default {
     }
   },
   methods:{
+    loadData (item, callback) {
+      console.log('item',item)
+                item.loading = true;
+                setTimeout(() => {
+                    if (item.value === 'beijing') {
+                        item.children = [
+                            {
+                                value: 'talkingdata',
+                                label: 'TalkingData'
+                            },
+                            {
+                                value: 'baidu',
+                                label: '百度'
+                            },
+                            {
+                                value: 'sina',
+                                label: '新浪'
+                            }
+                        ];
+                    } else if (item.value === 'hangzhou') {
+                        item.children = [
+                            {
+                                value: 'ali',
+                                label: '阿里巴巴'
+                            },
+                            {
+                                value: '163',
+                                label: '网易'
+                            }
+                        ];
+                    }
+                    item.loading = false;
+                    callback();
+                },4000);
+            },
+    handleChangeOnSelect (value) {
+              this.changeOnSelect = value
+            },
     // tab切换
     tabC(e){
       this.$emit("tabC",e)
