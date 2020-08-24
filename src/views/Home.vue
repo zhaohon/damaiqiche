@@ -12,8 +12,6 @@
     </div>
     <pIndex :tab="tabind" @changes="changes" @tabC="tabC" @tiao="tiao"  @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
     <Loading v-if="show" />
-    
-
   </div>
 </template>
 
@@ -38,17 +36,18 @@ export default {
       chexi:[],
       shop:"",
       chexing:[],
-      pailiang:["排量1","排量2","排量3","排量4","排量5","排量6",],
-      nianfen:["年份1","年份2","年份3","年份4","年份5","年份6",],
-      kuanxing:["款型1","款型2","款型3","款型4","款型5","款型6",],
-      fdjxh:["发动机型号1","发动机型号2","发动机型号3","发动机型号4","发动机型号5","发动机型号6",],
-      zdgl:["最大功率1","最大功率2","最大功率3","最大功率4","最大功率5","最大功率6",],
+      pailiang:[],
+      nianfen:[],
+      kuanxing:[],
+      fdjxh:[],
+      zdgl:[],
       tabind:1
     }
   },
   methods:{
     // 选择
     changes(e,s){
+      //s为车系分类
       console.log(e,s,"父组件")
       if(this.yixuan.length == 7){
         this.$router.push({ path:'/Upkeep',name:'Upkeep', query: { Shiftid: "1111",Shiftname:"222" }})
@@ -60,7 +59,7 @@ export default {
             brand: e ,
           })
           .then((res) => {
-            console.log("res接到值了", res.data);
+            console.log("车系接口返回", res.data);
             this.chexi = res.data
             this.yixuan.push(e)
 
@@ -80,7 +79,7 @@ export default {
             brand: this.yixuan[0]
           })
           .then((res) => {
-            console.log("res接到值了", res.data);
+            console.log("车型接口返回", res.data);
             this.chexing = res.data
             this.yixuan.push(e)
           })
@@ -89,6 +88,7 @@ export default {
           });
         return
       }
+      //排量
       if(this.yixuan.length == 2){
         this.$http
           .carQuantity({
@@ -98,7 +98,7 @@ export default {
             models:e
           })
           .then((res) => {
-            console.log("res接到值了", res.data);
+            console.log("排量接口返回", res.data);
             this.pailiang = res.data
             this.yixuan.push(e)
           })
@@ -107,6 +107,7 @@ export default {
           });
         return
       }
+      // 年份
       if(this.yixuan.length == 3){
         this.$http
           .carYear({
@@ -117,7 +118,7 @@ export default {
             displacement:e
           })
           .then((res) => {
-            console.log("res接到值了", res.data);
+            console.log("年份接口返回", res.data);
             this.nianfen = res.data
             this.yixuan.push(e)
           })
@@ -126,6 +127,7 @@ export default {
           });
         return
       }
+      // 款型
       if(this.yixuan.length == 4){
         this.$http
           .carKuan({
@@ -137,7 +139,7 @@ export default {
             year:e
           })
           .then((res) => {
-            console.log("res接到值了", res.data);
+            console.log("款型接口返回", res.data);
             this.kuanxing = res.data
             this.yixuan.push(e)
           })
@@ -146,7 +148,7 @@ export default {
           });
         return
       }
-      
+      // 型号
       if(this.yixuan.length == 5){
         this.$http
           .carEngine({
@@ -160,7 +162,7 @@ export default {
 
           })
           .then((res) => {
-            console.log("res接到值了", res.data);
+            console.log("型号接口返回", res.data);
             this.fdjxh = res.data
             this.yixuan.push(e)
           })
@@ -169,6 +171,7 @@ export default {
           });
         return
       }
+      // 功率
       if(this.yixuan.length == 6){
         this.$http
           .carPower({
@@ -182,7 +185,7 @@ export default {
             engine:e
           })
           .then((res) => {
-            console.log("res接到值了", res.data);
+            console.log("功率接口返回", res.data);
             this.zdgl = res.data
             this.yixuan.push(e)
           })
@@ -207,8 +210,9 @@ export default {
       this.tabind = e
     },
     //跳过
-    tiao(){
-        this.$router.push({ path:'/Upkeep',name:'Upkeep', query: { Shiftid: "1111",Shiftname:"222" }})
+    tiao(e){
+      console.log('tiao',e)
+      this.$router.push({ path:'/Upkeep',name:'Upkeep', query: { Shiftid: "1111",Shiftname:"222" }})
     }
   },
   watch:{
@@ -216,13 +220,13 @@ export default {
   },
   mounted(){
     this.tabind = Number(this.$router.history.current.params.tabind) || 1;
-
+    //车型品牌 
     this.$http
       .carName({
         models: ""
       })
       .then((res) => {
-        console.log("res接到值了---------", res.data);
+        console.log("车型品牌接口返回", res.data);
         this.all = res.data//全部参数
         this.pinpai = res.data[0].data//默认品牌
         let remens = []
@@ -247,5 +251,6 @@ export default {
 @media only screen and (max-width: 1200px) {
   .head{width: 100%;}
 }
+
 </style>
 

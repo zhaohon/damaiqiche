@@ -69,7 +69,6 @@ instance.interceptors.request.use(
         // const token ='';
         // token && (config.headers.Authorization = token);
 
-
         return config;
     },
     error => Promise.error(error))

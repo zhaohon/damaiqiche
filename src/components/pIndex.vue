@@ -59,7 +59,6 @@
                 </div>
             </div>
          </div>
-        
 
          <!-- 选择车型 -->
         <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 2">
@@ -421,7 +420,6 @@ export default {
     },
     // 选择
     rit(e,s){
-      console.log(e,s)
       if(this.yixuan.length == 1){
         this.$emit("changes",e,s)
         return
@@ -498,8 +496,8 @@ export default {
 
 
 /* 已选车型 */
-.yixuan .yixuan-title{font-size: 16px;font-weight: bold;color: #333333;cursor: inherit !important;}
-.yixuan div {padding: 3px 3px 3px 10px ;font-size: 12px;color: #333333;background-color: #fff;margin-left: 20px;border: 1px solid #77B110;box-sizing: border-box; }
+.yixuan .yixuan-title{font-size: 16px;font-weight: bold;color: #333333;cursor: inherit !important;margin-top:10px ;}
+.yixuan div {padding: 3px 3px 3px 10px ;font-size: 12px;color: #333333;background-color: #fff;margin-left: 20px;border: 1px solid #77B110;box-sizing: border-box;margin-top:10px ; }
 .yixuan div .guan{width: 20px;height: 10px;cursor: pointer !important;margin-left: 10px;padding: 0 5px;}
 
 

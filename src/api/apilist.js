@@ -44,7 +44,7 @@ const api = {
     },
     
     // 型号
-    carEngine(params) {
+    carEngine(params) { 
         return http.post(`${apiUrl}Port/GetEngine`,qs.stringify(params))
     },
     // 功率
@@ -62,6 +62,5 @@ const api = {
 
     
 }
- 
 
 export default api;
