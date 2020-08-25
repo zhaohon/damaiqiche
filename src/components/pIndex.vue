@@ -113,36 +113,28 @@
                 <div>机滤</div>
                 <div class="chanpin-xian">
                   <!-- 下拉框 -->
-                  <Select v-model="model1" placeholder="全部" >
-                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
+                  <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader> 
                 </div>
             </div>
             <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                   <div>机滤</div>
                   <div class="chanpin-xian">
                     <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                    <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                   </div>
             </div>
             <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                   <div>机滤</div>
                   <div class="chanpin-xian">
                     <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                    <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                   </div>
             </div>
             <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                   <div>机滤</div>
                   <div class="chanpin-xian">
                     <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                    <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                   </div>
             </div>
           </div>
@@ -151,36 +143,28 @@
                 <div>机滤</div>
                 <div class="chanpin-xian">
                   <!-- 下拉框 -->
-                  <Select v-model="model1" placeholder="全部" >
-                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
+                  <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                 </div>
             </div>
             <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                   <div>机滤</div>
                   <div class="chanpin-xian">
                     <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                    <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                   </div>
             </div>
             <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                   <div>机滤</div>
                   <div class="chanpin-xian">
                     <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                    <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                   </div>
             </div>
             <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                   <div>机滤</div>
                   <div class="chanpin-xian">
                     <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                    <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                   </div>
             </div>
           </div>
@@ -189,36 +173,28 @@
                 <div>机滤</div>
                 <div class="chanpin-xian">
                   <!-- 下拉框 -->
-                  <Select v-model="model1" placeholder="全部" >
-                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
+                  <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                 </div>
             </div>
             <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                   <div>机滤</div>
                   <div class="chanpin-xian">
                     <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                    <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                   </div>
             </div>
             <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                   <div>机滤</div>
                   <div class="chanpin-xian">
                     <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                    <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                   </div>
             </div>
             <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                   <div>机滤</div>
                   <div class="chanpin-xian">
                     <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                    <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                   </div>
             </div>
           </div>
@@ -227,36 +203,28 @@
                 <div>机滤</div>
                 <div class="chanpin-xian">
                   <!-- 下拉框 -->
-                  <Select v-model="model1" placeholder="全部" >
-                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
+                  <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                 </div>
             </div>
             <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                   <div>机滤</div>
                   <div class="chanpin-xian">
                     <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                    <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                   </div>
             </div>
             <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                   <div>机滤</div>
                   <div class="chanpin-xian">
                     <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                    <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                   </div>
             </div>
             <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                   <div>机滤</div>
                   <div class="chanpin-xian">
                     <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                    <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                   </div>
             </div>
           </div>
@@ -265,34 +233,28 @@
                 <div>机滤</div>
                 <div class="chanpin-xian">
                   <!-- 下拉框 -->
-                  <Select v-model="model1" placeholder="全部" >
-                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
+                  <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                 </div>
             </div>
             <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                   <div>机滤</div>
                   <div class="chanpin-xian">
                     <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                    <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                   </div>
             </div>
             <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                   <div>机滤</div>
                   <div class="chanpin-xian">
                     <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
+                    <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-change="handleChangeOnSelect"></cascader>
                   </div>
             </div>
             <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
                   <div>机滤</div>
                   <div class="chanpin-xian" >
                     <!-- 下拉框 -->
-                   <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-visible-change="handleChangeOnSelect"></cascader>
+                    <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" @on-change="handleChangeOnSelect"></cascader>
                   </div>
             </div>
           </div>
@@ -433,8 +395,9 @@ export default {
                     callback();
                 },4000);
             },
+            
     handleChangeOnSelect (value) {
-              this.changeOnSelect = value
+              console.log(value)
             },
     // tab切换
     tabC(e){

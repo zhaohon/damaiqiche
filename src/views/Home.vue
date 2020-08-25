@@ -41,7 +41,7 @@ export default {
       kuanxing:[],
       fdjxh:[],
       zdgl:[],
-      tabind:1,
+      tabind:3,
       messge:{}
     }
   },
@@ -230,7 +230,7 @@ export default {
 
   },
   mounted(){
-    this.tabind = Number(this.$router.history.current.params.tabind) || 1;
+    this.tabind = Number(this.$router.history.current.params.tabind) || 3;
     //车型品牌 
     this.$http
       .carName({
