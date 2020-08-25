@@ -674,4 +674,6 @@ textarea{
   background-color: #F5F6FA;
   border-radius: 5px;
 }
+/* 级联 */
+.ivu-cascader .ivu-input{padding-right: 0 !important;}
 </style>
