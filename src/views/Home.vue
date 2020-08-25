@@ -10,7 +10,7 @@
           <p>产品搜索</p>
         </div> -->
     </div>
-    <pIndex :tab="tabind" @changes="changes" @tabC="tabC" @tiao="tiao"  @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
+    <pIndex :SearchArr="SearchArr" :tab="tabind" @loadData="loadData" @changes="changes" @tabC="tabC" @tiao="tiao"  @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
     <Loading v-if="show" />
   </div>
 </template>
@@ -41,8 +41,9 @@ export default {
       kuanxing:[],
       fdjxh:[],
       zdgl:[],
-      tabind:1,
-      messge:{}
+      tabind:3,
+      messge:{},
+      SearchArr:[],//搜索页面的数据
     }
   },
   methods:{
@@ -224,13 +225,30 @@ export default {
       console.log('tiao',e)
       localStorage.setItem("messge",this.$qs.stringify(this.messge));
       this.$router.push({ path:'/Upkeep',name:'Upkeep', query: { Shiftid: "1111",Shiftname:"222" }})
+    },
+    loadData(e){
+      console.log(e,"111111")
+      e.loading = true;
+      //根据品牌获取机型 
+      this.$http
+        .SearchModel({
+          value:e.label,
+          filed:e.value
+        })
+        .then((res) => {
+          console.log("机型", res);
+        })
+        .catch((err) => {
+          console.log("错误", err), (console.log(err));
+        });
+
     }
   },
   watch:{
 
   },
   mounted(){
-    this.tabind = Number(this.$router.history.current.params.tabind) || 1;
+    this.tabind = Number(this.$router.history.current.params.tabind) || 3;
     //车型品牌 
     this.$http
       .carName({
@@ -245,7 +263,26 @@ export default {
             remens.push(item.letter)
         });
         this.remen = remens//字母排序
+      })
+      .catch((err) => {
+        console.log("错误", err), (this.show = false);
+      });
+
+    //车型品牌 
+    this.$http
+      .Search({
+      })
+      .then((res) => {
+        let arr =[]
+        for (var index in res){ 
+          // console.log(res[index]); console.log(index); 
+          arr.push(res[index])
+        }
+        
+        this.SearchArr = arr
+        console.log("车型品牌", arr);
         this.show = false;//隐藏动画
+
       })
       .catch((err) => {
         console.log("错误", err), (this.show = false);

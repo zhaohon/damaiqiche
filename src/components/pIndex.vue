@@ -109,193 +109,18 @@
       <!-- 产品搜索 -->
       <div class="chanpin-box" v-if="tab == 3">
           <div class="list fbox fbox-ac fbox-w">
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                <div>机滤</div>
+            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" v-for="(item,index) in SearchArr" :key="index"  >
+                <div>{{item.title}}</div>
                 <div class="chanpin-xian">
                   <!-- 下拉框 -->
-                  <Select v-model="model1" placeholder="全部" >
-                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
+                  <!-- <block v-for="(t,i) in item.list" :key="i" > -->
+                    <cascader :data="item.list" :load-data="loadData" @on-change="handleChangeOnSelect"></cascader> 
+                  <!-- </block> -->
                 </div>
             </div>
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                  <div>机滤</div>
-                  <div class="chanpin-xian">
-                    <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                  </div>
-            </div>
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                  <div>机滤</div>
-                  <div class="chanpin-xian">
-                    <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                  </div>
-            </div>
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                  <div>机滤</div>
-                  <div class="chanpin-xian">
-                    <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                  </div>
-            </div>
+            
           </div>
-          <div class="list fbox fbox-ac fbox-w">
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                <div>机滤</div>
-                <div class="chanpin-xian">
-                  <!-- 下拉框 -->
-                  <Select v-model="model1" placeholder="全部" >
-                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
-                </div>
-            </div>
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                  <div>机滤</div>
-                  <div class="chanpin-xian">
-                    <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                  </div>
-            </div>
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                  <div>机滤</div>
-                  <div class="chanpin-xian">
-                    <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                  </div>
-            </div>
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                  <div>机滤</div>
-                  <div class="chanpin-xian">
-                    <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                  </div>
-            </div>
-          </div>
-          <div class="list fbox fbox-ac fbox-w">
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                <div>机滤</div>
-                <div class="chanpin-xian">
-                  <!-- 下拉框 -->
-                  <Select v-model="model1" placeholder="全部" >
-                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
-                </div>
-            </div>
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                  <div>机滤</div>
-                  <div class="chanpin-xian">
-                    <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                  </div>
-            </div>
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                  <div>机滤</div>
-                  <div class="chanpin-xian">
-                    <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                  </div>
-            </div>
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                  <div>机滤</div>
-                  <div class="chanpin-xian">
-                    <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                  </div>
-            </div>
-          </div>
-          <div class="list fbox fbox-ac fbox-w">
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                <div>机滤</div>
-                <div class="chanpin-xian">
-                  <!-- 下拉框 -->
-                  <Select v-model="model1" placeholder="全部" >
-                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
-                </div>
-            </div>
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                  <div>机滤</div>
-                  <div class="chanpin-xian">
-                    <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                  </div>
-            </div>
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                  <div>机滤</div>
-                  <div class="chanpin-xian">
-                    <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                  </div>
-            </div>
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                  <div>机滤</div>
-                  <div class="chanpin-xian">
-                    <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                  </div>
-            </div>
-          </div>
-          <div class="list fbox fbox-ac fbox-w">
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                <div>机滤</div>
-                <div class="chanpin-xian">
-                  <!-- 下拉框 -->
-                  <Select v-model="model1" placeholder="全部" >
-                      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
-                </div>
-            </div>
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                  <div>机滤</div>
-                  <div class="chanpin-xian">
-                    <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                  </div>
-            </div>
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                  <div>机滤</div>
-                  <div class="chanpin-xian">
-                    <!-- 下拉框 -->
-                    <Select v-model="model1" placeholder="全部" >
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                  </div>
-            </div>
-            <div class="chanpin-item fbox fbox-ac fbox-jb fbox-w" >
-                  <div>机滤</div>
-                  <div class="chanpin-xian" >
-                    <!-- 下拉框 -->
-                   <cascader :data="data4" :load-data="loadData" :change-on-select="changeOnSelect" v-model="value2" @on-visible-change="handleChangeOnSelect"></cascader>
-                  </div>
-            </div>
-          </div>
+          
       </div>
       <!-- 产品列表 -->
       <div class="chanpin-table" v-if="tab == 3">
@@ -389,7 +214,7 @@ export default {
     };
   },
   props:{
-      yixuan:Array,hover:Number,remen:Array,pinpai:Array,chexi:Array,chexing:Array,pailiang:Array,nianfen:Array,kuanxing:Array,fdjxh:Array,zdgl:Array,
+      yixuan:Array,hover:Number,remen:Array,pinpai:Array,chexi:Array,chexing:Array,pailiang:Array,nianfen:Array,kuanxing:Array,fdjxh:Array,zdgl:Array,SearchArr:Array,
       tab:Number,
     },
   watch:{
@@ -400,42 +225,45 @@ export default {
   methods:{
     loadData (item, callback) {
       console.log('item',item)
-                item.loading = true;
-                setTimeout(() => {
-                    if (item.value === 'beijing') {
-                        item.children = [
-                            {
-                                value: 'talkingdata',
-                                label: 'TalkingData'
-                            },
-                            {
-                                value: 'baidu',
-                                label: '百度'
-                            },
-                            {
-                                value: 'sina',
-                                label: '新浪'
-                            }
-                        ];
-                    } else if (item.value === 'hangzhou') {
-                        item.children = [
-                            {
-                                value: 'ali',
-                                label: '阿里巴巴'
-                            },
-                            {
-                                value: '163',
-                                label: '网易'
-                            }
-                        ];
-                    }
-                    item.loading = false;
+      this.$emit("loadData",item)
+
+                // item.loading = true;
+                // setTimeout(() => {
+                //     if (item.value === 'beijing') {
+                //         item.children = [
+                //             {
+                //                 value: 'talkingdata',
+                //                 label: 'TalkingData'
+                //             },
+                //             {
+                //                 value: 'baidu',
+                //                 label: '百度'
+                //             },
+                //             {
+                //                 value: 'sina',
+                //                 label: '新浪'
+                //             }
+                //         ];
+                //     } else if (item.value === 'hangzhou') {
+                //         item.children = [
+                //             {
+                //                 value: 'ali',
+                //                 label: '阿里巴巴'
+                //             },
+                //             {
+                //                 value: '163',
+                //                 label: '网易'
+                //             }
+                //         ];
+                //     }
+                //     item.loading = false;
                     callback();
-                },4000);
+                // },4000);
             },
+            
     handleChangeOnSelect (value) {
-              this.changeOnSelect = value
-            },
+              console.log(value,"123123")
+    },
     // tab切换
     tabC(e){
       this.$emit("tabC",e)
@@ -563,7 +391,7 @@ export default {
 .chanpin-item{width:240px;height:36px;background:#FFFFFF;border:2px solid #DDDDDD;border-radius:2px;box-sizing: border-box;padding-left: 12px;margin-right: 25px;margin-bottom: 10px;}
 .chanpin-box .list{padding: 16px 0 6px 20px;}
 .chanpin-box .list:nth-child(2n){background: #F7F8FA;}
-.chanpin-xian{position: relative;}
+.chanpin-xian{position: relative;width: 30%;}
 .chanpin-xian::after{position: absolute;content: "";width: 0;height: 20px;border-left: 1px solid #DDDDDD;left: -10px;top: 6px;}
 .chanpin-xian .ivu-select-selection{border: none !important;}
 .ivu-select-visible .ivu-select-selection{border-color: white !important;}
