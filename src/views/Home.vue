@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 <template>
   <div class="home">
     <div class="head fbox fbox-ac fbox-jb">
@@ -228,19 +229,7 @@ export default {
     },
     loadData(e){
       console.log(e,"111111")
-      e.loading = true;
-      //根据品牌获取机型 
-      this.$http
-        .SearchModel({
-          value:e.label,
-          filed:e.value
-        })
-        .then((res) => {
-          console.log("机型", res);
-        })
-        .catch((err) => {
-          console.log("错误", err), (console.log(err));
-        });
+      
 
     }
   },
@@ -269,16 +258,21 @@ export default {
       });
 
     //车型品牌 
-    this.$http
-      .Search({
-      })
+    this.$http.Search({})
       .then((res) => {
         let arr =[]
         for (var index in res){ 
-          // console.log(res[index]); console.log(index); 
-          arr.push(res[index])
+          let aac = new Array;
+          aac.title = res[index].title;
+          aac.list = new Array;
+          //去除label 为空的选项
+          res[index].list.forEach(i=>{ 
+              if(i.label !== null){
+                 aac.list.push(i)
+              }
+            })
+          arr.push(aac)
         }
-        
         this.SearchArr = arr
         console.log("车型品牌", arr);
         this.show = false;//隐藏动画

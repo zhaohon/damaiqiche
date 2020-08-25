@@ -83,7 +83,6 @@ export default {
       hovernum:'',
       act:'',
       videointro:false,
-      
     };
   },
   props: {
@@ -102,6 +101,7 @@ export default {
     mousepop(e){
       this.act = e
     },
+    // eslint-disable-next-line no-unused-vars
     outStyle(e){
       this.act = ''
     },
