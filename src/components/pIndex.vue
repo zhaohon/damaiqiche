@@ -225,8 +225,34 @@ export default {
   methods:{
     loadData (item, callback) {
       console.log('item',item)
-      this.$emit("loadData",item)
-
+      // this.$emit("loadData",item)
+      item.loading = true;
+      //根据品牌获取机型 
+      this.$http
+        .SearchModel({
+          value:item.label,
+          filed:item.value
+        })
+        .then((res) => {
+          console.log("机型", res);
+          //重组参数名称
+          let list = new Array;
+          res.list.forEach(i=> {
+            //型号的value不为空则添加
+            if(i.value !== null){
+              list.push({label:i.value,value:i.field})
+            }
+          });
+          console.log('list',list)
+          item.children = list
+          item.loading = false;
+          callback();//成功后回调
+        })
+        .catch((err) => {
+          console.log("错误", err)
+          item.loading = false;
+          callback();
+        });
                 // item.loading = true;
                 // setTimeout(() => {
                 //     if (item.value === 'beijing') {
@@ -257,12 +283,12 @@ export default {
                 //         ];
                 //     }
                 //     item.loading = false;
-                    callback();
+                    
                 // },4000);
             },
             
     handleChangeOnSelect (value) {
-              console.log(value,"123123")
+         console.log(value,"123123")
     },
     // tab切换
     tabC(e){
