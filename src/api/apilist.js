@@ -55,7 +55,14 @@ const api = {
 
 
 
-
+    // 获取所有品牌
+    Search(params) {
+        return http.post(`${apiUrl}Search/index`,qs.stringify(params))
+    },
+    // 根据品牌获取机型
+    SearchModel(params) {
+        return http.post(`${apiUrl}Search/productModel`,qs.stringify(params))
+    },
 
 
 
