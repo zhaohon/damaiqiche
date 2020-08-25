@@ -102,6 +102,7 @@ export default {
     mousepop(e){
       this.act = e
     },
+    // eslint-disable-next-line no-unused-vars
     outStyle(e){
       this.act = ''
     },
