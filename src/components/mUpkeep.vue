@@ -99,7 +99,6 @@ export default {
       this.videointro = !this.videointro;
     },
     moreTap(e,item) {
-      console.log(e);
       this.title = e;
       this.gd = item;
     },

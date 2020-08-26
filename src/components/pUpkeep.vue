@@ -98,7 +98,6 @@ export default {
       this.videointro = false
     },
     listtap(item,name,indexs){
-        console.log('e',item,name);
         this.title = name;
         this.gd = item;
         this.hovernum = indexs;

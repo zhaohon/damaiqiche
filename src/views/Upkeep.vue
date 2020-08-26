@@ -7,22 +7,34 @@
         <div class="carData pb pt fbox fbox-acenter fbox-jbetween">
           <!-- <img class="dib" src="../assets/logo.png" alt="logo" /> -->
           <div>
-            <div class="mr ml large-text font-bold">{{info.brand}} {{info.cars}} {{info.displacement}} 2016年产</div>
+            <div
+              class="mr ml large-text font-bold"
+            >{{info.brand}} {{info.cars}} {{info.displacement}} 2016年产</div>
             <div class="ml small-text pmfont">
               <div>
                 <span>{{info.model}}</span>
               </div>
-              <div >
+              <div>
                 <span v-if="info.engine">发动机型号：{{info.engine}}</span>
                 <span v-if="info.engine">最大功率：{{info.power}}</span>
-                <button @click="carshow = !carshow" :class="info.engine?'ml':''" class="color-page small-text">查看详情 ></button>
+                <button
+                  @click="carshow = !carshow"
+                  :class="info.engine?'ml':''"
+                  class="color-page small-text"
+                >查看详情 ></button>
               </div>
             </div>
           </div>
           <div class="m-form">
             <p class="small-text dib v-align">当前里程数:</p>
             <div class="input-group dib v-align">
-              <input type="number" class="fl" :value="info.mileage" ref="licheng" placeholder="请输入里程数" />
+              <input
+                type="number"
+                class="fl"
+                :value="info.mileage"
+                ref="licheng"
+                placeholder="请输入里程数"
+              />
               <p class="dib fr">公里</p>
             </div>
             <button class="btn dib v-align" @click="onSubmit()">查看推荐</button>
@@ -61,7 +73,7 @@
             <dl class="clearfix">
               <dt class="byTitle fl" @click="indtap(item.check,byindex)">
                 <span>{{ item.title }}</span>
-                <img src="../assets/xia.png" :class="item.check?'mimg':''" alt="">
+                <img src="../assets/xia.png" :class="item.check?'mimg':''" alt />
               </dt>
               <div class="fl dib pcwhite" v-if="item.check">
                 <div
@@ -70,7 +82,8 @@
                   class="fl dib"
                   @click="listTap({ childrenItem, index, byindex })"
                 >
-                  <dd
+                  <dd 
+                    v-if="childrenItem.grandsondata.length > 0"
                     class="tc"
                     :class="childrenItem.checked ? 'checked' : ''"
                     :data-id="childrenItem.id"
@@ -107,18 +120,18 @@ export default {
   },
   data() {
     return {
-      messge:{},
+      messge: {},
       screenWidth: "",
       show: true,
       carshow: false,
       formItem: { input: "" },
-      byind:0,
+      byind: 0,
       bytitle: [],
       upkeepList: [],
-      money:0,
-      info:'',
-      numType:0,//0 不执行判断 ；1 +9了 ； 2 价格-9了
-      numType1:0,//0 不执行判断 ；1 +38了 ； 2 价格-38了
+      money: 0,
+      info: "",
+      numType: 0, //0 不执行判断 ；1 +9了 ； 2 价格-9了
+      numType1: 0, //0 不执行判断 ；1 +38了 ； 2 价格-38了
     };
   },
   watch: {
@@ -135,156 +148,182 @@ export default {
     },
   },
   methods: {
-    indtap(e,ind){
-      if(document.body.clientWidth <= 684){
-        // 移动端 
-        this.bytitle[ind].check = !e
+    indtap(e, ind) {
+      if (document.body.clientWidth <= 684) {
+        // 移动端
+        this.bytitle[ind].check = !e;
       }
     },
     //里程
-    onSubmit(){
-      this.show = true
-      let messge = this.messge
+    onSubmit() {
+      this.show = true;
+      let messge = this.messge;
       let a = this.$refs.licheng.value;
       messge.mileage = a;
-      localStorage.setItem("messge",this.$qs.stringify(messge));
-      console.log('this.messge',messge)
-      this.ajax(messge)
+      localStorage.setItem("messge", this.$qs.stringify(messge));
+      this.ajax(messge);
     },
     listTap(obj) {
-      this.bytitle[obj.byindex].sondata[obj.index].checked = !this.bytitle[obj.byindex].sondata[obj.index].checked;//选中状态
+      this.bytitle[obj.byindex].sondata[obj.index].checked = !this.bytitle[
+        obj.byindex
+      ].sondata[obj.index].checked; //选中状态
       let bytitle = this.bytitle[obj.byindex].sondata[obj.index]; //当前点击的数据
-      console.log('bytitle',bytitle)
       if (bytitle.checked) {
-        this.upkeepList.push({ name: bytitle.title, id: bytitle.id,grandsondata:bytitle.grandsondata }); //向数组添加选中的数据
+        this.upkeepList.push({
+          name: bytitle.title,
+          id: bytitle.id,
+          grandsondata: bytitle.grandsondata,
+        }); //向数组添加选中的数据
         //选中服务项目 价格相加
-        bytitle.grandsondata.forEach(m=>{
-          if(JSON.stringify(m) !== '{}'){
-            this.money += Number(m.total_price)
+        bytitle.grandsondata.forEach((m) => {
+          if (JSON.stringify(m) !== "{}") {
+            this.money += Number(m.total_price);
           }
-        })
-        let arrid = new Array;
-        this.upkeepList.forEach(o=>{
-          arrid.push(o.id)
-        })
+        });
+        let arrid = new Array();
+        this.upkeepList.forEach((o) => {
+          arrid.push(o.id);
+        });
         //小保养 节气门 润滑系统（发动机内部清洗） 同时存在 则减9元
-        if(arrid.includes(1) && arrid.includes(15) && arrid.includes(16) ){
-          if(this.numType == 0 || this.numType == 1){
+        if (arrid.includes(1) && arrid.includes(15) && arrid.includes(16)) {
+          if (this.numType == 0 || this.numType == 1) {
             this.money -= 9;
-            this.numType = 2
-            console.log('this.money',this.money)
+            this.numType = 2;
           }
         }
         //判断是否有选择小保养，若选择并且"进气道、喷油嘴、燃油系统清洗"同时选择则计算套餐价格 299 原价减38
-        if(arrid.includes(1) && arrid.includes(17) && arrid.includes(18) && arrid.includes(19) ){
-          if(this.numType1 == 0 || this.numType1 == 1){
+        if (
+          arrid.includes(1) &&
+          arrid.includes(17) &&
+          arrid.includes(18) &&
+          arrid.includes(19)
+        ) {
+          if (this.numType1 == 0 || this.numType1 == 1) {
             this.money -= 38;
-            this.numType1 = 2
-            console.log('this.money',this.money)
+            this.numType1 = 2;
           }
         }
       } else if (!bytitle.checked) {
         //清除取消选中的数据
-        console.log('this.upkeepList---------',this.upkeepList)
         this.upkeepList.forEach((item, key) => {
           if (item.id == bytitle.id) {
             this.upkeepList.splice(key, 1);
             //取消选中价格相减
-            item.grandsondata.forEach(m=>{
+            item.grandsondata.forEach((m) => {
               // eslint-disable-next-line no-debugger
-              console.log(m)
-                if(JSON.stringify(m) !== '{}'){
-                  console.log('------m.total_price',m.title,m.total_price)
-                  this.money -= Number(m.total_price)
-                }
-            })
-          }
-        });
-
-        //小保养 节气门 润滑系统（发动机内部清洗） 同时存在 则减9元
-        if(this.numType == 2){
-          this.money += 9;
-          this.numType = 1
-          console.log('this.money',this.money)
-        }
-        //判断是否有选择小保养，若没有同时选择"进气道、喷油嘴、燃油系统清洗"同时选择则计算套餐价格 299 原价加38
-        if(this.numType1 == 0 || this.numType1 == 1){
-            this.money += 38;
-            this.numType1 = 2
-            console.log('this.money',this.money)
-          }
-      }
-      console.log(this.upkeepList);
-      this.money =  Number(this.money.toFixed(2))
-      console.log(this.money)
-    },
-    
-    ajax(messge){
-      this.$http.getProject(messge)
-      .then((res) => {
-        this.info = res
-        res.data.forEach(i=>{
-          i.check = true
-        })
-        this.bytitle = res.data
-        //初始化
-        let upkeepList = new Array();
-        res.data.forEach((i) => {
-          i.sondata.forEach((k) => {
-            //默认选中 显示相关服务项目 价格相加
-            if (k.checked){
-              upkeepList.push({ name: k.title, id: k.id,grandsondata:k.grandsondata });
-              if(k.grandsondata.length > 0){
-                k.grandsondata.forEach((m,ind)=>{
-                  if(JSON.stringify(m) !== '{}'){
-                    console.log('m.total_price',m.total_price)
-                    this.money += Number(m.total_price)
-                  }else{
-                    k.grandsondata.splice(ind,1)
-                  }
-                })
+              if (JSON.stringify(m) !== "{}") {
+                this.money -= Number(m.total_price);
               }
-            } 
-            
-          });
+            });
+          }
         });
-        
-        this.money =  Number(this.money.toFixed(2))
-        let arrid = new Array;
-        this.upkeepList.forEach(o=>{
-          arrid.push(o.id)
-        })
+        let arrid = new Array();
+        this.upkeepList.forEach((o) => {
+          arrid.push(o.id);
+        });
         //小保养 节气门 润滑系统（发动机内部清洗） 同时存在 则减9元
-        if(arrid.includes(1) && arrid.includes(15) && arrid.includes(16)){
-          if(this.numType == 1){
-            this.money -= 9;
-            this.numType = 2
-            console.log(' this.money', this.money)
+        if (arrid.includes(1) && arrid.includes(15) && arrid.includes(16)) {
+          //不走
+        } else {
+          if (this.numType == 2) {
+            this.money += 9;
+            this.numType = 1;
           }
         }
-        this.upkeepList = upkeepList;
-        this.show = false;
-      })
-      .catch((err) => {
-         this.show = false;
-         console.log("错误", err)
-      });
-    }
+
+        //判断是否有选择小保养，若没有同时选择"进气道、喷油嘴、燃油系统清洗"同时选择则计算套餐价格 299 原价加38
+        if (
+          arrid.includes(1) &&
+          arrid.includes(17) &&
+          arrid.includes(18) &&
+          arrid.includes(19)
+        ) {
+          //不走
+        } else {
+          if (this.numType1 == 2) {
+            this.money += 38;
+            this.numType1 = 1;
+          }
+        }
+      }
+      this.money = Number(this.money.toFixed(2));
+    },
+
+    ajax(messge) {
+      this.$http
+        .getProject(messge)
+        .then((res) => {
+          this.info = res;
+          res.data.forEach((i) => {
+            i.check = true;
+          });
+          this.bytitle = res.data;
+          //初始化
+          let upkeepList = new Array();
+          this.bytitle.forEach((i) => {
+            i.sondata.forEach((k) => {
+              //默认选中 显示相关服务项目 价格相加
+              if (k.grandsondata.length > 0) {
+                if (k.checked) {
+                  upkeepList.push({name: k.title,id: k.id,grandsondata: k.grandsondata,});
+                }
+                k.grandsondata.forEach((m, ind) => {
+                  if (JSON.stringify(m) !== "{}") {
+                    if (k.checked) {
+                      this.money += Number(m.total_price);
+                    }
+                  } else {
+                    k.grandsondata.splice(ind, 1);
+                  }
+                });
+              }
+            });
+          });
+
+          this.money = Number(this.money.toFixed(2));
+          let arrid = new Array();
+          this.upkeepList.forEach((o) => {
+            arrid.push(o.id);
+          });
+          //小保养 节气门 润滑系统（发动机内部清洗） 同时存在 则减9元
+          if (arrid.includes(1) && arrid.includes(15) && arrid.includes(16)) {
+            if (this.numType == 1) {
+              this.money -= 9;
+              this.numType = 2;
+            }
+          }
+          //判断是否有选择小保养，若选择并且"进气道、喷油嘴、燃油系统清洗"同时选择则计算套餐价格 299 原价减38
+          if (
+            arrid.includes(1) &&
+            arrid.includes(17) &&
+            arrid.includes(18) &&
+            arrid.includes(19)
+          ) {
+            if (this.numType1 == 0 || this.numType1 == 1) {
+              this.money -= 38;
+              this.numType1 = 2;
+            }
+          }
+          this.upkeepList = upkeepList;
+          this.show = false;
+        })
+        .catch((err) => {
+          this.show = false;
+          console.log("错误", err);
+        });
+    },
   },
 
   mounted() {
-    
-    this.screenWidth = document.
-    body.clientWidth;
+    this.screenWidth = document.body.clientWidth;
     window.onresize = () => {
       return (() => {
         window.screenWidth = document.body.clientWidth;
         this.screenWidth = window.screenWidth;
       })();
     };
-    this.messge = this.$qs.parse(localStorage.getItem("messge"))
-    console.log('this.messge',this.messge)
-    this.ajax(this.messge)
+    this.messge = this.$qs.parse(localStorage.getItem("messge"));
+    this.ajax(this.messge);
   },
 };
 </script>
@@ -298,7 +337,7 @@ export default {
   font-weight: bold;
 }
 .clearfix dd {
-  border: 1px solid #DDDDDD;
+  border: 1px solid #dddddd;
   cursor: pointer;
   padding: 5px 30px;
   min-width: 138px;
@@ -310,20 +349,22 @@ export default {
   margin: 0 0 15px 16px;
   box-sizing: border-box;
 }
-.inner-img{
+.inner-img {
   position: absolute;
-  bottom:-1px;
-  right:-1px;
+  bottom: -1px;
+  right: -1px;
   display: none;
 }
 .checked {
   padding: 4px 30px !important;
   color: #7bb10a;
-  border:2px solid #7bb10a !important;
+  border: 2px solid #7bb10a !important;
   position: relative;
   box-sizing: border-box;
 }
-.checked .inner-img{display: block;}
+.checked .inner-img {
+  display: block;
+}
 .carData {
   border-top: 2px solid #7bb10a;
   background-color: #f6f7fb;
@@ -379,7 +420,9 @@ export default {
   border-color: #7bb10a;
   box-shadow: 0 0 0 2px rgba(123, 177, 10, 0.1);
 }
-.byTitle img{display: none;}
+.byTitle img {
+  display: none;
+}
 .input-group input {
   width: 80%;
 }
@@ -398,7 +441,7 @@ a {
   width: 70px;
   height: 70px;
 }
-.pmfont span{
+.pmfont span {
   margin-right: 15px;
 }
 @media only screen and (max-width: 1200px) {
@@ -407,7 +450,9 @@ a {
   }
 }
 @media only screen and (max-width: 940px) {
-   .v-align.small-text{display:none}
+  .v-align.small-text {
+    display: none;
+  }
 }
 @media only screen and (max-width: 960px) {
   .pcwhite {
@@ -415,33 +460,38 @@ a {
   }
 }
 @media only screen and (max-width: 870px) {
-  .m-form{
+  .m-form {
     display: block;
     text-align: center;
   }
-  .color-page.small-text.ml{margin-left: 0;}
-  .m-form .btn{margin-top: 10px;}
-  .input-group{
+  .color-page.small-text.ml {
+    margin-left: 0;
+  }
+  .m-form .btn {
+    margin-top: 10px;
+  }
+  .input-group {
     width: 71%;
   }
 }
 @media only screen and (max-width: 700px) {
-  .pmfont{}
+  .pmfont {
+  }
   .byTitle {
-    float:inherit
+    float: inherit;
   }
   .pcwhite {
     width: 100%;
     margin-top: 10px;
     display: flex;
-    flex-wrap:wrap ;
+    flex-wrap: wrap;
   }
-  .pcwhite .dib{
+  .pcwhite .dib {
     margin: 0 0 10px 10px;
     width: 46%;
-    float:inherit !important;
+    float: inherit !important;
   }
-  .clearfix dd{
+  .clearfix dd {
     height: 100%;
     width: 100%;
     display: flex;
@@ -449,30 +499,34 @@ a {
     padding: 5px 20px !important;
     justify-content: center;
   }
-  .checked{
-     padding: 5px 20px !important;
+  .checked {
+    padding: 5px 20px !important;
   }
-  .carData{display: block;}
-  .m-form{
+  .carData {
+    display: block;
+  }
+  .m-form {
     margin-left: 20px;
     margin-top: 10px;
     margin-bottom: 12px;
     text-align: left;
   }
-  .input-group{
+  .input-group {
     margin-left: 0;
   }
-  .m-form .btn{margin-top: 0;}
-  .m-keepimg{
-    margin-right: 0;
-    justify-content:space-around;
-    padding:0 20px;
+  .m-form .btn {
+    margin-top: 0;
   }
-  .UnSelect{
+  .m-keepimg {
+    margin-right: 0;
+    justify-content: space-around;
+    padding: 0 20px;
+  }
+  .UnSelect {
     padding: 10px 0;
     background-color: inherit !important;
   }
-  .byTitle{
+  .byTitle {
     margin: 0;
     padding: 10px;
     width: 100%;
@@ -481,16 +535,15 @@ a {
     align-items: center;
     justify-content: space-between;
   }
-  .byTitle img{
+  .byTitle img {
     width: 14px;
     height: 14px;
     display: block;
   }
 }
 /* 移动端箭头旋转 */
-.mimg{
+.mimg {
   transform: rotateX(180deg);
   transition: all 200ms ease-out 0.1s;
 }
-
 </style>
