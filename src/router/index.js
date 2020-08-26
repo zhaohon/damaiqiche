@@ -48,10 +48,19 @@ const router = new VueRouter({
   mode: 'hash',
   routes
 })
+// const router = new VueRouter({
+//   hashbang:false,//去除#！开头
+//   transitionOnload:false,//初次加载的时候是否对<router-view>处理场景切换效果
+//   history:true,//是否开启html5模式，去掉锚点
+//   saveScrollPosition:false, //记住页面的滚动位置 html5模式适用,
+//   root:'/dist',//路由生效的基础路径
+//   routes
+// });
 //动态修改页面title
 router.beforeEach((to, from, next) => {
   window.document.title = to.meta.title == undefined?'大唛养车':to.meta.title
   //若路径异常则返回首页
+  console.log('to',to)
   if(!to.name){
     next({
       path: '/',
