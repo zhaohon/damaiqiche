@@ -11,7 +11,7 @@
           <p>产品搜索</p>
         </div> -->
     </div>
-    <pIndex :SearchArr="SearchArr" :tab="tabind" @loadData="loadData" @changes="changes" @tabC="tabC" @tiao="tiao"  @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
+    <pIndex :SearchArr="SearchArr" :tab="tabind" @sousuo="sousuo" @loadData="loadData" @changes="changes" @tabC="tabC" @tiao="tiao"  @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
     <Loading v-if="show" />
   </div>
 </template>
@@ -42,7 +42,7 @@ export default {
       kuanxing:[],
       fdjxh:[],
       zdgl:[],
-      tabind:3,
+      tabind:2,
       messge:{},
       SearchArr:[],//搜索页面的数据
     }
@@ -207,6 +207,75 @@ export default {
         return
       }
     },
+    sousuo(e){
+      //搜索
+      this.$http
+        .searchModels({
+            models : e
+        })
+        .then((res) => {
+          console.log("models", res.data);
+          if(res.data.length == 0){
+            this.$Message.info('暂无搜索车型');
+            return
+          }
+
+
+
+          this.yixuan[0] = res.data[0].brand
+          this.yixuan[1] = res.data[0].cars
+          this.yixuan[2] = res.data[0].data[0].models
+          this.shop = res.data[0].letter
+          console.log("yixuan",this.yixuan);
+          
+          this.$http
+          .carQuantity({
+            cars:this.yixuan[1],
+            shop:this.shop,
+            brand: this.yixuan[0],
+            models:this.yixuan[2]
+          })
+          .then((res) => {
+            console.log("排量接口返回", res.data);
+            this.pailiang = res.data
+          })
+          .catch((err) => {
+            console.log("错误", err), (this.show = false);
+          });
+          this.tabind = 1
+
+
+          this.$http
+          .carSeries({
+            brand: this.yixuan[0],
+          })
+          .then((res) => {
+            console.log("车系接口返回", res.data);
+            this.chexi = res.data
+          })
+          .catch((err) => {
+            console.log("错误", err), (this.show = false);
+          });
+          this.$http
+          .carType({
+            cars:this.yixuan[1],
+            shop:this.shop,
+            brand: this.yixuan[0],
+          })
+          .then((res) => {
+            console.log("车型接口返回", res.data);
+            this.chexing = res.data
+          })
+          .catch((err) => {
+            console.log("错误", err), (this.show = false);
+          });
+        })
+        .catch((err) => {
+          console.log("错误", err)
+          this.error()
+        }); 
+
+    },
     // 删除
     del(e){
       console.log(e,"父组件")
@@ -237,7 +306,7 @@ export default {
 
   },
   mounted(){
-    this.tabind = Number(this.$router.history.current.params.tabind) || 3;
+    this.tabind = Number(this.$router.history.current.params.tabind) || 1;
     //车型品牌 
     this.$http
       .carName({
@@ -252,6 +321,8 @@ export default {
             remens.push(item.letter)
         });
         this.remen = remens//字母排序
+        this.show = false;//隐藏动画
+
       })
       .catch((err) => {
         console.log("错误", err), (this.show = false);
@@ -262,7 +333,7 @@ export default {
       .then((res) => {
         let arr =[]
         for (var index in res){ 
-          let aac = new Array;
+          let aac = new Object;
           aac.title = res[index].title;
           aac.list = new Array;
           //去除label 为空的选项
@@ -274,8 +345,6 @@ export default {
           arr.push(aac)
         }
         this.SearchArr = arr
-        console.log("车型品牌", arr);
-        this.show = false;//隐藏动画
 
       })
       .catch((err) => {

@@ -63,10 +63,30 @@ const api = {
     SearchModel(params) {
         return http.post(`${apiUrl}Search/productModel`,qs.stringify(params))
     },
+    // 根据品牌获取列表
+    carList(params) {
+        return http.post(`${apiUrl}Search/carList`,qs.stringify(params))
+    },
+    // 纠错接口
+    correction(params) {
+        return http.post(`${apiUrl}Search/correction`,qs.stringify(params))
+    },
+    // 搜索车型
+    searchModels(params) {
+        return http.post(`${apiUrl}port/search_models`,qs.stringify(params))
+    },
+
+    // 获取图片
+    GerProimg(params) {
+        return http.post(`${apiUrl}Search/GerProimg`,qs.stringify(params))
+    },
+
+
+    
 
 
 
-
+    
     
 }
 
