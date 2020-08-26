@@ -45,7 +45,7 @@ Vue.use(VueRouter)
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   routes
 })
 //动态修改页面title
