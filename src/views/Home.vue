@@ -53,8 +53,9 @@ export default {
       //s为车系分类
       console.log(e,s,"父组件")
       if(this.yixuan.length == 7){
-        // localStorage.setItem("车辆信息",this.qs.stringify());
-        this.$router.push({ path:'/Upkeep',name:'Upkeep', query: { Shiftid: "1111",Shiftname:"222" }})
+        this.messge.power = e
+        localStorage.setItem("messge",this.$qs.stringify(this.messge));
+        this.$router.push({ path:'/Upkeep',name:'Upkeep', query: { }})
       }
       // 车系
       if(this.yixuan.length == 0){
@@ -200,6 +201,16 @@ export default {
             console.log("功率接口返回", res.data);
             this.zdgl = res.data
             this.yixuan.push(e)
+            this.messge = {
+              brand:res.brand,
+              cars:res.cars,
+              displacement: res.displacement,
+              model: res.model,
+              models: res.models,
+              shop:res.shop,
+              year:res.year,
+              engine:res.engine
+            }
           })
           .catch((err) => {
             console.log("错误", err), (this.show = false);
@@ -225,7 +236,7 @@ export default {
     tiao(e){
       console.log('tiao',e)
       localStorage.setItem("messge",this.$qs.stringify(this.messge));
-      this.$router.push({ path:'/Upkeep',name:'Upkeep', query: { Shiftid: "1111",Shiftname:"222" }})
+      this.$router.push({ path:'/Upkeep',name:'Upkeep', query: { }})
     },
     loadData(e){
       console.log(e,"111111")

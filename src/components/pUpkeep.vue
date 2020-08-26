@@ -14,7 +14,7 @@
         </div>
 
         <div v-for="(item,index) in list" :key="index">
-          <div class="tl upkeep-left-title">
+          <div class="tl upkeep-left-title" v-if="item.grandsondata.length > 0" >
             <h4 class="dib pore" @mouseenter="mousepop(index + '1')" @mouseleave="outStyle(index + '1')" @click="introtap">{{item.name}} <i class="myou"></i>
               <div class="popup" v-if="act == index + '1'">
                   <img class="popsj" src="../assets/sj.png" alt="">
@@ -24,31 +24,34 @@
             </h4>
             <div class="pc-upkeep-right pbupkeep" v-if="item.name == title">
               <h4><i></i> 更多推荐产品</h4>
-              <div>
-                <div class="upkeep-right-font">
-                  <div class="fl dib"><img src="../assets/logo.png" alt /></div>
-                  <h4 class="fl mr ">冠军/CHAMPION 全能长效防冻冷却液 -45°C 沸点113°C 4L CC-45-NC-4L灰桶（新包装）</h4>
-                  <p class="fl mr upkeep-right-price">￥199.00</p>
-                  <p class="fl mr upkeep-right-num">1.6L</p>
-                  <div class="clearfix"></div>
+              <div v-if="gd">
+                <div v-for="(z,zindex) in gd" :key="zindex">
+                  <div class="upkeep-right-font">
+                    <div class="fl dib"><img :src="require('./../assets/logo.png')" alt /></div>
+                    <h4 class="fl mr ">{{z.name}}</h4>
+                    <p class="fl mr upkeep-right-price">{{z.price}}</p>
+                    <p class="fl mr upkeep-right-num">{{z.number}}</p>
+                    <div class="clearfix"></div>
+                  </div>
                 </div>
               </div>
+              <div v-else class="tc pt pb" style="color:#000;font-size:14px">-- 没有更多 --</div>
             </div>
           </div>
 
           <div class="upkeep-list">
-            <table>
-              <tbody>
-                <tr v-for="(items,indexs) in item.grandsonList" :key="indexs">
-                  <td width="130" class="tc">{{items.ZhName}}</td>
-                  <td class="hover-bor" :class="hovernum == index + String(indexs)?'hoverbg':''" @click="listtap(items,item.name,index + String(indexs))">
-                    <div class="pack_biaoti">
-                      <img class="fl" :src="items.Image" alt />
-                      <div>{{items.DisplayName}}</div>
-                    </div>
-                    <div class="pck_price tc color-red">¥{{items.Price}}</div>
-                    <div class="pck_num tc">{{items.Count}}</div>
-                  </td>
+            <table :style="[{borderBottom:(item.grandsondata.length > 0?'':'none')}]">
+              <tbody v-if="item.grandsondata.length > 0" >
+                <tr v-for="(items,indexs) in item.grandsondata" :key="indexs">
+                    <td width="130" class="tc">{{items.title}}</td>
+                    <td class="hover-bor" :class="hovernum == index + String(indexs)?'hoverbg':''" @click="listtap(items.data,item.name,index + String(indexs))">
+                      <div class="pack_biaoti">
+                        <img class="fl" :src="items.Image?items.Image:require('./../assets/logo.png')" alt />
+                        <div>{{items.name}} {{items.model}}</div>
+                      </div>
+                      <div class="pck_price tc color-red">{{items.price}}</div>
+                      <div class="pck_num tc">{{items.number}}</div>
+                    </td>
                 </tr>
               </tbody>
             </table>
@@ -83,6 +86,7 @@ export default {
       hovernum:'',
       act:'',
       videointro:false,
+      gd:'',
     };
   },
   props: {
@@ -94,9 +98,10 @@ export default {
       this.videointro = false
     },
     listtap(item,name,indexs){
-        console.log('e',item,name)
-        this.title = name
-        this.hovernum = indexs
+        console.log('e',item,name);
+        this.title = name;
+        this.gd = item;
+        this.hovernum = indexs;
     },
     mousepop(e){
       this.act = e
@@ -255,10 +260,10 @@ export default {
   padding: 0 !important;
 }
 .pack_biaoti img {
-  position: absolute;
-  top: 50%;
-  margin-top: -25px;
-  left: 15px;
+  /* position: absolute; */
+  /* top: 50%; */
+  /* margin-top: -25px; */
+  /* left: 15px; */
   width: 50px;
   height: 50px;
   border: 1px solid #d8d8d8;
@@ -334,9 +339,10 @@ export default {
 .upkeep-right-font p {
   height: 22px;
   font-size: 14px;
-  position: absolute;
-  top: 50%;
-  margin-top: -11px;
+  margin-left: 80px;
+  /* position: absolute; */
+  /* top: 50%; */
+  /* margin-top: -11px; */
 }
 .upkeep-right-price {
   right: 70px;

@@ -9,9 +9,9 @@ import qs from 'qs'; // 导入qs模块
 let apiUrl = 'https://damaichaxun.com/';
 
 const api = {    
-    // 大唛保养结果    
-    submitprice(params) {
-        return http.post(`${apiUrl}Car/submit_price`,qs.stringify(params))
+    // 演示post
+    getProject(params) {
+        return http.post(`${apiUrl}Port/GetProject`,qs.stringify(params))
     },
     // 演示get
     // articleDetail (params) {        
@@ -51,10 +51,6 @@ const api = {
     carPower(params) {
         return http.post(`${apiUrl}Port/GetPower`,qs.stringify(params))
     },
-
-
-
-
     // 获取所有品牌
     Search(params) {
         return http.post(`${apiUrl}Search/index`,qs.stringify(params))

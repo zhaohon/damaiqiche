@@ -32,6 +32,7 @@ export default {
   mounted(){
     //header+footer 325px
     this.Height = document.documentElement.clientHeight - 334
+// eslint-disable-next-line no-irregular-whitespace
 　　//监听浏览器窗口变化　
     window.onresize = ()=> {this.Height = document.documentElement.clientHeight - 334}
   },

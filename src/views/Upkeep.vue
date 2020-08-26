@@ -7,22 +7,22 @@
         <div class="carData pb pt fbox fbox-acenter fbox-jbetween">
           <!-- <img class="dib" src="../assets/logo.png" alt="logo" /> -->
           <div>
-            <div class="mr ml large-text font-bold">{{messge.brand}} {{messge.cars}} {{messge.displacement}} 2016年产</div>
+            <div class="mr ml large-text font-bold">{{info.brand}} {{info.cars}} {{info.displacement}} 2016年产</div>
             <div class="ml small-text pmfont">
               <div>
-                <span>{{messge.model}}</span>
+                <span>{{info.model}}</span>
               </div>
-              <div>
-                <span>发动机型号：EA888</span>
-                <span>最大功率：110KW</span>
-                <button @click="carshow = !carshow" class="ml color-page small-text">查看详情 ></button>
+              <div >
+                <span v-if="info.engine">发动机型号：{{info.engine}}</span>
+                <span v-if="info.engine">最大功率：{{info.power}}</span>
+                <button @click="carshow = !carshow" :class="info.engine?'ml':''" class="color-page small-text">查看详情 ></button>
               </div>
             </div>
           </div>
           <div class="m-form">
             <p class="small-text dib v-align">当前里程数:</p>
             <div class="input-group dib v-align">
-              <input type="number" class="fl" ref="licheng" placeholder="请输入里程数" />
+              <input type="number" class="fl" :value="info.mileage" ref="licheng" placeholder="请输入里程数" />
               <p class="dib fr">公里</p>
             </div>
             <button class="btn dib v-align" @click="onSubmit()">查看推荐</button>
@@ -65,7 +65,7 @@
               </dt>
               <div class="fl dib pcwhite" v-if="item.check">
                 <div
-                  v-for="(childrenItem, index) in item.childrenList"
+                  v-for="(childrenItem, index) in item.sondata"
                   :key="index"
                   class="fl dib"
                   @click="listTap({ childrenItem, index, byindex })"
@@ -73,9 +73,9 @@
                   <dd
                     class="tc"
                     :class="childrenItem.checked ? 'checked' : ''"
-                    :data-id="childrenItem.cat_id"
+                    :data-id="childrenItem.id"
                   >
-                    <div class="inner">{{ childrenItem.name }}</div>
+                    <div class="inner">{{ childrenItem.title }}</div>
                     <img class="inner-img" src="../assets/triangle.png" alt />
                   </dd>
                 </div>
@@ -113,113 +113,12 @@ export default {
       carshow: false,
       formItem: { input: "" },
       byind:0,
-      bytitle: [
-        {
-          title: "常规保养",
-          check:true,
-          childrenList: [
-            { 
-              name: "小保养", 
-              id: "1", 
-              checked: true,
-              grandsonList:[
-                {
-                  ZhName: "机油",
-                  DisplayName: "【正品授权】美国胜牌/Valvoline All-Climate 曼城版 星跃高级机油 SN 10W-40 4L【881864】",
-                  Image: "https://img1.tuhu.org/Images/Products/422b/04ac/2c19047ef33eb5743fb23aaa_w800_h800.png",
-                  Price: 118,
-                  Count: 1
-                },
-                {
-                  ZhName: "机滤",
-                  DisplayName: "机滤/Valvoline All-Climate 曼城版 星跃高级机油 SN 10W-40 4L【881864】",
-                  Image: "https://img1.tuhu.org/Images/Products/422b/04ac/2c19047ef33eb5743fb23aaa_w800_h800.png",
-                  Price: 1182,
-                  Count: 1
-                }
-              ]
-            },
-            { 
-              name: "前雨刷", 
-              id: "2", 
-              checked: false,
-              grandsonList:[
-                {
-                  ZhName: "机油1",
-                  DisplayName: "1【正品授权】美国胜牌/Valvoline All-Climate 曼城版 星跃高级机油 SN 10W-40 4L【881864】",
-                  Image: "https://img1.tuhu.org/Images/Products/422b/04ac/2c19047ef33eb5743fb23aaa_w800_h800.png",
-                  Price: 222,
-                  Count: 6
-                }
-              ]
-            },
-            { 
-              name: "前雨刷2", 
-              id: "3", 
-              checked: false,
-              grandsonList:[
-                {
-                  ZhName: "机油2",
-                  DisplayName: "2【正品授权】美国胜牌/Valvoline All-Climate 曼城版 星跃高级机油 SN 10W-40 4L【881864】",
-                  Image: "https://img1.tuhu.org/Images/Products/422b/04ac/2c19047ef33eb5743fb23aaa_w800_h800.png",
-                  Price: 122,
-                  Count: 3
-                }
-              ]
-            },
-            { 
-              name: "前雨刷3", 
-              id: "4", 
-              checked: false,
-              grandsonList:[
-                {
-                  ZhName: "机油3",
-                  DisplayName: "3【正品授权】美国胜牌/Valvoline All-Climate 曼城版 星跃高级机油 SN 10W-40 4L【881864】",
-                  Image: "https://img1.tuhu.org/Images/Products/422b/04ac/2c19047ef33eb5743fb23aaa_w800_h800.png",
-                  Price: 2232,
-                  Count: 1
-                }
-              ]
-            },
-          ],
-        },
-        {
-          title: "深度保养",
-          check:true,
-          childrenList: [
-            { 
-              name: "刹车油", 
-              id: "5", 
-              checked: false,
-              grandsonList:[
-                {
-                  ZhName: "刹车油",
-                  DisplayName: "刹车油【正品授权】美国胜牌/Valvoline All-Climate 曼城版 星跃高级机油 SN 10W-40 4L【881864】",
-                  Image: "https://img1.tuhu.org/Images/Products/422b/04ac/2c19047ef33eb5743fb23aaa_w800_h800.png",
-                  Price: 234,
-                  Count: 1
-                }
-              ]
-            },
-            { 
-              name: "刹车油1", 
-              id: "5", 
-              checked: false,
-              grandsonList:[
-                {
-                  ZhName: "刹车油1",
-                  DisplayName: "刹车油1【正品授权】美国胜牌/Valvoline All-Climate 曼城版 星跃高级机油 SN 10W-40 4L【881864】",
-                  Image: "https://img1.tuhu.org/Images/Products/422b/04ac/2c19047ef33eb5743fb23aaa_w800_h800.png",
-                  Price: 834,
-                  Count: 1
-                }
-              ]
-            },
-          ],
-        },
-      ],
+      bytitle: [],
       upkeepList: [],
-      money:0
+      money:0,
+      info:'',
+      numType:0,//0 不执行判断 ；1 +9了 ； 2 价格-9了
+      numType1:0,//0 不执行判断 ；1 +38了 ； 2 价格-38了
     };
   },
   watch: {
@@ -244,32 +143,133 @@ export default {
     },
     //里程
     onSubmit(){
+      this.show = true
+      let messge = this.messge
       let a = this.$refs.licheng.value;
-      console.log('a',a)
+      messge.mileage = a;
+      localStorage.setItem("messge",this.$qs.stringify(messge));
+      console.log('this.messge',messge)
+      this.ajax(messge)
     },
     listTap(obj) {
-      this.bytitle[obj.byindex].childrenList[obj.index].checked = !this.bytitle[obj.byindex].childrenList[obj.index].checked;//选中状态
-      let bytitle = this.bytitle[obj.byindex].childrenList[obj.index]; //当前点击的数据
+      this.bytitle[obj.byindex].sondata[obj.index].checked = !this.bytitle[obj.byindex].sondata[obj.index].checked;//选中状态
+      let bytitle = this.bytitle[obj.byindex].sondata[obj.index]; //当前点击的数据
+      console.log('bytitle',bytitle)
       if (bytitle.checked) {
-        this.upkeepList.push({ name: bytitle.name, id: bytitle.id,grandsonList:bytitle.grandsonList }); //向数组添加选中的数据
+        this.upkeepList.push({ name: bytitle.title, id: bytitle.id,grandsondata:bytitle.grandsondata }); //向数组添加选中的数据
         //选中服务项目 价格相加
-        bytitle.grandsonList.forEach(m=>{
-          this.money += m.Price
+        bytitle.grandsondata.forEach(m=>{
+          if(JSON.stringify(m) !== '{}'){
+            this.money += Number(m.total_price)
+          }
         })
+        let arrid = new Array;
+        this.upkeepList.forEach(o=>{
+          arrid.push(o.id)
+        })
+        //小保养 节气门 润滑系统（发动机内部清洗） 同时存在 则减9元
+        if(arrid.includes(1) && arrid.includes(15) && arrid.includes(16) ){
+          if(this.numType == 0 || this.numType == 1){
+            this.money -= 9;
+            this.numType = 2
+            console.log('this.money',this.money)
+          }
+        }
+        //判断是否有选择小保养，若选择并且"进气道、喷油嘴、燃油系统清洗"同时选择则计算套餐价格 299 原价减38
+        if(arrid.includes(1) && arrid.includes(17) && arrid.includes(18) && arrid.includes(19) ){
+          if(this.numType1 == 0 || this.numType1 == 1){
+            this.money -= 38;
+            this.numType1 = 2
+            console.log('this.money',this.money)
+          }
+        }
       } else if (!bytitle.checked) {
         //清除取消选中的数据
+        console.log('this.upkeepList---------',this.upkeepList)
         this.upkeepList.forEach((item, key) => {
           if (item.id == bytitle.id) {
             this.upkeepList.splice(key, 1);
             //取消选中价格相减
-            item.grandsonList.forEach(m=>{
-               this.money -= m.Price
+            item.grandsondata.forEach(m=>{
+              // eslint-disable-next-line no-debugger
+              console.log(m)
+                if(JSON.stringify(m) !== '{}'){
+                  console.log('------m.total_price',m.title,m.total_price)
+                  this.money -= Number(m.total_price)
+                }
             })
           }
         });
+
+        //小保养 节气门 润滑系统（发动机内部清洗） 同时存在 则减9元
+        if(this.numType == 2){
+          this.money += 9;
+          this.numType = 1
+          console.log('this.money',this.money)
+        }
+        //判断是否有选择小保养，若没有同时选择"进气道、喷油嘴、燃油系统清洗"同时选择则计算套餐价格 299 原价加38
+        if(this.numType1 == 0 || this.numType1 == 1){
+            this.money += 38;
+            this.numType1 = 2
+            console.log('this.money',this.money)
+          }
       }
       console.log(this.upkeepList);
+      this.money =  Number(this.money.toFixed(2))
+      console.log(this.money)
     },
+    
+    ajax(messge){
+      this.$http.getProject(messge)
+      .then((res) => {
+        this.info = res
+        res.data.forEach(i=>{
+          i.check = true
+        })
+        this.bytitle = res.data
+        //初始化
+        let upkeepList = new Array();
+        res.data.forEach((i) => {
+          i.sondata.forEach((k) => {
+            //默认选中 显示相关服务项目 价格相加
+            if (k.checked){
+              upkeepList.push({ name: k.title, id: k.id,grandsondata:k.grandsondata });
+              if(k.grandsondata.length > 0){
+                k.grandsondata.forEach((m,ind)=>{
+                  if(JSON.stringify(m) !== '{}'){
+                    console.log('m.total_price',m.total_price)
+                    this.money += Number(m.total_price)
+                  }else{
+                    k.grandsondata.splice(ind,1)
+                  }
+                })
+              }
+            } 
+            
+          });
+        });
+        
+        this.money =  Number(this.money.toFixed(2))
+        let arrid = new Array;
+        this.upkeepList.forEach(o=>{
+          arrid.push(o.id)
+        })
+        //小保养 节气门 润滑系统（发动机内部清洗） 同时存在 则减9元
+        if(arrid.includes(1) && arrid.includes(15) && arrid.includes(16)){
+          if(this.numType == 1){
+            this.money -= 9;
+            this.numType = 2
+            console.log(' this.money', this.money)
+          }
+        }
+        this.upkeepList = upkeepList;
+        this.show = false;
+      })
+      .catch((err) => {
+         this.show = false;
+         console.log("错误", err)
+      });
+    }
   },
 
   mounted() {
@@ -284,40 +284,7 @@ export default {
     };
     this.messge = this.$qs.parse(localStorage.getItem("messge"))
     console.log('this.messge',this.messge)
-    let upkeepList = new Array();
-    //初始化
-    this.bytitle.forEach((i) => {
-      i.childrenList.forEach((k) => {
-        //默认选中 显示相关服务项目 价格相加
-        if (k.checked){
-          upkeepList.push({ name: k.name, id: k.id,grandsonList:k.grandsonList });
-          k.grandsonList.forEach(m=>{
-              this.money += m.Price
-          })
-        } 
-      });
-    });
-    this.upkeepList = upkeepList;
-    this.show = false;
-    this.$http.submitprice({
-        paragraph: "2013年生产",
-        engine_capacity: "2.0L",
-        models: "卡罗拉",
-        cars: "卡罗拉",
-        brand: "丰田",
-        vendor: "一汽丰田",
-        cycle: "20000",
-        model: "2011款 2.0 无级 GLX",
-      })
-      // eslint-disable-next-line no-unused-vars
-      .then((res) => {
-        // console.log("res接到值了", res);
-        this.show = false;
-      })
-      .catch((err) => {
-         this.show = false;
-         console.log("错误", err)
-      });
+    this.ajax(this.messge)
   },
 };
 </script>

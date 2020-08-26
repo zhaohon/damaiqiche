@@ -3,7 +3,7 @@
     <div class="m-list">
       <div class="mtitle">保养产品</div>
       <div v-for="(item,index) in list" :key="index">
-        <div class="tl m-upkeep-title">
+        <div class="tl m-upkeep-title" v-if="item.grandsondata.length > 0">
           <h4 class="fbox fbox-acenter fbox-jbetween">
             <span @click="introtap">
               {{item.name}}
@@ -12,25 +12,24 @@
             <!-- <img src="../assets/xia1.png" alt /> -->
           </h4>
         </div>
-        <div class="upkeep-list" >
-          <div v-for="(items,indexs) in item.grandsonList" :key="indexs">
+        <div class="upkeep-list" v-if="item.grandsondata.length > 0">
+          <div v-for="(items,indexs) in item.grandsondata" :key="indexs">
             <h4 class="tl fbox fbox-acenter fbox-jbetween">
-              <span>{{items.ZhName}}</span>
-              <span @click="moreTap(item.name)" class="norm-text color-light-gray">更多 ></span>
+              <span>{{items.title}}</span>
+              <span @click="moreTap(item.name,items.data)" class="norm-text color-light-gray">更多 ></span>
             </h4>
             <div
               class="mpad fbox fbox-acenter"
-             
               @click="listtap(items,item.name,index + String(indexs))"
             >
               <div class="fbox fbox-acenter">
-                <img :src="items.Image" alt />
+                <img :src="items.Image?items.Image:require('./../assets/logo.png')" alt />
               </div>
-              <div class="fbox fbox-acenter fbox-col ml">
-                <div>{{items.DisplayName}}</div>
+              <div class="fbox fbox-jcenter fbox-col ml">
+                <div>{{items.name}} {{items.model}}</div>
                 <div class="fbox fbox-acenter fbox-jbetween" style="width:100%">
-                  <div class="pck_price tc color-red">¥{{items.Price}}</div>
-                  <div class="pck_num tc">{{items.Count}}</div>
+                  <div class="pck_price tc color-red mr">{{items.price}}</div>
+                  <div class="pck_num tc color-hui">X {{items.number}}</div>
                 </div>
               </div>
             </div>
@@ -43,20 +42,21 @@
             <img src="../assets/offw.png" alt />
             <div class="moreTap" @click="moreTap('')"></div>
           </h4>
-          <div style="max-height:200px;overflow: scroll;overflow-x: hidden;">
-            <div class="mpad fbox fbox-acenter">
+          <div v-if="gd" style="max-height:200px;overflow: scroll;overflow-x: hidden;">
+            <div v-for="(z,zindex) in gd" :key="zindex" class="mpad fbox fbox-acenter">
               <div class="fbox fbox-acenter">
-                <img src="../assets/you.png" alt />
+                <img :src="z.img?z.img:require('./../assets/logo.png')" alt />
               </div>
               <div class="fbox fbox-acenter fbox-col ml minwidth">
-                <div class="tl" style="width:100%">阿的哥大哥</div>
+                <div class="tl" style="width:100%">{{z.name}}</div>
                 <div class="fbox fbox-acenter fbox-jbetween" style="width:100%">
-                  <div class="pck_price tc color-red">¥192</div>
-                  <div class="pck_num tc">12L</div>
+                  <div class="pck_price tc color-red">{{z.price}}</div>
+                  <div class="pck_num tc">{{z.number}}</div>
                 </div>
               </div>
             </div>
           </div>
+          <div v-else class="tc pt pb" style="color:#000;font-size:14px">-- 没有更多 --</div>
         </div>
       </div>
     </div>
@@ -98,9 +98,10 @@ export default {
     introtap() {
       this.videointro = !this.videointro;
     },
-    moreTap(e) {
+    moreTap(e,item) {
       console.log(e);
       this.title = e;
+      this.gd = item;
     },
   },
 };
