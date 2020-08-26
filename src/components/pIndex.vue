@@ -96,7 +96,7 @@
 
 
       <!-- 搜索 -->
-      <div class="serch-box fbox fbox-ac" v-if="tab == 2">
+      <div class="serch-box" v-if="tab == 2">
           <div class="form fbox fbox-ac" >
               <input type="text" v-model="models" placeholder="请输入车型品牌名称或车系名称" >
               <div class="btn fbox fbox-ac fbox-jc" @click="sousuo" >
@@ -104,6 +104,15 @@
                   <p>搜索</p>
               </div>
           </div>
+          <!-- 选择车系 -->
+         <div class="mt">
+            <div v-for="(item,index) in serchArr" :key="index">
+                <p>{{item.letter}}</p>
+                <div class="item fbox fbox-ac fbox-wrap">
+                  <p v-for="(t,i) in item.data" :key="i" @click="serchClick(t.models,item,i)">{{t.models}}</p>
+                </div>
+            </div>
+         </div>
       </div>
 
       <!-- 产品搜索 -->
@@ -213,7 +222,7 @@ export default {
   },
   props:{
       yixuan:Array,hover:Number,remen:Array,pinpai:Array,chexi:Array,chexing:Array,pailiang:Array,nianfen:Array,kuanxing:Array,fdjxh:Array,zdgl:Array,SearchArr:Array,
-      tab:Number,
+      tab:Number,serchArr:Array
     },
   watch:{
     tab(e){
@@ -327,6 +336,9 @@ export default {
           }); 
 
 
+    },
+    serchClick(e,item,i){
+      this.$emit("serchClick",e,item,i)
     },
     // tab切换
     tabC(e){

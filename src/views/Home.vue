@@ -11,7 +11,7 @@
           <p>产品搜索</p>
         </div> -->
     </div>
-    <pIndex :SearchArr="SearchArr" :tab="tabind" @sousuo="sousuo" @loadData="loadData" @changes="changes" @tabC="tabC" @tiao="tiao"  @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
+    <pIndex :SearchArr="SearchArr" :tab="tabind" :serchArr='serchArr' @serchClick='serchClick' @sousuo="sousuo" @loadData="loadData" @changes="changes" @tabC="tabC" @tiao="tiao"  @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
     <Loading v-if="show" />
   </div>
 </template>
@@ -45,6 +45,7 @@ export default {
       tabind:2,
       messge:{},
       SearchArr:[],//搜索页面的数据
+      serchArr:[],//搜索出来的车型
     }
   },
   methods:{
@@ -230,62 +231,65 @@ export default {
             this.$Message.info('暂无搜索车型');
             return
           }
+          this.serchArr = res.data
 
-
-
-          this.yixuan[0] = res.data[0].brand
-          this.yixuan[1] = res.data[0].cars
-          this.yixuan[2] = res.data[0].data[0].models
-          this.shop = res.data[0].letter
-          console.log("yixuan",this.yixuan);
-          
-          this.$http
-          .carQuantity({
-            cars:this.yixuan[1],
-            shop:this.shop,
-            brand: this.yixuan[0],
-            models:this.yixuan[2]
-          })
-          .then((res) => {
-            console.log("排量接口返回", res.data);
-            this.pailiang = res.data
-          })
-          .catch((err) => {
-            console.log("错误", err), (this.show = false);
-          });
-          this.tabind = 1
-
-
-          this.$http
-          .carSeries({
-            brand: this.yixuan[0],
-          })
-          .then((res) => {
-            console.log("车系接口返回", res.data);
-            this.chexi = res.data
-          })
-          .catch((err) => {
-            console.log("错误", err), (this.show = false);
-          });
-          this.$http
-          .carType({
-            cars:this.yixuan[1],
-            shop:this.shop,
-            brand: this.yixuan[0],
-          })
-          .then((res) => {
-            console.log("车型接口返回", res.data);
-            this.chexing = res.data
-          })
-          .catch((err) => {
-            console.log("错误", err), (this.show = false);
-          });
         })
         .catch((err) => {
           console.log("错误", err)
           this.error()
         }); 
 
+    },
+    serchClick(e,item,i){
+      console.log(e,item)
+      this.yixuan = []
+      this.yixuan[0] = item.brand
+      this.yixuan[1] = item.cars
+      this.yixuan[2] = item.data[i].models
+      this.shop = item.letter
+      console.log("yixuan",this.yixuan);
+      
+      this.$http
+      .carQuantity({
+        cars:this.yixuan[1],
+        shop:this.shop,
+        brand: this.yixuan[0],
+        models:this.yixuan[2]
+      })
+      .then((res) => {
+        console.log("排量接口返回", res.data);
+        this.pailiang = res.data
+      })
+      .catch((err) => {
+        console.log("错误", err), (this.show = false);
+      });
+      this.tabind = 1
+
+
+      this.$http
+      .carSeries({
+        brand: this.yixuan[0],
+      })
+      .then((res) => {
+        console.log("车系接口返回", res.data);
+        this.chexi = res.data
+      })
+      .catch((err) => {
+        console.log("错误", err), (this.show = false);
+      });
+      this.$http
+      .carType({
+        cars:this.yixuan[1],
+        shop:this.shop,
+        brand: this.yixuan[0],
+      })
+      .then((res) => {
+        console.log("车型接口返回", res.data);
+        this.chexing = res.data
+      })
+      .catch((err) => {
+        console.log("错误", err), (this.show = false);
+      });
     },
     // 删除
     del(e){
@@ -317,7 +321,7 @@ export default {
 
   },
   mounted(){
-    this.tabind = Number(this.$router.history.current.params.tabind) || 1;
+    this.tabind = Number(this.$router.history.current.params.tabind) || 2;
     //车型品牌 
     this.$http
       .carName({
