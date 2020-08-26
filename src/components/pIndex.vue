@@ -97,13 +97,13 @@
 
       <!-- 搜索 -->
       <div class="serch-box fbox fbox-ac" v-if="tab == 2">
-          <form action="" class="fbox fbox-ac" >
-              <input type="text" placeholder="请输入车型品牌名称或车系名称" >
-              <button class="fbox fbox-ac fbox-jc">
+          <div class="form fbox fbox-ac" >
+              <input type="text" v-model="models" placeholder="请输入车型品牌名称或车系名称" >
+              <div class="btn fbox fbox-ac fbox-jc" @click="sousuo" >
                   <img class="serch" src="../assets/serch.png" alt="">
                   <p>搜索</p>
-              </button>
-          </form>
+              </div>
+          </div>
       </div>
 
       <!-- 产品搜索 -->
@@ -114,7 +114,7 @@
                 <div class="chanpin-xian">
                   <!-- 下拉框 -->
                   <!-- <block v-for="(t,i) in item.list" :key="i" > -->
-                    <cascader :data="item.list" :load-data="loadData" @on-change="handleChangeOnSelect"></cascader> 
+                    <cascader :data="item.list" :load-data="loadData" @on-change="handleChangeOnSelect" :clearable="false"  ></cascader> 
                   <!-- </block> -->
                 </div>
             </div>
@@ -131,39 +131,31 @@
           </div>
           <div class="chanpin-table-box fbox fbox-w">
             <div class="list-left">
-                <p class="pl">燃油滤</p>
-                <div class="fbox fbox-ac">
-                  <div class="name tc">燃油滤清器</div>
-                  <div class="name-right fbox fbox-ac">
-                    <img src="../assets/logo.png" alt="">
-                    <p class="ell_2">【正品授权】壳牌/Shell 金装极净超凡喜力全合成机油ULTRA SN 0W-20 </p>
+              <div class="list-left-item" v-for="(item,index) in allSerch" :key="index">
+                  <p class="pl">{{item.yi}}</p>
+                  <div class="fbox fbox-ac">
+                    <div class="name tc">{{item.yi}}</div>
+                    <div class="name-right fbox fbox-ac">
+                      <img :src="'https://damaichaxun.com/' + item.url" alt="">
+                      <p class="ell_2">【正品授权】{{item[1]}}{{item[3]}}</p>
+                    </div>
                   </div>
-                </div>
+              </div>
+              <div v-if="allSerch.length == 0" class="tc c9 mt">-- 暂无数据 --</div>
+              
             </div>
+
             <div class="list-right">
               <div class="bot-title chanpin-table-title fbox fbox-ac">
                 <p class="list-w3">适用车型</p>
               </div>
-              <div class="fbox fbox-jb pl pr">
+              <div v-if="allSerchPar.length == 0" class="tc c9">-- 暂无数据 --</div>
+              <div v-else class="fbox fbox-jb pl pr" v-for="(item,index) in allSerchPar" :key="index">
                 <div class="fg1">
-                  <p class="title">【007】大众汽车 - 途观</p>
-                  <p class="con">2016年产    2.0T（380TSI）     发动机型号：EA888</p>
+                  <p class="title">【{{item.id}}】 {{item.shop}} - {{item.models}}</p>
+                  <p class="con" >{{item.year}} <span>{{item.displacement}}</span> <span>发动机型号：{{item.engine}}</span></p>
                 </div>
-                <p class="jiucuo ml fsh">纠错</p>
-              </div>
-              <div class="fbox fbox-jb pl pr">
-                <div class="fg1">
-                  <p class="title">【007】大众汽车 - 途观</p>
-                  <p class="con">2016年产    2.0T（380TSI）     发动机型号：EA888</p>
-                </div>
-                <p class="jiucuo ml fsh">纠错</p>
-              </div>
-              <div class="fbox fbox-jb pl pr">
-                <div class="fg1">
-                  <p class="title">【007】大众汽车 - 途观</p>
-                  <p class="con">2016年产    2.0T（380TSI）     发动机型号：EA888</p>
-                </div>
-                <p class="jiucuo ml fsh" @click="showModalO">纠错</p>
+                <p class="jiucuo ml fsh" @click="showModalO(item)">纠错</p>
               </div>
             </div>
 
@@ -195,7 +187,6 @@ export default {
       model1:"",
       showModal: false,
       content:'',
-      value2: ['beijing', 'baidu'],
       changeOnSelect: false,
       data4: [
         {
@@ -210,7 +201,14 @@ export default {
           children: [],
           loading:false
         }
-      ]  
+      ],
+      allName:[],
+      allSerch:[],
+      allSerchPar:[],
+
+      jiucuoName : '',
+      jiucuoArr : [],
+      models:'',//车型搜索
     };
   },
   props:{
@@ -220,6 +218,9 @@ export default {
   watch:{
     tab(e){
       console.log('tabind',e)
+      this.allName=[]
+      this.allSerch=[]
+      this.allSerchPar=[]
     }
   },
   methods:{
@@ -237,15 +238,18 @@ export default {
           console.log("机型", res);
           //重组参数名称
           let list = new Array;
-          res.list.forEach(i=> {
+          res.list.forEach(i => {
             //型号的value不为空则添加
-            if(i.value !== null){
-              list.push({label:i.value,value:i.field})
+            if(i.value != null){
+              list.push({'label':i.value,'value':i.value,'id':i.field})
             }
           });
-          console.log('list',list)
           item.children = list
+          console.log('list',list)
           item.loading = false;
+          if(list.length == 0){
+            this.zanwu()
+          }
           callback();//成功后回调
         })
         .catch((err) => {
@@ -253,42 +257,76 @@ export default {
           item.loading = false;
           callback();
         });
-                // item.loading = true;
-                // setTimeout(() => {
-                //     if (item.value === 'beijing') {
-                //         item.children = [
-                //             {
-                //                 value: 'talkingdata',
-                //                 label: 'TalkingData'
-                //             },
-                //             {
-                //                 value: 'baidu',
-                //                 label: '百度'
-                //             },
-                //             {
-                //                 value: 'sina',
-                //                 label: '新浪'
-                //             }
-                //         ];
-                //     } else if (item.value === 'hangzhou') {
-                //         item.children = [
-                //             {
-                //                 value: 'ali',
-                //                 label: '阿里巴巴'
-                //             },
-                //             {
-                //                 value: '163',
-                //                 label: '网易'
-                //             }
-                //         ];
-                //     }
-                //     item.loading = false;
-                    
-                // },4000);
-            },
-            
-    handleChangeOnSelect (value) {
-         console.log(value,"123123")
+              
+    },
+          ceshi(){
+            console.log("1111111111111")
+          },  
+    handleChangeOnSelect (value,selectedData ) {
+        let arr = []
+        let url = ''
+        //根据品牌获取机型 
+        this.$http
+          .GerProimg({
+              pro_name : selectedData[0].label
+          })
+          .then((res) => {
+            console.log("图片", res.data);
+            url = res.data
+            arr['url'] = url
+          })
+          .catch((err) => {
+            console.log("错误", err)
+          });
+        console.log(value,selectedData,"这是点击拿回来的数据")
+        let have = false
+          arr[0] = selectedData[0].value
+          arr[1] = selectedData[0].label
+          arr[2] = selectedData[1].id
+          arr[3] = selectedData[1].label
+          arr['yi'] = selectedData[0].name
+        let allarr = this.allSerch
+        if(allarr.length != 0){
+          console.log("第n次")
+          allarr.forEach((item,index)=>{
+            if(item['yi'] == selectedData[0].name){
+              allarr.splice(index,1)
+              allarr.push(arr)
+              console.log('替换',arr)
+              have = true
+            }
+          })
+          if(have == false){
+            console.log('新数据')
+            allarr.push(arr)
+          }
+        }else{
+          console.log("第一次")
+          allarr.push(arr)
+        }
+        this.allSerch = allarr
+        console.log(this.allSerch,'整理好的数组')
+
+
+        let data = {}
+        for (let i=0; i<this.allSerch.length; i++){
+          data[`${this.allSerch[i][0]}`] = this.allSerch[i][1]
+          data[`${this.allSerch[i][2]}`] = this.allSerch[i][3]
+        }
+
+        console.log(data,'这是传递的数据')
+        //获取适用车型
+        this.$http
+          .carList(data)
+          .then((res) => {
+            console.log("carList", res);
+            this.allSerchPar = res.list
+          })
+          .catch((err) => {
+            console.log("错误", err)
+          }); 
+
+
     },
     // tab切换
     tabC(e){
@@ -311,8 +349,20 @@ export default {
     mouseOver(e){
       this.$emit("mouseOver",e)
     },
-    showModalO () {
+    showModalO (item) {
+      console.log(item,"点击传参")
       this.showModal = true
+      let nameArr = []
+
+      this.allSerch.forEach((item,index)=>{
+          nameArr.push(this.allSerch[index][1] + this.allSerch[index][3])
+      })
+
+      this.jiucuoName = nameArr.join("/")
+      this.jiucuoArr = item
+
+
+
     },
     showModalF () {
       this.showModal = false
@@ -320,14 +370,40 @@ export default {
     },
     showModalT(){
       console.log(this.content)
-      this.success()
       this.showModal = false
+
+      //纠错
+      this.$http
+        .correction({
+          pro_name:this.jiucuoName,
+          content:this.content,
+          dockid:this.jiucuoArr.shop,
+          score1:this.jiucuoArr.models,
+          score2:this.jiucuoArr.displacement,
+          score3:this.jiucuoArr.year,
+          score4:this.jiucuoArr.engine
+        })
+        .then((res) => {
+          console.log("carList", res);
+          this.success()
+
+
+        })
+        .catch((err) => {
+          console.log("错误", err)
+          this.error()
+        }); 
+
+
     },
     success () {
         this.$Message.success('提交成功');
     },
     warning () {
       this.$Message.info('取消');
+    },
+    zanwu () {
+      this.$Message.info('暂无数据');
     },
     error () {
         this.$Message.error('提交失败');
@@ -337,6 +413,10 @@ export default {
       console.log(e)
       this.$emit("tiao",e)
     },
+    sousuo(){
+      console.log(this.models)
+      this.$emit("sousuo",this.models)
+    }
 
   }
 
@@ -406,10 +486,10 @@ export default {
 
 /* 搜搜 */
 .serch-box {width: 100%;background: #EDEEF2;padding: 36px 22px;box-sizing: border-box;}
-.serch-box form{width: 80%;}
+.serch-box .form{width: 80%;}
 .serch-box input{width: 80%;height: 46px;background-color: #fff;padding-left: 4%;box-sizing: border-box;font-size: 14px;border-radius: 2px 0 0 2px;}
-.serch-box button{width: 89px;height: 46px;background-color: #77b110;color: #fff;font-size: 16px;border-radius: 0 2px 2px 0;}
-.serch-box button p{margin-left: 2px;margin-top: 2px;}
+.serch-box .btn{width: 89px;height: 46px;background-color: #77b110;color: #fff;font-size: 16px;border-radius: 0 2px 2px 0;}
+.serch-box .btn p{margin-left: 2px;margin-top: 2px;}
 
 
 /* 产品 */
@@ -429,13 +509,15 @@ export default {
 .list-w3{width: 403px;}
 .chanpin-table-box{width: 100%;}
 .list-left{width: 60%;min-width: 590px;}
-.list-left>p{color: #77B110;font-size: 18px;font-weight: bold;line-height: 50px;background: #F6F7F9;}
-.list-left>div{height: 88px;border: 1px solid #DDDDDD;box-sizing: border-box;width: 100%;}
-.list-left>div .name{line-height: 88px;color: #333333;font-size: 16px;font-weight: bold;width: 15%;}
-.list-left>div .name-right{padding: 20px 30px;box-sizing: border-box;border-left: 1px solid #DDDDDD;width: 85%;box-sizing: border-box;}
-.list-left>div .name-right img{width:49px;height:49px;border: 1px solid #DDDDDD;box-sizing: border-box;}
+.list-left-item{width: 100%;}
 
-.list-left>div .name-right p{width: 100%;}
+.list-left-item>p{color: #77B110;font-size: 18px;font-weight: bold;line-height: 50px;background: #F6F7F9;}
+.list-left-item>div{height: 88px;border: 1px solid #DDDDDD;box-sizing: border-box;width: 100%;}
+.list-left-item>div .name{color: #333333;font-size: 16px;font-weight: bold;width: 15%;}
+.list-left-item>div .name-right{padding: 20px 30px;box-sizing: border-box;border-left: 1px solid #DDDDDD;width: 85%;box-sizing: border-box;}
+.list-left-item>div .name-right img{width:49px;height:49px;border: 1px solid #DDDDDD;box-sizing: border-box;}
+
+.list-left-item>div .name-right p{width: 100%;}
 
 
 
@@ -447,6 +529,8 @@ export default {
 
 .list-right .title{font-size: 16px;color: #333333;font-weight: bold;}
 .list-right .con{font-size: 14px;}
+.list-right .con span{margin-left: 25px;}
+
 .list-right .jiucuo{font-size: 14px;color: #777777;cursor: pointer;}
 
 
@@ -470,23 +554,24 @@ export default {
  
 }
 @media only screen and (max-width: 570px) {
-  .chanpin-item{width: 45%;margin: 0 2% 10px;}
+  .chanpin-box .list{padding: 16px 0 20px;}
+  .chanpin-item{width: 47%;margin: 0 1% 10px;}
   .serch-box form{width: 100%;}
-  .list-left>div{height: 60px;}
-  .list-left>div .name{line-height: 60px;color: #333333;font-size: 12px;font-weight: bold;width: 20%;}
-.list-left>div .name-right{padding: 10px 10px;box-sizing: border-box;border-left: 1px solid #DDDDDD;box-sizing: border-box;width: 80%;}
-.list-left>div .name-right img{width:40px;height:40px;border: 1px solid #DDDDDD;box-sizing: border-box;}
-.list-left>div .name-right p{margin-left: 6px;width: 80%;font-size: 12px;}
-.list-right>div{font-size: 12px;}
-.list-right .title{font-size: 14px;}
-.list-right .con{font-size: 12px;}
-.list-w1{width: 30%;}
-.list-w2{width: 30%;}
-.list-w3{width: 40%;}
+  .list-left-item>div{height: 60px;}
+  .list-left-item>div .name{line-height: 60px;color: #333333;font-size: 12px;font-weight: bold;width: 20%;}
+  .list-left-item>div .name-right{padding: 10px 10px;box-sizing: border-box;border-left: 1px solid #DDDDDD;box-sizing: border-box;width: 80%;}
+  .list-left-item>div .name-right img{width:40px;height:40px;border: 1px solid #DDDDDD;box-sizing: border-box;}
+  .list-left-item>div .name-right p{margin-left: 6px;width: 80%;font-size: 12px;}
+  .list-right>div{font-size: 12px;}
+  .list-right .title{font-size: 14px;}
+  .list-right .con{font-size: 12px;}
+  .list-w1{width: 30%;}
+  .list-w2{width: 30%;}
+  .list-w3{width: 40%;}
   .bot-title .list-w3{font-size: 14px;}
-
-.item p {margin-right: 5px;margin-bottom: 5px;}
-
+  .item p {margin-right: 5px;margin-bottom: 5px;}
+  .serch-box .btn{font-size: 12px;}
+.serch-box .form{width: 100%;}
 }
 .mask {
   background-color: #000;
