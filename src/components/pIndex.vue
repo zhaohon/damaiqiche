@@ -69,7 +69,7 @@
         <!-- 选择品牌 -->
 
         <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 0">
-          <p v-for="(item,index) in pinpai" :key="index" @click="rit(item)">{{item}}</p>
+          <p v-for="(item,index) in pinpai" :key="index" @click="rit1(item)">{{item}}</p>
         </div>
 
         <!-- 选择车系 -->
@@ -77,40 +77,40 @@
           <div v-for="(item,index) in chexi" :key="index">
             <p>{{item.letter}}</p>
             <div class="item fbox fbox-ac fbox-wrap">
-              <p v-for="(t,i) in item.data" :key="i" @click="rit(t,item.letter)">{{t}}</p>
+              <p v-for="(t,i) in item.data" :key="i" @click="rit2(t,item.letter)">{{t}}</p>
             </div>
           </div>
         </div>
 
         <!-- 选择车型 -->
         <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 2">
-          <p v-for="(item,index) in chexing" :key="index" @click="rit(item)">{{item}}</p>
+          <p v-for="(item,index) in chexing" :key="index" @click="rit3(item)">{{item}}</p>
         </div>
 
         <!-- 选择排量 -->
         <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 3">
-          <p v-for="(item,index) in pailiang" :key="index" @click="rit(item)">{{item}}</p>
+          <p v-for="(item,index) in pailiang" :key="index" @click="rit4(item)">{{item}}</p>
         </div>
 
         <!-- 选择年份 -->
         <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 4">
-          <p v-for="(item,index) in nianfen" :key="index" @click="rit(item)">{{item}}</p>
+          <p v-for="(item,index) in nianfen" :key="index" @click="rit5(item)">{{item}}</p>
         </div>
 
         <!-- 选择款型 -->
         <div class="items fbox fbox-ac fbox-wrap" v-if="yixuan.length == 5">
-          <p v-for="(item,index) in kuanxing" :key="index" @click="rit(item)">{{item}}</p>
+          <p v-for="(item,index) in kuanxing" :key="index" @click="rit6(item)">{{item}}</p>
         </div>
 
         <!-- 选择发动机型号 -->
         <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 6">
-          <p v-for="(item,index) in fdjxh" :key="index" @click="rit(item)">{{item}}</p>
+          <p v-for="(item,index) in fdjxh" :key="index" @click="rit7(item)">{{item}}</p>
         </div>
         <div class="tiaoguo c9" v-if="yixuan.length == 6" @click="tiao">跳过>></div>
 
         <!-- 选择最大功率 -->
         <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 7">
-          <p v-for="(item,index) in zdgl" :key="index" @click="rit(item)">{{item}}</p>
+          <p v-for="(item,index) in zdgl" :key="index" @click="rit8(item)">{{item}}</p>
         </div>
       </div>
 
@@ -126,13 +126,13 @@
         <!-- 选择车系 -->
         <div class="mt">
           <div v-for="(item,index) in serchArr" :key="index">
-            <p>{{item.letter}}</p>
+            <p>{{item.letter}} - {{item.cars}}</p>
             <div class="item fbox fbox-ac fbox-wrap">
               <p
                 v-for="(t,i) in item.data"
                 :key="i"
-                @click="serchClick(t.models,item,i)"
-              >{{t.models}}</p>
+                @click="serchClick(t,item,i)"
+              >{{t}}</p>
             </div>
           </div>
         </div>
@@ -199,6 +199,7 @@
               </div>
               <p class="jiucuo ml fsh" @click="showModalO(item)">纠错</p>
             </div>
+            <div v-if="allSerchPar.length != 0" class="tc c9"  >点击加载更多</div>
           </div>
         </div>
       </div>
@@ -219,6 +220,8 @@
 </template>
 
 <script>
+import {  Throttle } from "@/utils/public";
+
 export default {
   name: "pIndex",
   data() {
@@ -386,6 +389,7 @@ export default {
       this.$emit("del", e);
     },
     // 选择
+    
     rit(e, s) {
       if (this.yixuan.length == 1) {
         this.$emit("changes", e, s);
@@ -393,6 +397,30 @@ export default {
       }
       this.$emit("changes", e);
     },
+    rit1: Throttle(function(e, s) {
+      this.rit(e,s)
+    },1500),
+    rit2: Throttle(function(e, s) {
+      this.rit(e,s)
+    },1500),
+    rit3: Throttle(function(e, s) {
+      this.rit(e,s)
+    },1500),
+    rit4: Throttle(function(e, s) {
+      this.rit(e,s)
+    },1500),
+    rit5: Throttle(function(e, s) {
+      this.rit(e,s)
+    },1500),
+    rit6: Throttle(function(e, s) {
+      this.rit(e,s)
+    },1500),
+    rit7: Throttle(function(e, s) {
+      this.rit(e,s)
+    },1500),
+    rit8: Throttle(function(e, s) {
+      this.rit(e,s)
+    },1500),
     // 鼠标指向
     mouseOver(e) {
       this.$emit("mouseOver", e);
