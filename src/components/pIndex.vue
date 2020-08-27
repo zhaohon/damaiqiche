@@ -999,6 +999,7 @@ export default {
   }
   .serch-box .btn {
     font-size: 12px;
+    cursor: pointer;
   }
   .serch-box .form {
     width: 100%;

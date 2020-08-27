@@ -10,7 +10,7 @@
         <p>版权所有：河北大麦汽车维修服务有限公司</p>
         <p class="bei">
           ICP备案编号：
-          <span @click="go('')" target="_blank" rel="noopener noreferrer">冀ICP备18030522号-1</span>
+          <span @click="go('http://www.beian.gov.cn/portal/index.do')" rel="noopener noreferrer">冀ICP备18030522号-1</span>
         </p>
       </div>
     </div>
@@ -23,7 +23,7 @@ export default {
   props: [],
   methods: {
     go(e) {
-      window.location.href = e;
+      window.open(e,'_blank')
     },
   },
 };
@@ -73,7 +73,9 @@ export default {
   font-size: 16px;
   font-weight: 300 !important;
 }
-
+.bei span{
+  cursor: pointer;
+}
 @media only screen and (max-width: 800px) {
   .foot-top p {
     display: none;

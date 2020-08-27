@@ -320,8 +320,6 @@ export default {
     },
     loadData(e){
       console.log(e,"111111")
-      
-
     }
   },
   watch:{
@@ -332,7 +330,7 @@ export default {
     this.$http.idpost({}).then(res=>{
       console.log('red',res)
       // if(res.res == 0){
-        
+      //   this.$router.push({ path:'/pages',name:'Pages', query: { }})
       // }
     })
     .catch((err) => {

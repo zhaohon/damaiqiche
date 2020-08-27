@@ -37,7 +37,7 @@ Vue.use(VueRouter)
     name: 'Pages',
     component: resolve=>(require(["@/views/Pages.vue"],resolve)),
     meta:{
-      title: '产品搜索',
+      title: '提示',
       keepAlive: true
     }
     
