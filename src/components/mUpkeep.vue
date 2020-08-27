@@ -5,7 +5,7 @@
       <div v-for="(item,index) in list" :key="index">
         <div class="tl m-upkeep-title" v-if="item.grandsondata.length > 0">
           <h4 class="fbox fbox-acenter fbox-jbetween">
-            <span @click="introtap">
+            <span @click="introtap(item.summary,item.video)">
               {{item.name}}
               <i class="myou"></i>
             </span>
@@ -23,12 +23,12 @@
               @click="listtap(items,item.name,index + String(indexs))"
             >
               <div class="fbox fbox-acenter">
-                <img :src="items.Image?items.Image:require('./../assets/logo.png')" alt />
+                <img :src="items.image?imgurl + items.image:require('./../assets/logo.png')" alt />
               </div>
               <div class="fbox fbox-jcenter fbox-col ml">
                 <div>{{items.name}} {{items.model}}</div>
                 <div class="fbox fbox-acenter fbox-jbetween" style="width:100%">
-                  <div class="pck_price tc color-red mr">{{items.price}}</div>
+                  <div class="pck_price tc color-red mr tl">{{items.price}}</div>
                   <div class="pck_num tc color-hui">X {{items.number}}</div>
                 </div>
               </div>
@@ -45,12 +45,12 @@
           <div v-if="gd" style="max-height:200px;overflow: scroll;overflow-x: hidden;">
             <div v-for="(z,zindex) in gd" :key="zindex" class="mpad fbox fbox-acenter">
               <div class="fbox fbox-acenter">
-                <img :src="z.img?z.img:require('./../assets/logo.png')" alt />
+                <img width="60" :src="z.image?imgurl + z.image:require('./../assets/logo.png')" />
               </div>
               <div class="fbox fbox-acenter fbox-col ml minwidth">
                 <div class="tl" style="width:100%">{{z.name}}</div>
                 <div class="fbox fbox-acenter fbox-jbetween" style="width:100%">
-                  <div class="pck_price tc color-red">{{z.price}}</div>
+                  <div class="pck_price tc color-red tl">{{z.price}}</div>
                   <div class="pck_num tc">{{z.number}}</div>
                 </div>
               </div>
@@ -58,23 +58,23 @@
           </div>
           <div v-else class="tc pt pb" style="color:#000;font-size:14px">-- 没有更多 --</div>
         </div>
+        <div class="rishtext" v-if="videointro">
+          <h4 class="fbox fbox-acenter fbox-jbetween">
+            <span >详情</span>
+            <img @click="introtap" src="../assets/end.png" alt="">
+          </h4>
+          <video :src="imgurl + item.video" controls='controls'></video>
+          <div >
+              {{item.summary}}
+          </div>
+        </div>
       </div>
     </div>
    <div class="tr mmoney">
           商品总价<span class="color-light-gray">（不含工时费）</span>: <span class="color-red font-bold">￥{{money}}</span>
     </div>
     <!-- 保养项 -->
-    <div class="rishtext" v-if="videointro">
-      <h4 class="fbox fbox-acenter fbox-jbetween">
-        <span >详情</span>
-        <img @click="introtap" src="../assets/end.png" alt="">
-      </h4>
     
-      <video src=""></video>
-      <div >
-          飒飒飒飒少时诵诗书所所所少时诵诗书所所所是是是所所所
-      </div>
-    </div>
     <div class="shade" v-if="videointro"></div>
      <!-- v-if="videointro" -->
   </div>
@@ -87,6 +87,7 @@ export default {
     return {
       videointro: false,
       hovernum: 0,
+      imgurl:'https://damaichaxun.com/',
       title:"",
     };
   },
@@ -95,8 +96,17 @@ export default {
     money:Number
   },
   methods: {
-    introtap() {
-      this.videointro = !this.videointro;
+    introtap(a,b) {
+      if(a || b){
+        this.videointro = !this.videointro;
+      }else{
+        this.$Message.info({
+              content: "暂无简介",
+              duration: 3,
+              closable: true,
+        });
+      }
+      
     },
     moreTap(e,item) {
       this.title = e;
@@ -108,6 +118,8 @@ export default {
 
 
 <style scoped>
+.pck_num,
+.pck_price{font-size: 12px;max-width: 156px;margin-top: 5px;}
 .mmoney{
   padding: 10px;
   background-color: #F5F7F9;

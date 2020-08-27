@@ -46,6 +46,7 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   mode: 'hash',
+  // base: '/h5/',
   routes
 })
 // const router = new VueRouter({

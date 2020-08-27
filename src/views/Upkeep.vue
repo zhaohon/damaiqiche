@@ -9,14 +9,14 @@
           <div>
             <div
               class="mr ml large-text font-bold"
-            >{{info.brand}} {{info.cars}} {{info.displacement}} 2016年产</div>
+            >{{info.brand || messge.brand}} {{info.cars || messge.cars}} {{info.displacement || messge.displacement}} 2016年产</div>
             <div class="ml small-text pmfont">
               <div>
-                <span>{{info.model}}</span>
+                <span>{{info.model || messge.model}}</span>
               </div>
               <div>
-                <span v-if="info.engine">发动机型号：{{info.engine}}</span>
-                <span v-if="info.engine">最大功率：{{info.power}}</span>
+                <span v-if="info.engine">发动机型号：{{info.engine || messge.engine}}</span>
+                <span v-if="info.engine">最大功率：{{info.power || messge.power}}</span>
                 <button
                   @click="carshow = !carshow"
                   :class="info.engine?'ml':''"
@@ -50,17 +50,17 @@
         </div>
         <transition name="slide-fade">
           <div class="carDetail" v-show="carshow" ref="carDetail">
-            <div>发动机位置</div>
-            <div>驱动方式</div>
-            <div>供油技术</div>
-            <div>启停技术</div>
-            <div>正时技术</div>
-            <div>变速箱档位数</div>
-            <div>变速器描述</div>
-            <div>变速箱型号</div>
-            <div>燃油滤清器位置</div>
-            <div>转向助力类型</div>
-            <div>工位要求</div>
+            <div>发动机位置:{{detail.enginelocation}}</div>
+            <div>驱动方式:{{detail.drivemode}}</div>
+            <div>供油技术:{{detail.feedingoil}}</div>
+            <div>启停技术:{{detail.startstop}}</div>
+            <div>正时技术:{{detail.tivct}}</div>
+            <div>变速箱档位数:{{detail.gearboxnum}}</div>
+            <div>变速器描述:{{detail.transmission}}</div>
+            <div>变速箱型号:{{detail.gearboxtype}}</div>
+            <div>燃油滤清器位置:{{detail.oil_filtersite}}</div>
+            <div>转向助力类型:{{detail.veer_help}}</div>
+            <div>工位要求:{{detail.station_ask}}</div>
           </div>
         </transition>
         <div class="byType mt">
@@ -73,7 +73,7 @@
             <dl class="clearfix">
               <dt class="byTitle fl" @click="indtap(item.check,byindex)">
                 <span>{{ item.title }}</span>
-                <img src="../assets/xia.png" :class="item.check?'mimg':''" alt />
+                <img src="../assets/xia.png" :class="item.check?'mimg':''" />
               </dt>
               <div class="fl dib pcwhite" v-if="item.check">
                 <div
@@ -129,7 +129,8 @@ export default {
       bytitle: [],
       upkeepList: [],
       money: 0,
-      info: "",
+      info: {},
+      detail:{},
       numType: 0, //0 不执行判断 ；1 +9了 ； 2 价格-9了
       numType1: 0, //0 不执行判断 ；1 +38了 ； 2 价格-38了
     };
@@ -149,9 +150,11 @@ export default {
   },
   methods: {
     indtap(e, ind) {
+      console.log('this.bytitle[ind]',this.bytitle[ind].check)
+      console.log('this.bytitle[ind]',this.bytitle)
       if (document.body.clientWidth <= 684) {
         // 移动端
-        this.bytitle[ind].check = !e;
+        this.bytitle[ind].check = !e
       }
     },
     //里程
@@ -164,22 +167,30 @@ export default {
       this.ajax(messge);
     },
     listTap(obj) {
-      this.bytitle[obj.byindex].sondata[obj.index].checked = !this.bytitle[
-        obj.byindex
-      ].sondata[obj.index].checked; //选中状态
+      this.bytitle[obj.byindex].sondata[obj.index].checked = !this.bytitle[obj.byindex].sondata[obj.index].checked; //选中状态
       let bytitle = this.bytitle[obj.byindex].sondata[obj.index]; //当前点击的数据
+      console.log('bytitle',bytitle)
       if (bytitle.checked) {
         this.upkeepList.push({
           name: bytitle.title,
           id: bytitle.id,
+          summary:bytitle.summary,
+          video:bytitle.video,
           grandsondata: bytitle.grandsondata,
         }); //向数组添加选中的数据
         //选中服务项目 价格相加
-        bytitle.grandsondata.forEach((m) => {
+        bytitle.grandsondata.forEach((m,ind) => {
+          console.log('ind',ind)
+          console.log('m',m)
           if (JSON.stringify(m) !== "{}") {
             this.money += Number(m.total_price);
           }
         });
+        if(bytitle.grandsondata[0].cat == 1){
+          if(JSON.stringify(bytitle.grandsondata[1]) !== "{}"){
+            this.money -= Number(bytitle.grandsondata[1].total_price);
+          }
+        }
         let arrid = new Array();
         this.upkeepList.forEach((o) => {
           arrid.push(o.id);
@@ -249,14 +260,31 @@ export default {
       this.money = Number(this.money.toFixed(2));
     },
 
-    ajax(messge) {
+    async ajax(messge) {
       this.$http
         .getProject(messge)
         .then((res) => {
+          if(res == ''){
+            this.$Message.info({
+              content: "暂无数据，请重选车型",
+              duration: 15,
+              closable: true,
+            });
+          }
           this.info = res;
-          res.data.forEach((i) => {
-            i.check = true;
-          });
+          this.detail = res.detail || {
+            enginelocation:'无',
+            drivemode:'无',
+            feedingoil:'无',
+            startstop:'无',
+            tivct:'无',
+            gearboxnum:'无',
+            transmission:'无',
+            gearboxtype:'无',
+            oil_filtersite:'无',
+            veer_help:'无',
+            station_ask:'无',
+          };
           this.bytitle = res.data;
           //初始化
           let upkeepList = new Array();
@@ -264,9 +292,6 @@ export default {
             i.sondata.forEach((k) => {
               //默认选中 显示相关服务项目 价格相加
               if (k.grandsondata.length > 0) {
-                if (k.checked) {
-                  upkeepList.push({name: k.title,id: k.id,grandsondata: k.grandsondata,});
-                }
                 k.grandsondata.forEach((m, ind) => {
                   if (JSON.stringify(m) !== "{}") {
                     if (k.checked) {
@@ -276,6 +301,14 @@ export default {
                     k.grandsondata.splice(ind, 1);
                   }
                 });
+                if (k.checked) {
+                  upkeepList.push({name: k.title,id: k.id,grandsondata: k.grandsondata,summary:k.summary,video:k.video,});
+                  if(k.grandsondata[0].cat == 1){
+                    if(JSON.stringify(k.grandsondata[1]) !== "{}"){
+                      this.money -= Number(k.grandsondata[1].total_price);
+                    }
+                  }
+                }
               }
             });
           });
@@ -386,6 +419,14 @@ export default {
 .carDetail {
   background-color: #f6f7fb;
   padding: 0 20px 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.carDetail div{
+  margin-right: 40px;
+  width: 340px;
+  line-height:2;
+  font-size: 14px;
 }
 
 .ivu-btn-primary {

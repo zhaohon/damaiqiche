@@ -9,9 +9,13 @@ import qs from 'qs'; // 导入qs模块
 let apiUrl = 'https://damaichaxun.com/';
 
 const api = {    
-    // 演示post
+    // 车型保养
     getProject(params) {
         return http.post(`${apiUrl}Port/GetProject`,qs.stringify(params))
+    },
+    //验证登录
+    idpost(params) {
+        return http.post(`${apiUrl}Port/GetShopId`,qs.stringify(params))
     },
     // 演示get
     // articleDetail (params) {        

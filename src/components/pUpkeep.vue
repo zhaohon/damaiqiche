@@ -15,19 +15,22 @@
 
         <div v-for="(item,index) in list" :key="index">
           <div class="tl upkeep-left-title" v-if="item.grandsondata.length > 0" >
-            <h4 class="dib pore" @mouseenter="mousepop(index + '1')" @mouseleave="outStyle(index + '1')" @click="introtap">{{item.name}} <i class="myou"></i>
+            <h4 class="dib pore" @mouseenter="mousepop(index + '1')" @mouseleave="outStyle(index + '1')" @click="introtap(item.summary,item.video)">{{item.name}} <i class="myou"></i>
               <div class="popup" v-if="act == index + '1'">
                   <img class="popsj" src="../assets/sj.png" alt="">
-                  <span class="dib ell_3">小 保养的时间取决于所用机油和机油滤芯的有效时间或里程。不同品牌级别的矿物质机油、半合成机油、全合成机油有效期也不尽相同，请以厂</span>
-                  <p class="color-page db" >查看详情 ></p>
+                  <div v-if="item.summary && item.video">
+                    <span class="dib ell_3">{{item.summary}}</span>
+                    <p class="color-page db" >查看详情 ></p>
+                  </div>
+                  <div v-else>暂无简介</div>
               </div> 
             </h4>
             <div class="pc-upkeep-right pbupkeep" v-if="item.name == title">
               <h4><i></i> 更多推荐产品</h4>
-              <div v-if="gd">
+              <div class="scrollpc" v-if="gd">
                 <div v-for="(z,zindex) in gd" :key="zindex">
                   <div class="upkeep-right-font">
-                    <div class="fl dib"><img :src="require('./../assets/logo.png')" alt /></div>
+                    <div class="fl dib"><img :src="z.image?imgurl + z.image:require('./../assets/logo.png')" alt /></div>
                     <h4 class="fl mr ">{{z.name}}</h4>
                     <p class="fl mr upkeep-right-price">{{z.price}}</p>
                     <p class="fl mr upkeep-right-num">{{z.number}}</p>
@@ -46,7 +49,7 @@
                     <td width="130" class="tc">{{items.title}}</td>
                     <td class="hover-bor" :class="hovernum == index + String(indexs)?'hoverbg':''" @click="listtap(items.data,item.name,index + String(indexs))">
                       <div class="pack_biaoti">
-                        <img class="fl" :src="items.Image?items.Image:require('./../assets/logo.png')" alt />
+                        <img class="fl" :src="items.image?imgurl + items.image:require('./../assets/logo.png')" alt />
                         <div>{{items.name}} {{items.model}}</div>
                       </div>
                       <div class="pck_price tc color-red">{{items.price}}</div>
@@ -56,6 +59,16 @@
               </tbody>
             </table>
           </div>
+          <div class="videointro" v-if="videointro">
+            <div class="end">
+              <span class="fl">详情</span>
+              <img class="fr" @click="endTap" src="../assets/end.png" alt="">
+            </div>
+              <video :src="imgurl + item.video" controls='controls'>您的浏览器不支持 video 标签。</video>
+              <div class="desc">
+                  {{item.summary}}
+              </div>
+          </div>
         </div>
       </div>
       <div class="tr fl comemoney">
@@ -63,16 +76,7 @@
       </div>
       <div class="clearfix"></div>
     </div>
-    <div class="videointro" v-if="videointro">
-      <div class="end">
-        <span class="fl">详情</span>
-        <img class="fr" @click="endTap" src="../assets/end.png" alt="">
-      </div>
-        <video src=""></video>
-        <div class="desc">
-
-        </div>
-    </div>
+    
     <div class="shade" v-if="videointro"></div>
   </div>
 </template>
@@ -87,6 +91,7 @@ export default {
       act:'',
       videointro:false,
       gd:'',
+      imgurl:'https://damaichaxun.com/'
     };
   },
   props: {
@@ -98,19 +103,27 @@ export default {
       this.videointro = false
     },
     listtap(item,name,indexs){
+      console.log('name',name,this.title)
+      if(name == this.title) {
+        this.title = '';
+        this.hovernum = '-1';
+      }else{
         this.title = name;
         this.gd = item;
         this.hovernum = indexs;
+      }
     },
     mousepop(e){
-      this.act = e
+       this.act = e
     },
     // eslint-disable-next-line no-unused-vars
     outStyle(e){
       this.act = ''
     },
-    introtap(){
-      this.videointro = !this.videointro
+    introtap(a,b){
+      if(a && b){
+        this.videointro = !this.videointro
+      }
     }
   },
 };
@@ -142,12 +155,12 @@ export default {
 .videointro video{
   width: 680px;
   height: 260px;
-  background-color: red;
+  background-color: #999;
   display: block;
 }
 .desc{
     height: 320px;
-    padding: 0 20px 20px;
+    padding: 10px 20px;
     overflow-y: auto;
     background-color: #fff;
 }
@@ -283,12 +296,15 @@ export default {
 .pc-upkeep-right {
   width: 420px;
   /* padding: 10px; */
-  max-height: 400px;
   box-sizing: border-box;
   border: 1px solid #dcdde1;
   background-color: #edeef2;
   border-left: none;
   border-bottom: none;
+}
+.scrollpc{
+  max-height: 400px;
+  overflow-y: auto;
 }
 .pc-upkeep-right > h4 {
   border-bottom: 1px solid #dcdde1;
@@ -311,6 +327,7 @@ export default {
   position: relative;
   border-bottom: 1px solid #dcdde1;
   padding: 15px 10px;
+  z-index: 9;
 }
 .upkeep-right-font .dib {
   position: absolute;
@@ -336,7 +353,7 @@ export default {
   color: #333;
 }
 .upkeep-right-font p {
-  height: 22px;
+  /* height: 22px; */
   font-size: 14px;
   margin-left: 80px;
   /* position: absolute; */
