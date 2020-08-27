@@ -220,6 +220,8 @@ export default {
       }
     },
     sousuo(e){
+      this.show = true
+
       //搜索
       this.$http
         .searchModels({
@@ -228,14 +230,19 @@ export default {
         .then((res) => {
           console.log("models", res.data);
           if(res.data.length == 0){
+            this.show = false
             this.$Message.info('暂无搜索车型');
+            this.serchArr = []
+            
             return
           }
           this.serchArr = res.data
+          this.show = false
 
         })
         .catch((err) => {
           console.log("错误", err)
+          this.show = false
           this.error()
         }); 
 
@@ -245,7 +252,7 @@ export default {
       this.yixuan = []
       this.yixuan[0] = item.brand
       this.yixuan[1] = item.cars
-      this.yixuan[2] = item.data[i].models
+      this.yixuan[2] = item.data[i]
       this.shop = item.letter
       console.log("yixuan",this.yixuan);
       
