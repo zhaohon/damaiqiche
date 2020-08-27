@@ -199,7 +199,7 @@
               </div>
               <p class="jiucuo ml fsh" @click="showModalO(item)">纠错</p>
             </div>
-            <div v-if="allSerchPar.length != 0" class="tc c9"  >点击加载更多</div>
+            <div v-if="allSerchPar.length != 0" class="tc c9" @click="more" >点击加载更多</div>
           </div>
         </div>
       </div>
@@ -252,6 +252,7 @@ export default {
       jiucuoName: "",
       jiucuoArr: [],
       models: "", //车型搜索
+      p:1
     };
   },
   props: {
@@ -317,6 +318,7 @@ export default {
       console.log("1111111111111");
     },
     handleChangeOnSelect(value, selectedData) {
+      this.p = 1
       let arr = [];
       let url = "";
       //根据品牌获取机型
@@ -367,11 +369,33 @@ export default {
         data[`${this.allSerch[i][2]}`] = this.allSerch[i][3];
       }
 
+      data['p'] = this.p
+
+      this.datas = data
+
       //获取适用车型
       this.$http
         .carList(data)
         .then((res) => {
           this.allSerchPar = res.list;
+        })
+        .catch((err) => {
+          console.log("错误", err);
+        });
+    },
+    more(){
+      let p = this.p + 1
+      this.datas['p'] = p
+      //获取适用车型
+      this.$http
+        .carList(this.datas)
+        .then((res) => {
+          this.allSerchPar = this.allSerchPar.concat(res.list);
+          if(res.isLastPage == 2){
+            this.$Message.info("暂无更多适用车型");
+            return
+          }
+          this.p = p
         })
         .catch((err) => {
           console.log("错误", err);
@@ -389,7 +413,6 @@ export default {
       this.$emit("del", e);
     },
     // 选择
-    
     rit(e, s) {
       if (this.yixuan.length == 1) {
         this.$emit("changes", e, s);
