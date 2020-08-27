@@ -331,9 +331,9 @@ export default {
     this.tabind = Number(this.$router.history.current.params.tabind) || 2;
     this.$http.idpost({}).then(res=>{
       console.log('red',res)
-      if(res.res == 0){
+      // if(res.res == 0){
         
-      }
+      // }
     })
     .catch((err) => {
         console.log("错误", err), (this.show = false);
