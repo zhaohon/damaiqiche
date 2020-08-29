@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 <template>
   <div class="home">
     <div class="head fbox fbox-ac fbox-jb">
@@ -11,7 +10,7 @@
           <p>产品搜索</p>
         </div> -->
     </div>
-    <pIndex :SearchArr="SearchArr" :tab="tabind" :serchArr='serchArr' @serchClick='serchClick' @sousuo="sousuo" @loadData="loadData" @changes="changes" @tabC="tabC" @tiao="tiao"  @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
+    <pIndex :SearchArr="SearchArr" :shopid="shop_id" :tab="tabind" :serchArr='serchArr' @serchClick='serchClick' @sousuo="sousuo" @loadData="loadData" @changes="changes" @tabC="tabC" @tiao="tiao"  @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
     <Loading v-if="show" />
   </div>
 </template>
@@ -42,10 +41,12 @@ export default {
       kuanxing:[],
       fdjxh:[],
       zdgl:[],
-      tabind:2,
+      tabind:1,
       messge:{},
       SearchArr:[],//搜索页面的数据
       serchArr:[],//搜索出来的车型
+      shop_id:'',
+      cs:''
     }
   },
   methods:{
@@ -56,7 +57,7 @@ export default {
       if(this.yixuan.length == 7){
         this.messge.power = e
         localStorage.setItem("messge",this.$qs.stringify(this.messge));
-        this.$router.push({ path:'/Upkeep',name:'Upkeep', query: { }})
+       this.$router.push({ path:'/Upkeep',name:'Upkeep', query: {}})
       }
       // 车系
       if(this.yixuan.length == 0){
@@ -316,21 +317,30 @@ export default {
     tiao(e){
       console.log('tiao',e)
       localStorage.setItem("messge",this.$qs.stringify(this.messge));
-      this.$router.push({ path:'/Upkeep',name:'Upkeep', query: { }})
+      this.$router.push({ path:'/Upkeep',name:'Upkeep', query: {}})
     },
     loadData(e){
       console.log(e,"111111")
-    }
+    },
+  
   },
   watch:{
 
   },
+  
   mounted(){
-    this.tabind = Number(this.$router.history.current.params.tabind) || 2;
-    this.$http.idpost({}).then(res=>{
+    this.tabind = Number(this.$router.history.current.params.tabind) || 1;
+    let url = window.location.href; 
+    let cs = url.split('?')[1]; 
+    this.cs = cs
+    this.$http.idpost({shop_id:cs}).then(res=>{
       console.log('red',res)
+      if(res.res == 1){
+        this.shop_id = res.shop_id
+      }
       // if(res.res == 0){
       //   this.$router.push({ path:'/pages',name:'Pages', query: { }})
+      //   return
       // }
     })
     .catch((err) => {
@@ -350,7 +360,6 @@ export default {
             remens.push(item.letter)
         });
         this.remen = remens//字母排序
-        this.show = false;//隐藏动画
 
       })
       .catch((err) => {
@@ -374,7 +383,7 @@ export default {
           arr.push(aac)
         }
         this.SearchArr = arr
-
+        this.show = false;//隐藏动画
       })
       .catch((err) => {
         console.log("错误", err), (this.show = false);

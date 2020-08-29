@@ -50,17 +50,17 @@
         </div>
         <transition name="slide-fade">
           <div class="carDetail" v-show="carshow" ref="carDetail">
-            <div>发动机位置:{{detail.enginelocation}}</div>
-            <div>驱动方式:{{detail.drivemode}}</div>
-            <div>供油技术:{{detail.feedingoil}}</div>
-            <div>启停技术:{{detail.startstop}}</div>
-            <div>正时技术:{{detail.tivct}}</div>
-            <div>变速箱档位数:{{detail.gearboxnum}}</div>
-            <div>变速器描述:{{detail.transmission}}</div>
-            <div>变速箱型号:{{detail.gearboxtype}}</div>
-            <div>燃油滤清器位置:{{detail.oil_filtersite}}</div>
-            <div>转向助力类型:{{detail.veer_help}}</div>
-            <div>工位要求:{{detail.station_ask}}</div>
+            <div>发动机位置:{{detail.enginelocation || '无'}}</div>
+            <div>驱动方式:{{detail.drivemode || '无'}}</div>
+            <div>供油技术:{{detail.feedingoil || '无'}}</div>
+            <div>启停技术:{{detail.startstop || '无'}}</div>
+            <div>正时技术:{{detail.tivct || '无'}}</div>
+            <div>变速箱档位数:{{detail.gearboxnum || '无'}}</div>
+            <div>变速器描述:{{detail.transmission || '无'}}</div>
+            <div>变速箱型号:{{detail.gearboxtype || '无'}}</div>
+            <div>燃油滤清器位置:{{detail.oil_filtersite || '无'}}</div>
+            <div>转向助力类型:{{detail.veer_help || '无'}}</div>
+            <div>工位要求:{{detail.station_ask || '无'}}</div>
           </div>
         </transition>
         <div class="byType mt">
@@ -68,7 +68,7 @@
             v-for="(item, byindex) in bytitle"
             :key="byindex"
             class="UnSelect"
-            :style="byindex%2?'background:#F7F8FA':'background:#EDEEF2'"
+            :style="{'background':byindex%2?'#F7F8FA':'#EDEEF2'}"
           >
             <dl class="clearfix">
               <dt class="byTitle fl" @click="indtap(item.check,byindex)">
@@ -76,28 +76,29 @@
                 <img src="../assets/xia.png" :class="item.check?'mimg':''" />
               </dt>
               <div class="fl dib pcwhite" v-if="item.check">
-                <div
-                  v-for="(childrenItem, index) in item.sondata"
-                  :key="index"
-                  class="fl dib"
-                  @click="listTap({ childrenItem, index, byindex })"
-                >
-                  <dd 
-                    v-if="childrenItem.grandsondata.length > 0"
-                    class="tc"
-                    :class="childrenItem.checked ? 'checked' : ''"
-                    :data-id="childrenItem.id"
+                  <div
+                    v-for="(childrenItem, index) in item.sondata"
+                    :key="index"
+                    class="fl dib"
+                    :style="{display:childrenItem.grandsondata.length > 0?'':'none'}"
+                    @click="listTap({ childrenItem, index, byindex })"
                   >
-                    <div class="inner">{{ childrenItem.title }}</div>
-                    <img class="inner-img" src="../assets/triangle.png" alt />
-                  </dd>
+                    <dd 
+                      v-if="childrenItem.grandsondata.length > 0"
+                      class="tc"
+                      :class="childrenItem.checked ? 'checked' : ''"
+                      :data-id="childrenItem.id"
+                    >
+                      <div class="inner">{{ childrenItem.title }}</div>
+                      <img class="inner-img" src="../assets/triangle.png" alt />
+                    </dd>
                 </div>
               </div>
             </dl>
           </div>
         </div>
-        <pUpkeep class="mt" :money="money" :list="upkeepList" v-if="screenWidth > 700"></pUpkeep>
-        <mUpkeep :money="money" :list="upkeepList" v-if="screenWidth < 700"></mUpkeep>
+        <pUpkeep class="mt" :moneyJ="moneyJ" :money="money" :list="upkeepList" v-if="screenWidth > 700"></pUpkeep>
+        <mUpkeep :moneyJ="moneyJ" :money="money" :list="upkeepList" v-if="screenWidth < 700"></mUpkeep>
         <!-- 移动端 -->
         <div class="m-list"></div>
       </div>
@@ -133,6 +134,7 @@ export default {
       detail:{},
       numType: 0, //0 不执行判断 ；1 +9了 ； 2 价格-9了
       numType1: 0, //0 不执行判断 ；1 +38了 ； 2 价格-38了
+      moneyJ:2//1产品需定价 2默认
     };
   },
   watch: {
@@ -184,11 +186,15 @@ export default {
           console.log('m',m)
           if (JSON.stringify(m) !== "{}") {
             this.money += Number(m.total_price);
+            if(m.total_price == 0){
+              console.log('mkxjghlajgkl',m.total_price)
+              this.moneyJ = 1
+            }
           }
         });
         if(bytitle.grandsondata[0].cat == 1){
           if(JSON.stringify(bytitle.grandsondata[1]) !== "{}"){
-            this.money -= Number(bytitle.grandsondata[1].total_price);
+            this.money += 0
           }
         }
         let arrid = new Array();
@@ -228,10 +234,21 @@ export default {
             });
           }
         });
+        let idarr = new Array;
         let arrid = new Array();
         this.upkeepList.forEach((o) => {
+          console.log('o',o)
           arrid.push(o.id);
+          o.grandsondata.forEach(a=>{
+            idarr.push(Number(a.total_price))
+          })
         });
+        if(idarr.includes(0)){
+          //不走
+        }else{
+          this.moneyJ = 2
+        }
+        console.log('idarr',idarr)
         //小保养 节气门 润滑系统（发动机内部清洗） 同时存在 则减9元
         if (arrid.includes(1) && arrid.includes(15) && arrid.includes(16)) {
           //不走
@@ -261,6 +278,9 @@ export default {
     },
 
     async ajax(messge) {
+      this.money = 0;
+      this.numType = 0;
+      this.numType1 = 0;
       this.$http
         .getProject(messge)
         .then((res) => {
@@ -288,14 +308,36 @@ export default {
           this.bytitle = res.data;
           //初始化
           let upkeepList = new Array();
+          if(JSON.stringify(this.bytitle[0].sondata[0].grandsondata[0]) == "{}"){
+            if(JSON.stringify(this.bytitle[0].sondata[0].grandsondata[1]) == "{}"){
+                this.bytitle[0].sondata[0].grandsondata.splice(0, 2);
+            }
+          }
+          if(JSON.stringify(this.bytitle[0].sondata[0].grandsondata[0]) == "{}"){
+                this.bytitle[0].sondata[0].grandsondata.splice(0, 1);
+          }
+          if(JSON.stringify(this.bytitle[0].sondata[0].grandsondata[1]) == "{}"){
+                this.bytitle[0].sondata[0].grandsondata.splice(1, 1);
+          }
           this.bytitle.forEach((i) => {
+            i.num = 0;
             i.sondata.forEach((k) => {
+              if(k.grandsondata.length == 0){
+                i.num++
+              }
+              if(i.num == i.sondata.length){
+                i.check = false
+              }
               //默认选中 显示相关服务项目 价格相加
               if (k.grandsondata.length > 0) {
+                // eslint-disable-next-line no-debugger
                 k.grandsondata.forEach((m, ind) => {
                   if (JSON.stringify(m) !== "{}") {
                     if (k.checked) {
                       this.money += Number(m.total_price);
+                      if(m.total_price == 0){
+                        this.moneyJ = 1 //1产品需定价
+                      }
                     }
                   } else {
                     k.grandsondata.splice(ind, 1);
@@ -305,33 +347,29 @@ export default {
                   upkeepList.push({name: k.title,id: k.id,grandsondata: k.grandsondata,summary:k.summary,video:k.video,});
                   if(k.grandsondata[0].cat == 1){
                     if(JSON.stringify(k.grandsondata[1]) !== "{}"){
-                      this.money -= Number(k.grandsondata[1].total_price);
+                      if(k.grandsondata[1].total_price != 0){
+                        this.money += 0
+                      }
                     }
                   }
                 }
               }
             });
           });
-
           this.money = Number(this.money.toFixed(2));
           let arrid = new Array();
-          this.upkeepList.forEach((o) => {
+          upkeepList.forEach((o) => {
             arrid.push(o.id);
           });
           //小保养 节气门 润滑系统（发动机内部清洗） 同时存在 则减9元
           if (arrid.includes(1) && arrid.includes(15) && arrid.includes(16)) {
-            if (this.numType == 1) {
+            if (this.numType == 1 || this.numType == 0) {
               this.money -= 9;
               this.numType = 2;
             }
           }
           //判断是否有选择小保养，若选择并且"进气道、喷油嘴、燃油系统清洗"同时选择则计算套餐价格 299 原价减38
-          if (
-            arrid.includes(1) &&
-            arrid.includes(17) &&
-            arrid.includes(18) &&
-            arrid.includes(19)
-          ) {
+          if (arrid.includes(1) && arrid.includes(17) && arrid.includes(18) && arrid.includes(19)) {
             if (this.numType1 == 0 || this.numType1 == 1) {
               this.money -= 38;
               this.numType1 = 2;
@@ -356,6 +394,15 @@ export default {
       })();
     };
     this.messge = this.$qs.parse(localStorage.getItem("messge"));
+    let url = window.location.href; 
+    let cs = url.split('?')[1]; 
+    this.$http.idpost({shop_id:cs}).then(res=>{
+      console.log('res',res)
+      // if(res.res == 0){
+      //   this.$router.push({ path:'/pages',name:'Pages', query: { }})
+      //   return
+      // }
+    })
     this.ajax(this.messge);
   },
 };
@@ -365,7 +412,7 @@ export default {
   width: 90%;
 }
 .byTitle {
-  margin: 8px 0 0 10px;
+  margin: 8px 0 20px 10px;
   width: 84px;
   font-weight: bold;
 }

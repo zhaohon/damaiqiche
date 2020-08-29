@@ -15,10 +15,10 @@ export default {
   },
   methods: {},
   mounted() {
-   
-
+  //  this.$http.idpost({}).then(res=>{console.log('redddd',res)})
   },
   created(){
+
   }
 };
 </script>

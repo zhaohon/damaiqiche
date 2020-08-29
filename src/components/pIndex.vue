@@ -270,6 +270,7 @@ export default {
     SearchArr: Array,
     tab: Number,
     serchArr: Array,
+    shopid:String
   },
   watch: {
     tab(e) {
@@ -368,11 +369,8 @@ export default {
         data[`${this.allSerch[i][0]}`] = this.allSerch[i][1];
         data[`${this.allSerch[i][2]}`] = this.allSerch[i][3];
       }
-
       data['p'] = this.p
-
       this.datas = data
-
       //获取适用车型
       this.$http
         .carList(data)
@@ -398,7 +396,7 @@ export default {
           this.p = p
         })
         .catch((err) => {
-          console.log("错误", err);
+          console.log("错误", err); 
         });
     },
     serchClick(e, item, i) {
@@ -466,7 +464,7 @@ export default {
     showModalT() {
       console.log(this.content);
       this.showModal = false;
-      if (!this.conten) {
+      if (this.content.length == 0) {
         this.$Message.error({
           content: "请输入纠错内容",
           duration: 5,
@@ -484,6 +482,7 @@ export default {
           score2: this.jiucuoArr.displacement,
           score3: this.jiucuoArr.year,
           score4: this.jiucuoArr.engine,
+          shop_id:this.shopid
         })
         // eslint-disable-next-line no-unused-vars
         .then((res) => {
@@ -854,6 +853,7 @@ export default {
   height: 49px;
   border: 1px solid #dddddd;
   box-sizing: border-box;
+  object-fit: contain;
 }
 
 .list-left-item > div .name-right p {

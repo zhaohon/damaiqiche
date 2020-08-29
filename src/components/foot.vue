@@ -7,7 +7,7 @@
         <p>养好车不修车&nbsp;&nbsp;工业化养车连锁</p>
       </div>
       <div class="foot-bot fbox fbox-ac fbox-jc fbox-w">
-        <p>版权所有：河北大麦汽车维修服务有限公司</p>
+        <p>版权所有：河北大唛汽车维修服务有限公司</p>
         <p class="bei">
           ICP备案编号：
           <span @click="go('http://www.beian.gov.cn/portal/index.do')" rel="noopener noreferrer">冀ICP备18030522号-1</span>

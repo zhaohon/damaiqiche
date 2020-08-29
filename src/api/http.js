@@ -54,6 +54,7 @@ const errorHandle = (status, other) => {
 var instance = axios.create({timeout: 1000 * 12}); //设置请求超时时间
 // 设置post请求头
 instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 /** 
  * 添加请求拦截器
  * 每次请求前，如果存在token则在请求头中携带token （目前没有在请求头添加token需要）

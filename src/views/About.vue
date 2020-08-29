@@ -20,13 +20,10 @@ export default {
   methods: {},
   mounted() {
     console.log("ok")
-
     console.log(this.$route.query);
     setTimeout(()=>{
     this.show = false
-
     },2000)
-
   },
   created(){
   }

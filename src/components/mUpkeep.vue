@@ -28,7 +28,7 @@
               <div class="fbox fbox-jcenter fbox-col ml">
                 <div>{{items.name}} {{items.model}}</div>
                 <div class="fbox fbox-acenter fbox-jbetween" style="width:100%">
-                  <div class="pck_price tc color-red mr tl">{{items.price}}</div>
+                  <div class="pck_price tc color-red mr tl">{{items.price == 0?'产品需定价':items.price}}</div>
                   <div class="pck_num tc color-hui">X {{items.number}}</div>
                 </div>
               </div>
@@ -50,7 +50,7 @@
               <div class="fbox fbox-acenter fbox-col ml minwidth">
                 <div class="tl" style="width:100%">{{z.name}}</div>
                 <div class="fbox fbox-acenter fbox-jbetween" style="width:100%">
-                  <div class="pck_price tc color-red tl">{{z.price}}</div>
+                  <div class="pck_price tc color-red tl">{{z.price == 0?'产品需定价':z.price}}</div>
                   <div class="pck_num tc">{{z.number}}</div>
                 </div>
               </div>
@@ -71,7 +71,7 @@
       </div>
     </div>
    <div class="tr mmoney">
-          商品总价<span class="color-light-gray">（不含工时费）</span>: <span class="color-red font-bold">￥{{money}}</span>
+          商品总价<span class="color-light-gray">（不含工时费）</span>: <span class="color-red font-bold">￥{{moneyJ == 1?'产品需定价':money}}</span>
     </div>
     <!-- 保养项 -->
     
@@ -89,6 +89,7 @@ export default {
       hovernum: 0,
       imgurl:'https://damaichaxun.com/',
       title:"",
+      moneyJ:Number,
     };
   },
   props: {

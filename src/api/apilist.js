@@ -9,19 +9,19 @@ import qs from 'qs'; // 导入qs模块
 let apiUrl = 'https://damaichaxun.com/';
 
 const api = {    
-    // 车型保养
-    getProject(params) {
-        return http.post(`${apiUrl}Port/GetProject`,qs.stringify(params))
-    },
-    //验证登录
-    idpost(params) {
-        return http.post(`${apiUrl}Port/GetShopId`,qs.stringify(params))
-    },
-    // 演示get
+     // 演示get
     // articleDetail (params) {        
     //      注意get请求params参数外要加{}
     //     return http.get(`${apiUrl}Car/submit_price`,{params});     
     // },
+    //验证登录
+    idpost(params) {
+        return http.post(`${apiUrl}Port/GetShopId`,qs.stringify(params))
+    },
+    // 车型保养
+    getProject(params) {
+        return http.post(`${apiUrl}Port/GetProject`,qs.stringify(params))
+    },
     // 车型品牌    
     carName(params) {
         return http.post(`${apiUrl}Port/GetBrand`,qs.stringify(params))
@@ -73,7 +73,7 @@ const api = {
     },
     // 搜索车型
     searchModels(params) {
-        return http.post(`${apiUrl}port/search_models`,qs.stringify(params))
+        return http.post(`${apiUrl}Search/search_models`,qs.stringify(params))
     },
 
     // 获取图片

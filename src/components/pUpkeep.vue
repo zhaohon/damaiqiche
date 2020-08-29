@@ -32,7 +32,7 @@
                   <div class="upkeep-right-font">
                     <div class="fl dib"><img :src="z.image?imgurl + z.image:require('./../assets/logo.png')" alt /></div>
                     <h4 class="fl mr ">{{z.name}}</h4>
-                    <p class="fl mr upkeep-right-price">{{z.price}}</p>
+                    <p class="fl mr upkeep-right-price">{{z.price == 0?'产品需定价':z.price}}</p>
                     <p class="fl mr upkeep-right-num">{{z.number}}</p>
                     <div class="clearfix"></div>
                   </div>
@@ -52,7 +52,7 @@
                         <img class="fl" :src="items.image?imgurl + items.image:require('./../assets/logo.png')" alt />
                         <div>{{items.name}} {{items.model}}</div>
                       </div>
-                      <div class="pck_price tc color-red">{{items.price}}</div>
+                      <div class="pck_price tc color-red">{{items.price == 0?'产品需定价':items.price}}</div>
                       <div class="pck_num tc">{{items.number}}</div>
                     </td>
                 </tr>
@@ -72,7 +72,7 @@
         </div>
       </div>
       <div class="tr fl comemoney">
-          商品总价<span class="color-light-gray">（不含工时费）</span>: <span class="color-red font-bold">￥{{money}}</span>
+          商品总价<span class="color-light-gray">（不含工时费）</span>: <span class="color-red font-bold">￥{{moneyJ == 1?'产品需定价':money}}</span>
       </div>
       <div class="clearfix"></div>
     </div>
@@ -96,6 +96,7 @@ export default {
   },
   props: {
     list: Array,
+    moneyJ:Number,
     money:Number,
   },
   methods: {
@@ -347,7 +348,7 @@ export default {
 }
 .upkeep-right-font h4 {
   font-size: 14px;
-  width: 160px;
+  width: 280px;
   margin-left: 80px;
   font-weight: 100;
   color: #333;
