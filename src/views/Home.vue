@@ -330,22 +330,7 @@ export default {
   
   mounted(){
     this.tabind = Number(this.$router.history.current.params.tabind) || 1;
-    let url = window.location.href; 
-    let cs = url.split('?')[1]; 
-    this.cs = cs
-    this.$http.idpost({shop_id:cs}).then(res=>{
-      console.log('red',res)
-      if(res.res == 1){
-        this.shop_id = res.shop_id
-      }
-      // if(res.res == 0){
-      //   this.$router.push({ path:'/pages',name:'Pages', query: { }})
-      //   return
-      // }
-    })
-    .catch((err) => {
-        console.log("错误", err), (this.show = false);
-    });
+    this.shop_id = localStorage.getItem('shop_id');
     //车型品牌 
     this.$http
       .carName({

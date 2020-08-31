@@ -37,7 +37,7 @@ Vue.use(VueRouter)
     name: 'Pages',
     component: resolve=>(require(["@/views/Pages.vue"],resolve)),
     meta:{
-      title: '提示',
+      title: '登录',
       keepAlive: true
     }
     
@@ -57,6 +57,18 @@ const router = new VueRouter({
 //   root:'/dist',//路由生效的基础路径
 //   routes
 // });
+
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location, onResolve, onReject) {
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  return originalPush.call(this, location).catch(err => err)
+}
+
+const originalReplace = VueRouter.prototype.replace
+VueRouter.prototype.replace = function repalce(location, onResolve, onReject) {
+  if (onResolve || onReject) return originalReplace.call(this, location, onResolve, onReject)
+  return originalReplace.call(this, location).catch(err => err)
+}
 //动态修改页面title
 router.beforeEach((to, from, next) => {
   window.document.title = to.meta.title == undefined?'大唛养车':to.meta.title

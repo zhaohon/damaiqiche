@@ -5,6 +5,8 @@
  */
 import axios from 'axios';
 import router from '../router';
+import qs from 'qs'; // 导入qs模块
+import { Message } from 'iview'
 // import store from '../store/index';
  
  
@@ -14,11 +16,11 @@ import router from '../router';
  */
 const toLogin = () => {
     router.replace({
-        path: '/login',        
-        query: {
-            redirect: router.currentRoute.fullPath
-        }
-    });
+        path: '/pages',        
+        // query: {
+        //     redirect: router.currentRoute.fullPath
+        // }
+    })
 }
  /** 
  * 常规错误统一处理 
@@ -26,7 +28,8 @@ const toLogin = () => {
  */
 const errorRoutine = (res)=>{
     console.warn('常规错误',res)
-    if(res.data.res == '-1'){
+    if(res.res == '0'){
+        Message.warning(res.msg,5);
         toLogin()
     }
 }
@@ -62,6 +65,13 @@ instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlenco
  */ 
 instance.interceptors.request.use(    
     config => {
+        if(config.url != 'https://damaichaxun.com/Port/GoLogin'){
+            let data = qs.parse(config.data);
+            data.shop_id = localStorage.getItem('shop_id') || ''
+            data.session_id = localStorage.getItem('session_id') || ''
+            config.data = qs.stringify(data)
+        }
+        
         // 登录流程控制中，根据本地是否存在token判断用户的登录情况        
         // 但是即使token存在，也有可能token是过期的，所以在每次的请求头中携带token        
         // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码        
@@ -81,11 +91,11 @@ instance.interceptors.response.use(
         const { status, data } = response;
         if (Object.is(status, 200)) {//两个参数是否是相同的值。
             const { res } = data;
-            if(res != '-1'){
-                return Promise.resolve(data);
+            if(res == '0'){
+                errorRoutine(data)
             }
-            if(res == '-1'){
-                errorRoutine()
+            if(res != '0'){
+                return Promise.resolve(data);
             }
         } else {
             errorHandle(status,data)

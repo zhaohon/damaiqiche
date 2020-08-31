@@ -394,15 +394,6 @@ export default {
       })();
     };
     this.messge = this.$qs.parse(localStorage.getItem("messge"));
-    let url = window.location.href; 
-    let cs = url.split('?')[1]; 
-    this.$http.idpost({shop_id:cs}).then(res=>{
-      console.log('res',res)
-      // if(res.res == 0){
-      //   this.$router.push({ path:'/pages',name:'Pages', query: { }})
-      //   return
-      // }
-    })
     this.ajax(this.messge);
   },
 };

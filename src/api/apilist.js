@@ -14,9 +14,13 @@ const api = {
     //      注意get请求params参数外要加{}
     //     return http.get(`${apiUrl}Car/submit_price`,{params});     
     // },
-    //验证登录
+    //验证登录（废弃）
     idpost(params) {
         return http.post(`${apiUrl}Port/GetShopId`,qs.stringify(params))
+    },
+    //登录
+    gologin(params){
+        return http.post(`${apiUrl}Port/GoLogin`,qs.stringify(params))
     },
     // 车型保养
     getProject(params) {
