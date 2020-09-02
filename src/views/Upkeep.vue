@@ -49,18 +49,24 @@
           </div>
         </div>
         <transition name="slide-fade">
-          <div class="carDetail" v-show="carshow" ref="carDetail">
-            <div>发动机位置:{{detail.enginelocation || '无'}}</div>
-            <div>驱动方式:{{detail.drivemode || '无'}}</div>
-            <div>供油技术:{{detail.feedingoil || '无'}}</div>
-            <div>启停技术:{{detail.startstop || '无'}}</div>
-            <div>正时技术:{{detail.tivct || '无'}}</div>
-            <div>变速箱档位数:{{detail.gearboxnum || '无'}}</div>
-            <div>变速器描述:{{detail.transmission || '无'}}</div>
-            <div>变速箱型号:{{detail.gearboxtype || '无'}}</div>
-            <div>燃油滤清器位置:{{detail.oil_filtersite || '无'}}</div>
-            <div>转向助力类型:{{detail.veer_help || '无'}}</div>
-            <div>工位要求:{{detail.station_ask || '无'}}</div>
+          <div class="carDetail" v-show="carshow" ref="carDetail" >
+            <div style="background: rgb(237, 238, 242);">
+              <span>发动机位置:{{detail.enginelocation || '无'}}</span>
+              <span>驱动方式:{{detail.drivemode || '无'}}</span>
+              <span>供油技术:{{detail.feedingoil || '无'}}</span>
+              <span>启停技术:{{detail.startstop || '无'}}</span>
+              <span>正时技术:{{detail.tivct || '无'}}</span>
+            </div>
+            <div >
+              <span>变速箱档位数:{{detail.gearboxnum || '无'}}</span>
+              <span>变速器描述:{{detail.transmission || '无'}}</span>
+              <span>变速箱型号:{{detail.gearboxtype || '无'}}</span>
+            </div>
+            <div style="background: rgb(237, 238, 242);">
+              <span>燃油滤清器位置:{{detail.oil_filtersite || '无'}}</span>
+              <span>转向助力类型:{{detail.veer_help || '无'}}</span>
+              <span>工位要求:{{detail.station_ask || '无'}}</span>
+            </div>
           </div>
         </transition>
         <div class="byType mt">
@@ -134,7 +140,7 @@ export default {
       detail:{},
       numType: 0, //0 不执行判断 ；1 +9了 ； 2 价格-9了
       numType1: 0, //0 不执行判断 ；1 +38了 ； 2 价格-38了
-      moneyJ:2//1产品需定价 2默认
+      moneyJ:2,//1产品需定价 2默认
     };
   },
   watch: {
@@ -169,25 +175,37 @@ export default {
       this.ajax(messge);
     },
     listTap(obj) {
+      let tapId = obj.childrenItem.id;
       this.bytitle[obj.byindex].sondata[obj.index].checked = !this.bytitle[obj.byindex].sondata[obj.index].checked; //选中状态
       let bytitle = this.bytitle[obj.byindex].sondata[obj.index]; //当前点击的数据
-      console.log('bytitle',bytitle)
+      //润滑系统不可单独选择
+      if(tapId == 16){
+        this.bytitle[0].sondata.forEach(u=>{
+          if(u.id == 1 && u.checked == false){
+            this.bytitle[obj.byindex].sondata[obj.index].checked = false
+            this.$Message.error('需选择小保养');
+            return
+          }
+        })
+      }
       if (bytitle.checked) {
-        this.upkeepList.push({
+        let upkeepList = this.upkeepList;
+        upkeepList.push({
           name: bytitle.title,
           id: bytitle.id,
           summary:bytitle.summary,
           video:bytitle.video,
           grandsondata: bytitle.grandsondata,
-        }); //向数组添加选中的数据
+        });
+        
+        console.log('this.upkeepList',this.upkeepList)
+        //向数组添加选中的数据
         //选中服务项目 价格相加
-        bytitle.grandsondata.forEach((m,ind) => {
-          console.log('ind',ind)
-          console.log('m',m)
+        bytitle.grandsondata.forEach((m) => {
           if (JSON.stringify(m) !== "{}") {
+            console.log('m.total_price',m.total_price)
             this.money += Number(m.total_price);
             if(m.total_price == 0){
-              console.log('mkxjghlajgkl',m.total_price)
               this.moneyJ = 1
             }
           }
@@ -197,8 +215,8 @@ export default {
             this.money += 0
           }
         }
-        let arrid = new Array();
-        this.upkeepList.forEach((o) => {
+        let arrid = new Array;
+        upkeepList.forEach((o) => {
           arrid.push(o.id);
         });
         //小保养 节气门 润滑系统（发动机内部清洗） 同时存在 则减9元
@@ -220,10 +238,31 @@ export default {
             this.numType1 = 2;
           }
         }
+        upkeepList.sort((x,y)=>{
+          console.log('xy',x.id,y.id)
+            return x.id-y.id
+        })
       } else if (!bytitle.checked) {
         //清除取消选中的数据
+        
+        //取消选中小保养 润滑系统也取消选中
+        if(bytitle.id == 1 ){
+          let sondata = this.bytitle[3].sondata;
+          sondata.forEach(l=>{if(l.id == 16){l.checked = false}})
+          this.upkeepList.forEach((item, key) => {
+            if(item.id == 16) {
+              this.upkeepList.splice(key, 1);
+              item.grandsondata.forEach((m) => {
+                // eslint-disable-next-line no-debugger
+                if (JSON.stringify(m) !== "{}") {
+                  this.money -= Number(m.total_price);
+                }
+              });
+            }
+          });
+        }
         this.upkeepList.forEach((item, key) => {
-          if (item.id == bytitle.id) {
+            if(item.id == bytitle.id) {
             this.upkeepList.splice(key, 1);
             //取消选中价格相减
             item.grandsondata.forEach((m) => {
@@ -237,18 +276,17 @@ export default {
         let idarr = new Array;
         let arrid = new Array();
         this.upkeepList.forEach((o) => {
-          console.log('o',o)
           arrid.push(o.id);
           o.grandsondata.forEach(a=>{
             idarr.push(Number(a.total_price))
           })
         });
+        console.log('idarr',idarr)
         if(idarr.includes(0)){
           //不走
         }else{
           this.moneyJ = 2
         }
-        console.log('idarr',idarr)
         //小保养 节气门 润滑系统（发动机内部清洗） 同时存在 则减9元
         if (arrid.includes(1) && arrid.includes(15) && arrid.includes(16)) {
           //不走
@@ -274,6 +312,7 @@ export default {
           }
         }
       }
+      
       this.money = Number(this.money.toFixed(2));
     },
 
@@ -375,7 +414,13 @@ export default {
               this.numType1 = 2;
             }
           }
+          upkeepList.sort((x,y)=>{
+            x.id - y.id
+          })
+          console.log('upkeepList',upkeepList)
+
           this.upkeepList = upkeepList;
+
           this.show = false;
         })
         .catch((err) => {
@@ -456,15 +501,20 @@ export default {
 }
 .carDetail {
   background-color: #f6f7fb;
-  padding: 0 20px 20px;
+  padding-bottom: 10px;
   display: flex;
   flex-wrap: wrap;
 }
-.carDetail div{
-  margin-right: 40px;
-  width: 340px;
+.carDetail span{
+  margin-right: 30px;
+  width: 194px;
   line-height:2;
   font-size: 14px;
+  display: inline-block;
+}
+.carDetail div{
+  width: 100%;
+    padding:5px 20px;
 }
 
 .ivu-btn-primary {

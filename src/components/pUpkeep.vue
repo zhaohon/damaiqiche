@@ -72,7 +72,7 @@
         </div>
       </div>
       <div class="tr fl comemoney">
-          商品总价<span class="color-light-gray">（不含工时费）</span>: <span class="color-red font-bold">￥{{moneyJ == 1?'产品需定价':money}}</span>
+          商品总价<span class="color-light-gray">（免费工时）</span>: <span class="color-red font-bold">￥{{moneyJ == 1?'产品需定价':money}}</span>
       </div>
       <div class="clearfix"></div>
     </div>

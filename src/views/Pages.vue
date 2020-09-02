@@ -43,6 +43,9 @@ export default {
             localStorage.setItem("session_id", res.session_id);
             this.$router.push({ path:'/home',name:'Home', query: {}})
           }
+          if(res.res == 0){
+            this.$Message.error(res.msg);
+          }
         })
         .catch((err) => {
           console.log("err", err);

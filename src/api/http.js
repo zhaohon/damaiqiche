@@ -28,8 +28,10 @@ const toLogin = () => {
  */
 const errorRoutine = (res)=>{
     console.warn('常规错误',res)
-    if(res.res == '0'){
+    if(res.res == '-1'){
         Message.warning(res.msg,5);
+        localStorage.removeItem('shop_id');
+        localStorage.removeItem('session_id');
         toLogin()
     }
 }
@@ -91,10 +93,10 @@ instance.interceptors.response.use(
         const { status, data } = response;
         if (Object.is(status, 200)) {//两个参数是否是相同的值。
             const { res } = data;
-            if(res == '0'){
+            if(res == '-1'){
                 errorRoutine(data)
             }
-            if(res != '0'){
+            if(res != '-1'){
                 return Promise.resolve(data);
             }
         } else {
