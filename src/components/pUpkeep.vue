@@ -27,8 +27,8 @@
             </h4>
             <div class="pc-upkeep-right pbupkeep" v-if="item.name == title">
               <h4><i></i> 更多推荐产品</h4>
-              <div class="scrollpc" v-if="gd">
-                <div v-for="(z,zindex) in gd" :key="zindex">
+              <div class="scrollpc" v-if="gd.data">
+                <div v-for="(z,zindex) in gd.data" :key="zindex" @click="huantap(gd,z,zindex,index)">
                   <div class="upkeep-right-font">
                     <div class="fl dib"><img :src="z.image?imgurl + z.image:require('./../assets/logo.png')" alt /></div>
                     <h4 class="fl mr ">{{z.name}}</h4>
@@ -47,7 +47,7 @@
               <tbody v-if="item.grandsondata.length > 0" >
                 <tr v-for="(items,indexs) in item.grandsondata" :key="indexs">
                     <td width="130" class="tc">{{items.title}}</td>
-                    <td class="hover-bor" :class="hovernum == index + String(indexs)?'hoverbg':''" @click="listtap(items.data,item.name,index + String(indexs))">
+                    <td class="hover-bor" :class="hovernum == index + String(indexs)?'hoverbg':''" @click="listtap(items,item.name,index + String(indexs))">
                       <div class="pack_biaoti">
                         <img class="fl" :src="items.image?imgurl + items.image:require('./../assets/logo.png')" alt />
                         <div>{{items.name}} {{items.model}}</div>
@@ -100,6 +100,42 @@ export default {
     money:Number,
   },
   methods: {
+    huantap(a,b,ind,lind){
+      let z = a,//外
+          x = b,//里
+          c = a.data;
+      delete z.data;//外.data 
+      c[ind] = z;//里.data
+      x.data = c;//外.data
+      // console.log('z:里',z)
+      // console.log('x:外',x)
+      this.gd = x;
+      let list = this.list[lind]
+      console.log(list)
+      if(list.id == 1){
+        if(a.title == '机油'){
+          //机油
+          this.list[lind].grandsondata[0] = x
+        }else if(a.title == '机滤'){
+          //机滤
+          this.list[lind].grandsondata[1] = x
+        }
+      }else{
+        //其他大类
+        this.list[lind].grandsondata[0] = x
+      }
+      let moneyJ = this.moneyJ
+      if(b.total_price == 0){
+        moneyJ = 1
+      }else{
+        moneyJ = 2
+      }
+      let money = Number(this.money);
+       money -= Number(a.total_price),
+        money += Number(b.total_price);
+       money.toFixed(2)
+      this.$emit('moneyTap',{money,moneyJ})
+    },
     endTap(){
       this.videointro = false
     },
@@ -329,6 +365,7 @@ export default {
   border-bottom: 1px solid #dcdde1;
   padding: 15px 10px;
   z-index: 9;
+  cursor: pointer;
 }
 .upkeep-right-font .dib {
   position: absolute;

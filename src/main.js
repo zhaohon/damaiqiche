@@ -8,11 +8,13 @@ import QS from 'qs';
 import 'iview/dist/styles/iview.css';
 import './assets/reset.css';//初始化样式
 import './assets/CSS.css'; //通用样式
+import { Cascader } from 'element-ui';
 Vue.prototype.$qs = QS;
 Vue.prototype.$http = apilist; //添加apilist到Vue的原型对象上
 Vue.config.productionTip = false;
 
 Vue.use(iview)
+Vue.use(Cascader)
 
 new Vue({
   router,

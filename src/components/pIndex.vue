@@ -146,16 +146,23 @@
             v-for="(item,index) in SearchArr"
             :key="index"
           >
-            <div>{{item.title}}</div>
+            <!-- <div>{{item.title}} </div> -->
             <div class="chanpin-xian">
               <!-- 下拉框 -->
               <!-- <block v-for="(t,i) in item.list" :key="i" > -->
-              <cascader
+              <!-- <cascader
                 :data="item.list"
                 :load-data="loadData"
                 @on-change="handleChangeOnSelect"
                 :clearable="false"
-              ></cascader>
+              ></cascader> -->
+              <el-cascader
+              ref="cascader"
+              @change="handleChangeOnSelect(item,index)"
+              :placeholder="item.title"
+              :options="item.list"
+              :props="props"
+              filterable></el-cascader>
               <!-- </block> -->
             </div>
           </div>
@@ -188,7 +195,7 @@
               <p class="list-w3">适用车型</p>
             </div>
             <div v-if="allSerchPar.length == 0" class="tc c9">-- 暂无数据 --</div>
-            <div v-else class="fbox fbox-jb pl pr" v-for="(item,index) in allSerchPar" :key="index">
+            <div v-else class="fbox fbox-jb pl pr" style="cursor: pointer;" v-for="(item,index) in allSerchPar" :key="index" @click="baoy(item)">
               <div class="fg1">
                 <p class="title">【{{item.id}}】 {{item.shop}} - {{item.models}}</p>
                 <p class="con">
@@ -221,7 +228,7 @@
 
 <script>
 import {  Throttle } from "@/utils/public";
-
+import api from '@/api/apilist';
 export default {
   name: "pIndex",
   data() {
@@ -231,20 +238,6 @@ export default {
       showModal: false,
       content: "",
       changeOnSelect: false,
-      data4: [
-        {
-          value: "beijing",
-          label: "北京",
-          children: [],
-          loading: false,
-        },
-        {
-          value: "hangzhou",
-          label: "杭州",
-          children: [],
-          loading: false,
-        },
-      ],
       allName: [],
       allSerch: [],
       allSerchPar: [],
@@ -252,7 +245,43 @@ export default {
       jiucuoName: "",
       jiucuoArr: [],
       models: "", //车型搜索
-      p:1
+      p:1,
+      props: {
+          lazy: true,
+          lazyLoad (item, resolve) {
+             if(item.label){
+               //根据品牌获取机型
+                api.SearchModel({
+                    value: item.label,
+                    filed: item.value,
+                  })
+                  .then((res) => {
+                    console.log("机型", res);
+                    //重组参数名称
+                    let list = new Array();
+                    res.list.forEach((i) => {
+                      //型号的value不为空则添加
+                      if (i.value != null) {
+                        list.push({ label: i.value, value: i.value, id: i.field,leaf:2 });
+                      }
+                    });
+                    // item.children = list;
+                    // console.log("list", list);
+                    // item.loading = false;
+                    // if (list.length == 0) {
+                    //   this.zanwu();
+                    // }
+                    resolve(list); //成功后回调
+                  })
+                  .catch((err) => {
+                    console.log("错误", err);
+                    item.loading = false;
+                    resolve();
+                  });
+             }
+          }
+        }
+      
     };
   },
   props: {
@@ -281,6 +310,20 @@ export default {
     },
   },
   methods: {
+    baoy(item){
+      console.log(item)
+      let messge = {
+              brand:item.brand,
+              cars:item.cars,
+              displacement: item.displacement,
+              model: item.model,
+              models: item.models,
+              shop:item.shop,
+              year:item.year,
+            }
+      localStorage.setItem("messge",this.$qs.stringify(messge));
+       this.$router.push({ path:'/Upkeep',name:'Upkeep', query: {}})
+    },
     loadData(item, callback) {
       console.log("item", item);
       // this.$emit("loadData",item)
@@ -318,7 +361,26 @@ export default {
     ceshi() {
       console.log("1111111111111");
     },
-    handleChangeOnSelect(value, selectedData) {
+    handleChangeOnSelect(value, index) {
+      console.log(value, index)
+      let selectedData = new Array;
+      let Nodes = '';
+      this.$nextTick(() => {
+            Nodes = this.$refs.cascader[index].getCheckedNodes()[0];
+      // let Nodea = this.$refs.cascader[index].suggestions[0].pathNodes
+      // console.log(this.$refs.cascader[index])
+      // if(this.$refs.cascader[index].getCheckedNodes().length == 0){
+      //   selectedData[0] = Nodea[0].data
+      //   selectedData[1] = Nodea[1].data;
+      // }else{
+        selectedData[0] = Nodes.parent.data
+        selectedData[1] = Nodes.data;
+      // }
+      
+     
+      
+      console.log('this.$refs[].currentLabels',Nodes,selectedData)
+      console.log(value,index)
       this.p = 1
       let arr = [];
       let url = "";
@@ -337,9 +399,9 @@ export default {
         });
       console.log(value, selectedData, "这是点击拿回来的数据");
       let have = false;
-      arr[0] = selectedData[0].value;
-      arr[1] = selectedData[0].label;
-      arr[2] = selectedData[1].id;
+      arr[0] = selectedData[0].value; 
+      arr[1] = selectedData[0].label; 
+      arr[2] = selectedData[1].id; 
       arr[3] = selectedData[1].label;
       arr["yi"] = selectedData[0].name;
       let allarr = this.allSerch;
@@ -380,6 +442,8 @@ export default {
         .catch((err) => {
           console.log("错误", err);
         });
+      })
+
     },
     more(){
       let p = this.p + 1
@@ -756,8 +820,8 @@ export default {
 .chanpin-item {
   width: 240px;
   height: 36px;
-  background: #ffffff;
-  border: 2px solid #dddddd;
+  /* background: #ffffff; */
+  /* border: 2px solid #dddddd; */
   border-radius: 2px;
   box-sizing: border-box;
   padding-left: 12px;
@@ -767,14 +831,15 @@ export default {
 .chanpin-box .list {
   padding: 16px 0 6px 20px;
 }
-.chanpin-box .list:nth-child(2n) {
+/* .chanpin-box .list:nth-child(2n) {
   background: #f7f8fa;
-}
+} */
 .chanpin-xian {
   position: relative;
-  width: 30%;
+  /* width: 30%; */
+  width: 240px;
 }
-.chanpin-xian::after {
+/* .chanpin-xian::after {
   position: absolute;
   content: "";
   width: 0;
@@ -782,7 +847,7 @@ export default {
   border-left: 1px solid #dddddd;
   left: -10px;
   top: 6px;
-}
+} */
 .chanpin-xian .ivu-select-selection {
   border: none !important;
 }
@@ -1049,4 +1114,5 @@ textarea {
 .ivu-cascader .ivu-input {
   padding-right: 0 !important;
 }
+
 </style>

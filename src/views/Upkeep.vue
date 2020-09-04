@@ -103,8 +103,8 @@
             </dl>
           </div>
         </div>
-        <pUpkeep class="mt" :moneyJ="moneyJ" :money="money" :list="upkeepList" v-if="screenWidth > 700"></pUpkeep>
-        <mUpkeep :moneyJ="moneyJ" :money="money" :list="upkeepList" v-if="screenWidth < 700"></mUpkeep>
+        <pUpkeep class="mt" @moneyTap="moneyTap" :moneyJ="moneyJ" :money="money" :list="upkeepList" v-if="screenWidth > 700"></pUpkeep>
+        <mUpkeep :moneyJ="moneyJ" @moneyTap="moneyTap" :money="money" :list="upkeepList" v-if="screenWidth < 700"></mUpkeep>
         <!-- 移动端 -->
         <div class="m-list"></div>
       </div>
@@ -157,6 +157,11 @@ export default {
     },
   },
   methods: {
+    moneyTap(e){
+      console.log(e,'moneyTapmoneyTap')
+      this.moneyJ = e.moneyJ;
+      this.money = Number(e.money.toFixed(2));
+    },
     indtap(e, ind) {
       console.log('this.bytitle[ind]',this.bytitle[ind].check)
       console.log('this.bytitle[ind]',this.bytitle)

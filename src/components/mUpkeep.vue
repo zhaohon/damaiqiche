@@ -16,11 +16,10 @@
           <div v-for="(items,indexs) in item.grandsondata" :key="indexs">
             <h4 class="tl fbox fbox-acenter fbox-jbetween">
               <span>{{items.title}}</span>
-              <span @click="moreTap(item.name,items.data)" class="norm-text color-light-gray">更多 ></span>
+              <span @click="moreTap(item.name,items)" class="norm-text color-light-gray">更多 ></span>
             </h4>
             <div
               class="mpad fbox fbox-acenter"
-              @click="listtap(items,item.name,index + String(indexs))"
             >
               <div class="fbox fbox-acenter">
                 <img :src="items.image?imgurl + items.image:require('./../assets/logo.png')" alt />
@@ -42,8 +41,8 @@
             <img src="../assets/offw.png" alt />
             <div class="moreTap" @click="moreTap('')"></div>
           </h4>
-          <div v-if="gd" style="max-height:200px;overflow: scroll;overflow-x: hidden;">
-            <div v-for="(z,zindex) in gd" :key="zindex" class="mpad fbox fbox-acenter">
+          <div v-if="gd.data" style="max-height:200px;overflow: scroll;overflow-x: hidden;">
+            <div v-for="(z,zindex) in gd.data" :key="zindex" class="mpad fbox fbox-acenter"  @click="huantap(gd,z,zindex,index)">
               <div class="fbox fbox-acenter">
                 <img width="60" :src="z.image?imgurl + z.image:require('./../assets/logo.png')" />
               </div>
@@ -89,14 +88,51 @@ export default {
       hovernum: 0,
       imgurl:'https://damaichaxun.com/',
       title:"",
-      moneyJ:Number,
+      gd:''
     };
   },
   props: {
     list: Array,
-    money:Number
+    money:Number,
+      moneyJ:Number,
   },
   methods: {
+    huantap(a,b,ind,lind){
+      let z = a,//外
+          x = b,//里
+          c = a.data;
+      delete z.data;//外.data 
+      c[ind] = z;//里.data
+      x.data = c;//外.data
+      console.log('z:里',z)
+      console.log('x:外',x)
+      this.gd = x;
+      let list = this.list[lind]
+      console.log(list)
+      if(list.id == 1){
+        if(a.title == '机油'){
+          //机油
+          this.list[lind].grandsondata[0] = x
+        }else if(a.title == '机滤'){
+          //机滤
+          this.list[lind].grandsondata[1] = x
+        }
+      }else{
+        //其他大类
+        this.list[lind].grandsondata[0] = x
+      }
+      let moneyJ = this.moneyJ
+      if(b.total_price == 0){
+        moneyJ = 1
+      }else{
+        moneyJ = 2
+      }
+      let money = Number(this.money);
+       money -= Number(a.total_price),
+        money += Number(b.total_price);
+       money.toFixed(2)
+      this.$emit('moneyTap',{money,moneyJ})
+    },
     introtap(a,b) {
       if(a || b){
         this.videointro = !this.videointro;
