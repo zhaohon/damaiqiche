@@ -54,11 +54,13 @@ export default {
     changes(e,s){
       //s为车系分类
       console.log(e,s,"父组件")
+      
       if(this.yixuan.length == 7){
         this.messge.power = e
         localStorage.setItem("messge",this.$qs.stringify(this.messge));
        this.$router.push({ path:'/Upkeep',name:'Upkeep', query: {}})
       }
+      this.show = true
       // 车系
       if(this.yixuan.length == 0){
         this.$http
@@ -69,7 +71,7 @@ export default {
             console.log("车系接口返回", res.data);
             this.chexi = res.data
             this.yixuan.push(e)
-
+            this.show = false
           })
           .catch((err) => {
             console.log("错误", err), (this.show = false);
@@ -88,7 +90,32 @@ export default {
           .then((res) => {
             console.log("车型接口返回", res.data);
             this.chexing = res.data
-            this.yixuan.push(e)
+            let iffont = false
+            if(res.data.length == 1){
+                iffont = true
+            }
+            console.log(iffont)
+            // this.yixuan.push(e)
+            if(iffont){
+              this.yixuan.push(e,e)
+              this.$http.carQuantity({
+                cars:this.yixuan[1],
+                shop:this.shop,
+                brand: this.yixuan[0],
+                models:e
+              })
+              .then((res) => {
+                console.log("排量接口返回", res.data);
+                this.pailiang = res.data
+                 this.show = false
+              })
+              .catch((err) => {
+                console.log("错误", err), (this.show = false);
+              });
+            }else{
+              this.yixuan.push(e)
+               this.show = false
+            }
           })
           .catch((err) => {
             console.log("错误", err), (this.show = false);
@@ -108,6 +135,7 @@ export default {
             console.log("排量接口返回", res.data);
             this.pailiang = res.data
             this.yixuan.push(e)
+             this.show = false
           })
           .catch((err) => {
             console.log("错误", err), (this.show = false);
@@ -128,6 +156,7 @@ export default {
             console.log("年份接口返回", res.data);
             this.nianfen = res.data
             this.yixuan.push(e)
+             this.show = false
           })
           .catch((err) => {
             console.log("错误", err), (this.show = false);
@@ -149,6 +178,7 @@ export default {
             console.log("款型接口返回", res.data);
             this.kuanxing = res.data
             this.yixuan.push(e)
+             this.show = false
           })
           .catch((err) => {
             console.log("错误", err), (this.show = false);
@@ -180,6 +210,7 @@ export default {
               shop:res.shop,
               year:res.year,
             }
+             this.show = false
           })
           .catch((err) => {
             console.log("错误", err), (this.show = false);
@@ -213,6 +244,7 @@ export default {
               year:res.year,
               engine:res.engine
             }
+             this.show = false
           })
           .catch((err) => {
             console.log("错误", err), (this.show = false);

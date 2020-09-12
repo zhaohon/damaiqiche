@@ -31,7 +31,7 @@
                 <div v-for="(z,zindex) in gd.data" :key="zindex" @click="huantap(gd,z,zindex,index)">
                   <div class="upkeep-right-font">
                     <div class="fl dib"><img :src="z.image?imgurl + z.image:require('./../assets/logo.png')" alt /></div>
-                    <h4 class="fl mr ">{{z.name}}</h4>
+                    <h4 class="fl mr ">{{z.name + ' ' + (z.model?z.model:'')}}</h4>
                     <p class="fl mr upkeep-right-price">{{z.price == 0?'产品需定价':z.price}}</p>
                     <p class="fl mr upkeep-right-num">{{z.number}}</p>
                     <div class="clearfix"></div>
@@ -46,11 +46,14 @@
             <table :style="[{borderBottom:(item.grandsondata.length > 0?'':'none')}]">
               <tbody v-if="item.grandsondata.length > 0" >
                 <tr v-for="(items,indexs) in item.grandsondata" :key="indexs">
-                    <td width="130" class="tc">{{items.title}}</td>
+                    <td width="130" class="tc">{{items.title}} </td>
                     <td class="hover-bor" :class="hovernum == index + String(indexs)?'hoverbg':''" @click="listtap(items,item.name,index + String(indexs))">
                       <div class="pack_biaoti">
                         <img class="fl" :src="items.image?imgurl + items.image:require('./../assets/logo.png')" alt />
-                        <div>{{items.name}} {{items.model}}</div>
+                        <div>
+                          <p>{{items.name}} {{items.model}} </p>
+                          <p v-if="item.mileage" style="font-size:12px;color:#999;margin-top:5px">保养周期:{{item.mileage}}</p>
+                        </div>
                       </div>
                       <div class="pck_price tc color-red">{{items.price == 0?'产品需定价':items.price}}</div>
                       <div class="pck_num tc">{{items.number}}</div>
@@ -72,7 +75,7 @@
         </div>
       </div>
       <div class="tr fl comemoney">
-          商品总价<span class="color-light-gray">（免费工时）</span>: <span class="color-red font-bold">￥{{moneyJ == 1?'产品需定价':money}}</span>
+          商品总价<span class="color-light-gray">（免工时费）</span>: <span class="color-red font-bold">￥{{moneyJ == 1?'产品需定价':money}}</span>
       </div>
       <div class="clearfix"></div>
     </div>
@@ -98,31 +101,42 @@ export default {
     list: Array,
     moneyJ:Number,
     money:Number,
+    zicat:Number,
+    idarr:Array
   },
+
   methods: {
     huantap(a,b,ind,lind){
+      //  console.log(a,b)
       let z = a,//外
           x = b,//里
-          c = a.data;
+          c = a.data,
+          zicat = this.zicat;
       delete z.data;//外.data 
       c[ind] = z;//里.data
       x.data = c;//外.data
       // console.log('z:里',z)
       // console.log('x:外',x)
       this.gd = x;
-      let list = this.list[lind]
-      console.log(list)
-      if(list.id == 1){
+      let list = this.list;
+      let money = Number(this.money);
+      // console.log(list)
+      if(list[lind].id == 1){
         if(a.title == '机油'){
           //机油
-          this.list[lind].grandsondata[0] = x
+          // this.list[lind].grandsondata[0] = x
+          list[lind].grandsondata[0] = x
+          console.log(x.name,'机油',list[lind].grandsondata[0],list[lind].grandsondata[0].name)
         }else if(a.title == '机滤'){
           //机滤
-          this.list[lind].grandsondata[1] = x
+          // this.list[lind].grandsondata[1] = x
+          list[lind].grandsondata[1] = x
+          console.log(x.name,'机滤',list[lind].grandsondata[1])
         }
       }else{
         //其他大类
-        this.list[lind].grandsondata[0] = x
+        // this.list[lind].grandsondata[0] = x
+        list[lind].grandsondata[0] = x
       }
       let moneyJ = this.moneyJ
       if(b.total_price == 0){
@@ -130,10 +144,48 @@ export default {
       }else{
         moneyJ = 2
       }
-      let money = Number(this.money);
-       money -= Number(a.total_price),
+      if(list[lind].id == 1){
+        let newcat = list[lind].grandsondata[0].cat;
+      let leng = list[lind].grandsondata[0].data.length;
+      // console.log(zicat,'zicat',list[lind].grandsondata[1].total_price)
+      //eslint-disable-next-line no-debugger
+      // debugger
+      if(zicat == 2 && newcat == 1){
+        //进行减法
+        console.log('进行减法')
+        money -= Number(list[lind].grandsondata[1].total_price)
+      }
+      if(zicat == 1 && newcat == 2){
+        //进行加法
+        console.log('进行加法')
+        money += Number(list[lind].grandsondata[1].total_price)
+      }
+      if(zicat == 1 && newcat == 1){
+        // money -= Number(list[lind].grandsondata[1].total_price)
+      }
+      if(a.title != '机滤'){
+        money -= Number(a.total_price),
         money += Number(b.total_price);
-       money.toFixed(2)
+      }else{
+        if(zicat == 1 && newcat == 1){
+            //
+        }else{
+          money -= Number(a.total_price),
+          money += Number(b.total_price);
+        }
+      }
+      
+      console.log('newcat',newcat,list[lind].grandsondata[0].data,leng)
+      this.$emit('zicat',newcat)
+      }else{
+        money -= Number(a.total_price),
+        money += Number(b.total_price);
+      }
+      this.list = list
+      money.toFixed(2)
+      if(this.idarr.includes(0)){
+        moneyJ = 1
+      }
       this.$emit('moneyTap',{money,moneyJ})
     },
     endTap(){

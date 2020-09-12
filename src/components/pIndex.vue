@@ -2,6 +2,7 @@
   <div class="pIndex">
     <div class="box">
       <div class="tab fbox">
+        
         <div class="fbox fbox-ac fbox-jc" :class="tab == 1?'tabActive':''" @click="tabC(1)">
           <img class="car" src="../assets/cara.png" alt v-if="tab == 1" />
           <img class="car" src="../assets/car.png" alt v-else />
@@ -65,7 +66,6 @@
             <img class="guan" src="../assets/off.png" @click="del(index)" />
           </div>
         </div>
-
         <!-- 选择品牌 -->
 
         <div class="item fbox fbox-ac fbox-wrap" v-if="yixuan.length == 0">
@@ -140,6 +140,7 @@
 
       <!-- 产品搜索 -->
       <div class="chanpin-box" v-if="tab == 3">
+        
         <div class="list fbox fbox-ac fbox-w">
           <div
             class="chanpin-item fbox fbox-ac fbox-jb fbox-w"
@@ -162,14 +163,20 @@
               :placeholder="item.title"
               :options="item.list"
               :props="props"
+              :key="isResouceShow"
               filterable></el-cascader>
               <!-- </block> -->
             </div>
           </div>
         </div>
+        <div class="tl">
+          <i-button type="primary" class="vttn" style="background:#77b110;border-color:#77b110"  @click.stop="emptyTap">清空</i-button>
+        </div>
       </div>
+      
       <!-- 产品列表 -->
       <div class="chanpin-table" v-if="tab == 3">
+        
         <div class="chanpin-table-title fbox fbox-ac top-title">
           <p class="list-w1">产品分类</p>
           <p class="list-w2">产品名称</p>
@@ -195,7 +202,7 @@
               <p class="list-w3">适用车型</p>
             </div>
             <div v-if="allSerchPar.length == 0" class="tc c9">-- 暂无数据 --</div>
-            <div v-else class="fbox fbox-jb pl pr" style="cursor: pointer;" v-for="(item,index) in allSerchPar" :key="index" @click="baoy(item)">
+            <div v-else class="fbox fbox-jb pl pr" style="cursor: pointer;" v-for="(item,index) in allSerchPar" :key="index" @click.stop="baoy(item)">
               <div class="fg1">
                 <p class="title">【{{item.id}}】 {{item.shop}} - {{item.models}}</p>
                 <p class="con">
@@ -204,7 +211,7 @@
                   <span>发动机型号：{{item.engine}}</span>
                 </p>
               </div>
-              <p class="jiucuo ml fsh" @click="showModalO(item)">纠错</p>
+              <p class="jiucuo ml fsh" @click.stop="showModalO(item)">纠错</p>
             </div>
             <div v-if="allSerchPar.length != 0" class="tc c9" @click="more" >点击加载更多</div>
           </div>
@@ -236,12 +243,13 @@ export default {
       cityList: [],
       model1: "",
       showModal: false,
+      isResouceShow:0,
       content: "",
       changeOnSelect: false,
       allName: [],
       allSerch: [],
       allSerchPar: [],
-
+      cascaderValue:'',
       jiucuoName: "",
       jiucuoArr: [],
       models: "", //车型搜索
@@ -307,9 +315,19 @@ export default {
       this.allName = [];
       this.allSerch = [];
       this.allSerchPar = [];
+      
     },
   },
   methods: {
+    emptyTap(){
+      console.log(this.SearchArr)
+      // this.cascaderValue = ""; //清空v-model
+      ++this.isResouceShow; //key值自增
+      // this.options_cascader = []; //清空内容
+      this.allSerch = []
+      this.allSerchPar = []
+      this.allName = [];
+    },
     baoy(item){
       console.log(item)
       let messge = {
@@ -376,8 +394,7 @@ export default {
         selectedData[0] = Nodes.parent.data
         selectedData[1] = Nodes.data;
       // }
-      
-     
+
       
       console.log('this.$refs[].currentLabels',Nodes,selectedData)
       console.log(value,index)
@@ -513,10 +530,11 @@ export default {
     showModalO(item) {
       this.showModal = true;
       let nameArr = [];
-
       this.allSerch.forEach((item, index) => {
         nameArr.push(this.allSerch[index][1] + this.allSerch[index][3]);
       });
+      console.log(this.allSerch)
+
 
       this.jiucuoName = nameArr.join("/");
       this.jiucuoArr = item;
@@ -595,7 +613,14 @@ export default {
 .tab {
   justify-content: flex-end;
 }
-
+.vttn{
+  margin-bottom: 20px;
+  width: 100px;
+  margin-left: 32px;
+}
+.vttn:focus{
+  box-shadow: 0 0 0 2px rgba(119, 177, 16,.1)
+}
 .tab > div {
   width: 147px;
   height: 36px;
@@ -942,7 +967,15 @@ export default {
 .list-right > div:nth-child(1) {
   border-top: none;
 }
-
+.list-right > div:hover{
+  background-color: #f6f6f6;
+}
+.list-right > div.tc.c9{
+  cursor: pointer;
+}
+.list-right > div.tc.c9:hover{
+   background-color:transparent
+}
 .list-right .title {
   font-size: 16px;
   color: #333333;

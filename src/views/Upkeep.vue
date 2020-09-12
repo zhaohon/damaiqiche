@@ -103,8 +103,8 @@
             </dl>
           </div>
         </div>
-        <pUpkeep class="mt" @moneyTap="moneyTap" :moneyJ="moneyJ" :money="money" :list="upkeepList" v-if="screenWidth > 700"></pUpkeep>
-        <mUpkeep :moneyJ="moneyJ" @moneyTap="moneyTap" :money="money" :list="upkeepList" v-if="screenWidth < 700"></mUpkeep>
+        <pUpkeep class="mt" :idarr="idarr" :zicat="zicat" @zicat="zitap" @moneyTap="moneyTap" :moneyJ="moneyJ" :money="money" :list="upkeepList" v-if="screenWidth > 700"></pUpkeep>
+        <mUpkeep :idarr="idarr" :zicat="zicat" @zicat="zitap" :moneyJ="moneyJ" @moneyTap="moneyTap" :money="money" :list="upkeepList" v-if="screenWidth < 700"></mUpkeep>
         <!-- 移动端 -->
         <div class="m-list"></div>
       </div>
@@ -141,6 +141,8 @@ export default {
       numType: 0, //0 不执行判断 ；1 +9了 ； 2 价格-9了
       numType1: 0, //0 不执行判断 ；1 +38了 ； 2 价格-38了
       moneyJ:2,//1产品需定价 2默认
+      zicat:1000,
+      idarr:[]
     };
   },
   watch: {
@@ -157,6 +159,9 @@ export default {
     },
   },
   methods: {
+    zitap(e){
+      this.zicat = e
+    },
     moneyTap(e){
       console.log(e,'moneyTapmoneyTap')
       this.moneyJ = e.moneyJ;
@@ -195,12 +200,14 @@ export default {
       }
       if (bytitle.checked) {
         let upkeepList = this.upkeepList;
+        console.log(bytitle,'bytitlebytitle')
         upkeepList.push({
           name: bytitle.title,
           id: bytitle.id,
           summary:bytitle.summary,
           video:bytitle.video,
           grandsondata: bytitle.grandsondata,
+          mileage:bytitle.mileage
         });
         
         console.log('this.upkeepList',this.upkeepList)
@@ -209,21 +216,35 @@ export default {
         bytitle.grandsondata.forEach((m) => {
           if (JSON.stringify(m) !== "{}") {
             console.log('m.total_price',m.total_price)
-            this.money += Number(m.total_price);
+            if(m.cats != 1){
+              this.money += Number(m.total_price);
+            }
             if(m.total_price == 0){
               this.moneyJ = 1
             }
           }
         });
-        if(bytitle.grandsondata[0].cat == 1){
-          if(JSON.stringify(bytitle.grandsondata[1]) !== "{}"){
-            this.money += 0
-          }
-        }
-        let arrid = new Array;
-        upkeepList.forEach((o) => {
-          arrid.push(o.id);
-        });
+        // if(bytitle.grandsondata[0].cat == 1){
+        //   if(JSON.stringify(bytitle.grandsondata[1]) !== "{}"){
+        //     this.money += 0
+        //   }
+        // }
+        // let arrid = new Array;
+        // upkeepList.forEach((o) => {
+        //   arrid.push(o.id);
+        // });
+         let idarr = new Array;
+          let arrid = new Array();
+          upkeepList.forEach((o) => {
+            arrid.push(o.id);
+            o.grandsondata.forEach(a=>{
+              if(a.cats != 1){
+                idarr.push(Number(a.total_price))
+              }
+            })
+          });
+          console.log('idarr',idarr)
+          this.idarr = idarr;
         //小保养 节气门 润滑系统（发动机内部清洗） 同时存在 则减9元
         if (arrid.includes(1) && arrid.includes(15) && arrid.includes(16)) {
           if (this.numType == 0 || this.numType == 1) {
@@ -260,7 +281,9 @@ export default {
               item.grandsondata.forEach((m) => {
                 // eslint-disable-next-line no-debugger
                 if (JSON.stringify(m) !== "{}") {
-                  this.money -= Number(m.total_price);
+                  if(m.cats != 1){
+                    this.money -= Number(m.total_price);
+                  }
                 }
               });
             }
@@ -273,7 +296,9 @@ export default {
             item.grandsondata.forEach((m) => {
               // eslint-disable-next-line no-debugger
               if (JSON.stringify(m) !== "{}") {
-                this.money -= Number(m.total_price);
+                if(m.cats != 1){
+                  this.money -= Number(m.total_price);
+                }
               }
             });
           }
@@ -283,7 +308,9 @@ export default {
         this.upkeepList.forEach((o) => {
           arrid.push(o.id);
           o.grandsondata.forEach(a=>{
-            idarr.push(Number(a.total_price))
+            if(a.cats != 1){
+              idarr.push(Number(a.total_price))
+            }
           })
         });
         console.log('idarr',idarr)
@@ -292,6 +319,7 @@ export default {
         }else{
           this.moneyJ = 2
         }
+        this.idarr = idarr;
         //小保养 节气门 润滑系统（发动机内部清洗） 同时存在 则减9元
         if (arrid.includes(1) && arrid.includes(15) && arrid.includes(16)) {
           //不走
@@ -317,7 +345,6 @@ export default {
           }
         }
       }
-      
       this.money = Number(this.money.toFixed(2));
     },
 
@@ -363,6 +390,17 @@ export default {
           if(JSON.stringify(this.bytitle[0].sondata[0].grandsondata[1]) == "{}"){
                 this.bytitle[0].sondata[0].grandsondata.splice(1, 1);
           }
+          //查看有机滤的情况下记不记算机滤价格
+          this.bytitle.forEach((i)=>{
+            i.sondata.forEach(k=>{
+              if(k.id == 1){
+                if(k.grandsondata.length > 1){
+                  k.grandsondata[1].cats = k.grandsondata[0].cat
+                }
+              }
+            })
+          })
+
           this.bytitle.forEach((i) => {
             i.num = 0;
             i.sondata.forEach((k) => {
@@ -375,10 +413,23 @@ export default {
               //默认选中 显示相关服务项目 价格相加
               if (k.grandsondata.length > 0) {
                 // eslint-disable-next-line no-debugger
-                k.grandsondata.forEach((m, ind) => {
+               
+                if (k.checked) {
+                  upkeepList.push({name: k.title,id: k.id,grandsondata: k.grandsondata,summary:k.summary,video:k.video,});
+                  
+                  // if(k.grandsondata[0].cat == 1){
+                  //   console.log(k.grandsondata)
+                  //   if(k.grandsondata.length > 1){
+                  //     k.grandsondata[1].cats = 1;
+                  //   }
+                  // }
+                }
+                 k.grandsondata.forEach((m, ind) => {
                   if (JSON.stringify(m) !== "{}") {
                     if (k.checked) {
-                      this.money += Number(m.total_price);
+                      if(m.cats != 1){
+                        this.money += Number(m.total_price);
+                      }
                       if(m.total_price == 0){
                         this.moneyJ = 1 //1产品需定价
                       }
@@ -387,24 +438,26 @@ export default {
                     k.grandsondata.splice(ind, 1);
                   }
                 });
-                if (k.checked) {
-                  upkeepList.push({name: k.title,id: k.id,grandsondata: k.grandsondata,summary:k.summary,video:k.video,});
-                  if(k.grandsondata[0].cat == 1){
-                    if(JSON.stringify(k.grandsondata[1]) !== "{}"){
-                      if(k.grandsondata[1].total_price != 0){
-                        this.money += 0
-                      }
-                    }
-                  }
-                }
               }
             });
           });
           this.money = Number(this.money.toFixed(2));
+          let idarr = new Array;
           let arrid = new Array();
           upkeepList.forEach((o) => {
             arrid.push(o.id);
+            o.grandsondata.forEach(a=>{
+              if(a.cats != 1){
+                idarr.push(Number(a.total_price))
+              }
+            })
+            if(o.id == 1){
+              this.zicat = Number(o.grandsondata[0].cat);
+            }
+            
           });
+          console.log('idarr',idarr)
+          this.idarr = idarr;
           //小保养 节气门 润滑系统（发动机内部清洗） 同时存在 则减9元
           if (arrid.includes(1) && arrid.includes(15) && arrid.includes(16)) {
             if (this.numType == 1 || this.numType == 0) {

@@ -27,7 +27,8 @@
               <div class="fbox fbox-jcenter fbox-col ml">
                 <div>{{items.name}} {{items.model}}</div>
                 <div class="fbox fbox-acenter fbox-jbetween" style="width:100%">
-                  <div class="pck_price tc color-red mr tl">{{items.price == 0?'产品需定价':items.price}}</div>
+                  <div v-if="item.mileage" class="pck_num mr" style="color:#999">保养周期：{{item.mileage}}</div>
+                  <div class="pck_price tc color-red mr tl">{{items.price == 0?'产品需定价':'￥' + items.price}}</div>
                   <div class="pck_num tc color-hui">X {{items.number}}</div>
                 </div>
               </div>
@@ -47,7 +48,7 @@
                 <img width="60" :src="z.image?imgurl + z.image:require('./../assets/logo.png')" />
               </div>
               <div class="fbox fbox-acenter fbox-col ml minwidth">
-                <div class="tl" style="width:100%">{{z.name}}</div>
+                <div class="tl" style="width:100%">{{z.name + ' ' + (z.model?z.model:'')}}</div>
                 <div class="fbox fbox-acenter fbox-jbetween" style="width:100%">
                   <div class="pck_price tc color-red tl">{{z.price == 0?'产品需定价':z.price}}</div>
                   <div class="pck_num tc">{{z.number}}</div>
@@ -70,7 +71,7 @@
       </div>
     </div>
    <div class="tr mmoney">
-          商品总价<span class="color-light-gray">（免费工时）</span>: <span class="color-red font-bold">￥{{moneyJ == 1?'产品需定价':money}}</span>
+          商品总价<span class="color-light-gray">（免工时费）</span>: <span class="color-red font-bold">￥{{moneyJ == 1?'产品需定价':money}}</span>
     </div>
     <!-- 保养项 -->
     
@@ -94,32 +95,41 @@ export default {
   props: {
     list: Array,
     money:Number,
-      moneyJ:Number,
+    moneyJ:Number,
+    zicat:Number,
+    idarr:Array
   },
   methods: {
     huantap(a,b,ind,lind){
       let z = a,//外
           x = b,//里
-          c = a.data;
+          c = a.data,
+          zicat = this.zicat;
       delete z.data;//外.data 
       c[ind] = z;//里.data
       x.data = c;//外.data
-      console.log('z:里',z)
-      console.log('x:外',x)
+      // console.log('z:里',z)
+      // console.log('x:外',x)
       this.gd = x;
-      let list = this.list[lind]
-      console.log(list)
-      if(list.id == 1){
+      let list = this.list;
+      let money = Number(this.money);
+      // console.log(list)
+      if(list[lind].id == 1){
         if(a.title == '机油'){
           //机油
-          this.list[lind].grandsondata[0] = x
+          // this.list[lind].grandsondata[0] = x
+          list[lind].grandsondata[0] = x
+          console.log(x.name,'机油',list[lind].grandsondata[0],list[lind].grandsondata[0].name)
         }else if(a.title == '机滤'){
           //机滤
-          this.list[lind].grandsondata[1] = x
+          // this.list[lind].grandsondata[1] = x
+          list[lind].grandsondata[1] = x
+          console.log(x.name,'机滤',list[lind].grandsondata[1])
         }
       }else{
         //其他大类
-        this.list[lind].grandsondata[0] = x
+        // this.list[lind].grandsondata[0] = x
+        list[lind].grandsondata[0] = x
       }
       let moneyJ = this.moneyJ
       if(b.total_price == 0){
@@ -127,10 +137,48 @@ export default {
       }else{
         moneyJ = 2
       }
-      let money = Number(this.money);
-       money -= Number(a.total_price),
+      if(list[lind].id == 1){
+        let newcat = list[lind].grandsondata[0].cat;
+      let leng = list[lind].grandsondata[0].data.length;
+      console.log(zicat,'zicat',list[lind].grandsondata[1].total_price)
+      //eslint-disable-next-line no-debugger
+      // debugger
+      if(zicat == 2 && newcat == 1){
+        //进行减法
+        console.log('进行减法')
+        money -= Number(list[lind].grandsondata[1].total_price)
+      }
+      if(zicat == 1 && newcat == 2){
+        //进行加法
+        console.log('进行加法')
+        money += Number(list[lind].grandsondata[1].total_price)
+      }
+      if(zicat == 1 && newcat == 1){
+        // money -= Number(list[lind].grandsondata[1].total_price)
+      }
+      if(a.title != '机滤'){
+        money -= Number(a.total_price),
         money += Number(b.total_price);
-       money.toFixed(2)
+      }else{
+        if(zicat == 1 && newcat == 1){
+            //
+        }else{
+          money -= Number(a.total_price),
+          money += Number(b.total_price);
+        }
+      }
+      
+      console.log('newcat',newcat,list[lind].grandsondata[0].data,leng)
+      this.$emit('zicat',newcat)
+      }else{
+        money -= Number(a.total_price),
+        money += Number(b.total_price);
+      }
+      this.list = list
+      money.toFixed(2)
+       if(this.idarr.includes(0)){
+        moneyJ = 1
+      }
       this.$emit('moneyTap',{money,moneyJ})
     },
     introtap(a,b) {
