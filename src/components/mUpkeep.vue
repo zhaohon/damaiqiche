@@ -103,8 +103,19 @@ export default {
     huantap(a,b,ind,lind){
       let z = a,//外
           x = b,//里
-          c = a.data,
-          zicat = this.zicat;
+          c = a.data;
+           let zicat = '';
+          console.log(a,'sa.cats')
+          if(a.title == '机滤'){
+            zicat = a.cat 
+            this.list.forEach(item=>{
+              if(item.id == 1){
+               zicat = item.grandsondata[0].cat 
+              }
+            })
+          }else{
+            zicat = a.cat 
+          }
       delete z.data;//外.data 
       c[ind] = z;//里.data
       x.data = c;//外.data

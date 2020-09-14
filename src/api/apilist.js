@@ -26,6 +26,10 @@ const api = {
     getProject(params) {
         return http.post(`${apiUrl}Port/GetProject`,qs.stringify(params))
     },
+     // 车型保养2
+     getJump(params) {
+        return http.post(`${apiUrl}Port/GetJump`,qs.stringify(params))
+    },
     // 车型品牌    
     carName(params) {
         return http.post(`${apiUrl}Port/GetBrand`,qs.stringify(params))

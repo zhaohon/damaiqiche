@@ -9,7 +9,7 @@
           <div>
             <div
               class="mr ml large-text font-bold"
-            >{{info.brand || messge.brand}} {{info.cars || messge.cars}} {{info.displacement || messge.displacement}} 2016年产</div>
+            >{{info.brand || messge.brand}} {{info.cars || messge.cars}} {{info.displacement || messge.displacement}} {{info.year || messge.year}}</div>
             <div class="ml small-text pmfont">
               <div>
                 <span>{{info.model || messge.model}}</span>
@@ -142,7 +142,8 @@ export default {
       numType1: 0, //0 不执行判断 ；1 +38了 ； 2 价格-38了
       moneyJ:2,//1产品需定价 2默认
       zicat:1000,
-      idarr:[]
+      idarr:[],
+      messge1:[]
     };
   },
   watch: {
@@ -207,7 +208,8 @@ export default {
           summary:bytitle.summary,
           video:bytitle.video,
           grandsondata: bytitle.grandsondata,
-          mileage:bytitle.mileage
+          mileage:bytitle.mileage,
+          limit:bytitle.limit
         });
         
         console.log('this.upkeepList',this.upkeepList)
@@ -215,11 +217,12 @@ export default {
         //选中服务项目 价格相加
         bytitle.grandsondata.forEach((m) => {
           if (JSON.stringify(m) !== "{}") {
+            console.log('m.total_price',m)
             console.log('m.total_price',m.total_price)
             if(m.cats != 1){
               this.money += Number(m.total_price);
             }
-            if(m.total_price == 0){
+            if(m.cats != 1 && m.total_price == 0){
               this.moneyJ = 1
             }
           }
@@ -270,7 +273,16 @@ export default {
         })
       } else if (!bytitle.checked) {
         //清除取消选中的数据
-        
+        //查看有机滤的情况下记不记算机滤价格
+          this.bytitle.forEach((i)=>{
+            i.sondata.forEach(k=>{
+              if(k.id == 1){
+                if(k.grandsondata.length > 1){
+                  k.grandsondata[1].cats = k.grandsondata[0].cat
+                }
+              }
+            })
+          })
         //取消选中小保养 润滑系统也取消选中
         if(bytitle.id == 1 ){
           let sondata = this.bytitle[3].sondata;
@@ -345,9 +357,151 @@ export default {
           }
         }
       }
+      console.log(this.money)
+      if(this.idarr.length == 0){
+        this.moneyJ = 2
+      }
       this.money = Number(this.money.toFixed(2));
     },
+    async ajax1(messge1) {
+      this.money = 0;
+      this.numType = 0;
+      this.numType1 = 0;
+      this.$http
+        .getJump(messge1)
+        .then((res) => {
+          if(res == ''){
+            this.$Message.info({
+              content: "暂无数据，请重选车型",
+              duration: 15,
+              closable: true,
+            });
+          }
+          this.info = res;
+          this.detail = res.detail || {
+            enginelocation:'无',
+            drivemode:'无',
+            feedingoil:'无',
+            startstop:'无',
+            tivct:'无',
+            gearboxnum:'无',
+            transmission:'无',
+            gearboxtype:'无',
+            oil_filtersite:'无',
+            veer_help:'无',
+            station_ask:'无',
+          };
+          this.bytitle = res.data;
+          //初始化
+          let upkeepList = new Array();
+          if(JSON.stringify(this.bytitle[0].sondata[0].grandsondata[0]) == "{}"){
+            if(JSON.stringify(this.bytitle[0].sondata[0].grandsondata[1]) == "{}"){
+                this.bytitle[0].sondata[0].grandsondata.splice(0, 2);
+            }
+          }
+          if(JSON.stringify(this.bytitle[0].sondata[0].grandsondata[0]) == "{}"){
+                this.bytitle[0].sondata[0].grandsondata.splice(0, 1);
+          }
+          if(JSON.stringify(this.bytitle[0].sondata[0].grandsondata[1]) == "{}"){
+                this.bytitle[0].sondata[0].grandsondata.splice(1, 1);
+          }
+          //查看有机滤的情况下记不记算机滤价格
+          this.bytitle.forEach((i)=>{
+            i.sondata.forEach(k=>{
+              if(k.id == 1){
+                if(k.grandsondata.length > 1){
+                  k.grandsondata[1].cats = k.grandsondata[0].cat
+                }
+              }
+            })
+          })
 
+          this.bytitle.forEach((i) => {
+            i.num = 0;
+            i.sondata.forEach((k) => {
+              if(k.grandsondata.length == 0){
+                i.num++
+              }
+              if(i.num == i.sondata.length){
+                i.check = false
+              }
+              //默认选中 显示相关服务项目 价格相加
+              if (k.grandsondata.length > 0) {
+                // eslint-disable-next-line no-debugger
+               
+                if (k.checked) {
+                  upkeepList.push({name: k.title,id: k.id,grandsondata: k.grandsondata,summary:k.summary,video:k.video,mileage:k.mileage,limit:k.limit});
+                  
+                  // if(k.grandsondata[0].cat == 1){
+                  //   console.log(k.grandsondata)
+                  //   if(k.grandsondata.length > 1){
+                  //     k.grandsondata[1].cats = 1;
+                  //   }
+                  // }
+                }
+                 k.grandsondata.forEach((m, ind) => {
+                  if (JSON.stringify(m) !== "{}") {
+                    if (k.checked) {
+                      if(m.cats != 1){
+                        this.money += Number(m.total_price);
+                      }
+                      if(m.total_price == 0){
+                        this.moneyJ = 1 //1产品需定价
+                      }
+                    }
+                  } else {
+                    k.grandsondata.splice(ind, 1);
+                  }
+                });
+              }
+            });
+          });
+          this.money = Number(this.money.toFixed(2));
+          let idarr = new Array;
+          let arrid = new Array();
+          upkeepList.forEach((o) => {
+            arrid.push(o.id);
+            console.log(o,'----------------------')
+            o.grandsondata.forEach(a=>{
+              if(a.cats != 1){
+                idarr.push(Number(a.total_price))
+              }
+            })
+            if(o.id == 1){
+              this.zicat = Number(o.grandsondata[0].cat);
+            }
+            
+          });
+          console.log('idarr',idarr)
+          this.idarr = idarr;
+          //小保养 节气门 润滑系统（发动机内部清洗） 同时存在 则减9元
+          if (arrid.includes(1) && arrid.includes(15) && arrid.includes(16)) {
+            if (this.numType == 1 || this.numType == 0) {
+              this.money -= 9;
+              this.numType = 2;
+            }
+          }
+          //判断是否有选择小保养，若选择并且"进气道、喷油嘴、燃油系统清洗"同时选择则计算套餐价格 299 原价减38
+          if (arrid.includes(1) && arrid.includes(17) && arrid.includes(18) && arrid.includes(19)) {
+            if (this.numType1 == 0 || this.numType1 == 1) {
+              this.money -= 38;
+              this.numType1 = 2;
+            }
+          }
+          upkeepList.sort((x,y)=>{
+            x.id - y.id
+          })
+          console.log('upkeepList',upkeepList)
+
+          this.upkeepList = upkeepList;
+
+          this.show = false;
+        })
+        .catch((err) => {
+          this.show = false;
+          console.log("错误", err);
+        });
+    },
     async ajax(messge) {
       this.money = 0;
       this.numType = 0;
@@ -415,7 +569,7 @@ export default {
                 // eslint-disable-next-line no-debugger
                
                 if (k.checked) {
-                  upkeepList.push({name: k.title,id: k.id,grandsondata: k.grandsondata,summary:k.summary,video:k.video,});
+                  upkeepList.push({name: k.title,id: k.id,grandsondata: k.grandsondata,summary:k.summary,video:k.video,mileage:k.mileage,limit:k.limit});
                   
                   // if(k.grandsondata[0].cat == 1){
                   //   console.log(k.grandsondata)
@@ -446,6 +600,7 @@ export default {
           let arrid = new Array();
           upkeepList.forEach((o) => {
             arrid.push(o.id);
+            console.log(o,'----------------------')
             o.grandsondata.forEach(a=>{
               if(a.cats != 1){
                 idarr.push(Number(a.total_price))
@@ -497,7 +652,12 @@ export default {
       })();
     };
     this.messge = this.$qs.parse(localStorage.getItem("messge"));
-    this.ajax(this.messge);
+    this.messge1 = this.$qs.parse(localStorage.getItem("messge1"));
+    if(this.$router.history.current.query.name == 1){
+      this.ajax1(this.messge1);
+    }else{
+      this.ajax(this.messge);
+    }
   },
 };
 </script>

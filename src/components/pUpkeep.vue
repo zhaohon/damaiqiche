@@ -27,7 +27,7 @@
             </h4>
             <div class="pc-upkeep-right pbupkeep" v-if="item.name == title">
               <h4><i></i> 更多推荐产品</h4>
-              <div class="scrollpc" v-if="gd.data">
+              <div class="scrollpc" v-if="gd.data.length > 0">
                 <div v-for="(z,zindex) in gd.data" :key="zindex" @click="huantap(gd,z,zindex,index)">
                   <div class="upkeep-right-font">
                     <div class="fl dib"><img :src="z.image?imgurl + z.image:require('./../assets/logo.png')" alt /></div>
@@ -52,7 +52,7 @@
                         <img class="fl" :src="items.image?imgurl + items.image:require('./../assets/logo.png')" alt />
                         <div>
                           <p>{{items.name}} {{items.model}} </p>
-                          <p v-if="item.mileage" style="font-size:12px;color:#999;margin-top:5px">保养周期:{{item.mileage}}</p>
+                          <p v-if="item.mileage || item.limit" style="font-size:12px;color:#999;margin-top:5px">保养周期:{{item.mileage || ''}} {{item.limit && item.mileage?'或':''}} {{item.limit || ''}}</p>
                         </div>
                       </div>
                       <div class="pck_price tc color-red">{{items.price == 0?'产品需定价':items.price}}</div>
@@ -107,11 +107,23 @@ export default {
 
   methods: {
     huantap(a,b,ind,lind){
-      //  console.log(a,b)
+      //  console.log(a,b,'sssssssssssssssssssssssssssssssss',this.list)
       let z = a,//外
           x = b,//里
-          c = a.data,
-          zicat = this.zicat;
+          c = a.data;
+          let zicat = ''
+          console.log(a,'sa.cats')
+          if(a.title == '机滤'){
+            zicat = a.cat 
+            this.list.forEach(item=>{
+              if(item.id == 1){
+               zicat = item.grandsondata[0].cat 
+              }
+            })
+          }else{
+            zicat = a.cat 
+          }
+       
       delete z.data;//外.data 
       c[ind] = z;//里.data
       x.data = c;//外.data
@@ -126,6 +138,7 @@ export default {
           //机油
           // this.list[lind].grandsondata[0] = x
           list[lind].grandsondata[0] = x
+          
           console.log(x.name,'机油',list[lind].grandsondata[0],list[lind].grandsondata[0].name)
         }else if(a.title == '机滤'){
           //机滤
@@ -139,6 +152,7 @@ export default {
         list[lind].grandsondata[0] = x
       }
       let moneyJ = this.moneyJ
+      console.log(b.total_price)
       if(b.total_price == 0){
         moneyJ = 1
       }else{
@@ -192,7 +206,10 @@ export default {
       this.videointro = false
     },
     listtap(item,name,indexs){
-      console.log('name',name,this.title)
+      console.log('name',name,this.title,item)
+      if(!item.data){
+        item.data = []
+      }
       if(name == this.title) {
         this.title = '';
         this.hovernum = '-1';

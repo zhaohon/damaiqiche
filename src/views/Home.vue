@@ -390,6 +390,7 @@ export default {
         for (var index in res){ 
           let aac = new Object;
           aac.title = res[index].title;
+          aac.id = res[index].id;
           aac.list = new Array;
           //去除label 为空的选项
           res[index].list.forEach(i=>{ 

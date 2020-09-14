@@ -329,8 +329,13 @@ export default {
       this.allName = [];
     },
     baoy(item){
-      console.log(item)
-      let messge = {
+      console.log(item,this.allSerch)
+      let string = []
+      this.allSerch.forEach(item=>{
+        console.log(item) 
+        string.push(`${item['id']}_${item.[1]}_${item.[3]}`)
+      })
+      let messge1 = {
               brand:item.brand,
               cars:item.cars,
               displacement: item.displacement,
@@ -338,9 +343,11 @@ export default {
               models: item.models,
               shop:item.shop,
               year:item.year,
+              string:string.join(',')
             }
-      localStorage.setItem("messge",this.$qs.stringify(messge));
-       this.$router.push({ path:'/Upkeep',name:'Upkeep', query: {}})
+      localStorage.setItem("messge1",this.$qs.stringify(messge1));
+      // return
+       this.$router.push({ path:'/Upkeep',name:'Upkeep', query: {name:1}})
     },
     loadData(item, callback) {
       console.log("item", item);
@@ -421,6 +428,7 @@ export default {
       arr[2] = selectedData[1].id; 
       arr[3] = selectedData[1].label;
       arr["yi"] = selectedData[0].name;
+      arr["id"] = value.id;
       let allarr = this.allSerch;
       if (allarr.length != 0) {
         console.log("第n次");
@@ -451,8 +459,7 @@ export default {
       data['p'] = this.p
       this.datas = data
       //获取适用车型
-      this.$http
-        .carList(data)
+      this.$http.carList(data)
         .then((res) => {
           this.allSerchPar = res.list;
         })
