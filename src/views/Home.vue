@@ -60,6 +60,7 @@ export default {
     changes(e,s){
       //s为车系分类
       console.log(e,s,"父组件")
+      console.log(this.yixuan)
       
       if(this.yixuan.length == 7){
         this.messge.power = e
@@ -288,7 +289,7 @@ export default {
 
     },
     serchClick(e,item,i){
-      console.log(e,item)
+      console.log('数据',e,item,i)
       this.yixuan = []
       this.yixuan[0] = item.brand
       this.yixuan[1] = item.cars
@@ -373,27 +374,126 @@ export default {
     this.tabind = Number(this.$router.history.current.params.tabind) || 1;
     console.log(this.$router.history,'this.$router.history')
     let objs = this.$router.history.current.params.obj;
+    // 测试数据
+    // let shuju = {
+    //   brand: "奥迪",
+    //   cars: "A1",
+    //   displacement: "1.4T（30TFSI）",
+    //   models: "A1",
+    //   shop: "奥迪进口",
+    //   year: "2014年生产"
+    // }
+    // objs = shuju
+    console.log('返回的参数', objs);
     if(objs){
+      this.show = true
+      this.yixuan = []
+      this.yixuan[0] = objs.brand
+      this.yixuan[1] = objs.cars
+      this.yixuan[2] = objs.models
+      this.yixuan[3] = objs.displacement
+      this.yixuan[4] = objs.year
+      this.shop = objs.shop
+
+      console.log("yixuan",this.yixuan);
+      this.tabind = 1
+      //0
+      this.$http.carSeries({
+        brand: objs.brand
+      })
+      .then((res) => {
+        console.log("车系接口返回", res.data);
+        this.chexi = res.data
+      })
+      .catch((err) => {
+        console.log("错误", err), (this.show = false);
+      });
+
+      //1
       this.$http
-       .carKuan({
-         cars:objs.cars,
-         shop:objs.shop,
-         brand: objs.brand,
-         models:objs.models,
-         displacement:objs.displacement,
-         year:objs.year
-       })
-       .then((res) => {
-        console.log("款型接口返回", res.data);
-        this.kuanxing = res.data
-        this.yixuan = [objs.brand,objs.cars,objs.models,objs.displacement,objs.year]
-        this.$nextTick(()=>{
-          this.show = false
+        .carType({
+          cars:objs.cars,
+          shop:objs.shop,
+          brand: objs.brand
         })
-       })
-       .catch((err) => {
-         console.log("错误", err), (this.show = false);
-       });
+        .then((res) => {
+          console.log("车型接口返回", res.data);
+          this.chexing = res.data
+        })
+        .catch((err) => {
+          console.log("错误", err), (this.show = false);
+        });
+
+      //2
+      this.$http
+        .carQuantity({
+          cars:objs.cars,
+          shop:objs.shop,
+          brand: objs.brand,
+          models:objs.models
+        })
+        .then((res) => {
+          console.log("排量接口返回", res.data);
+          this.pailiang = res.data
+        })
+        .catch((err) => {
+          console.log("错误", err), (this.show = false);
+        });
+
+      //3
+      this.$http
+        .carYear({
+          cars:objs.cars,
+          shop:objs.shop,
+          brand: objs.brand,
+          models:objs.models,
+          displacement:objs.displacement
+        })
+        .then((res) => {
+          console.log("年份接口返回", res.data);
+          this.nianfen = res.data
+        })
+        .catch((err) => {
+          console.log("错误", err), (this.show = false);
+        });
+        //4
+      this.$http
+        .carKuan({
+          cars:objs.cars,
+          shop:objs.shop,
+          brand: objs.brand,
+          models:objs.models,
+          displacement:objs.displacement,
+          year:objs.year
+        })
+        .then((res) => {
+          console.log("款型接口返回", res.data);
+          this.kuanxing = res.data
+            this.show = false
+        })
+        .catch((err) => {
+          console.log("错误", err), (this.show = false);
+        });
+      // this.$http
+      //  .carKuan({
+      //    cars:objs.cars,
+      //    shop:objs.shop,
+      //    brand: objs.brand,
+      //    models:objs.models,
+      //    displacement:objs.displacement,
+      //    year:objs.year
+      //  })
+      //  .then((res) => {
+      //   console.log("款型接口返回", res.data);
+      //   this.kuanxing = res.data
+      //   this.yixuan = [objs.brand,objs.cars,objs.models,objs.displacement,objs.year]
+      //   this.$nextTick(()=>{
+      //     this.show = false
+      //   })
+      //  })
+      //  .catch((err) => {
+      //    console.log("错误", err), (this.show = false);
+      //  });
                 
     }
     
