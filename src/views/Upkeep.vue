@@ -40,6 +40,10 @@
             <button class="btn dib v-align" @click="onSubmit()">查看推荐</button>
           </div>
           <div class="fbox fbox-acenter mr m-keepimg">
+              <router-link class="reselection mr tc mr" 
+            :to="{name:'Home',params:{tabind:1,obj:{brand:info.brand || messge.brand,cars:info.cars || messge.cars,shop:info.shop || messge.shop,models:info.models || messge.models,displacement:info.displacement || messge.displacement,year:info.year  || messge.year,}}}">
+              <img src="../assets/reelect.png" alt />
+            </router-link>
             <router-link class="reselection mr tc mr" :to="{name:'Home',params:{tabind:1}}">
               <img src="../assets/reelect.png" alt />
             </router-link>
@@ -61,6 +65,7 @@
               <span>变速箱档位数:{{detail.gearboxnum || '无'}}</span>
               <span>变速器描述:{{detail.transmission || '无'}}</span>
               <span>变速箱型号:{{detail.gearboxtype || '无'}}</span>
+               <span>变速箱接头:{{detail.speed_contact || '无'}}</span>
             </div>
             <div style="background: rgb(237, 238, 242);">
               <span>燃油滤清器位置:{{detail.oil_filtersite || '无'}}</span>
@@ -143,7 +148,7 @@ export default {
       moneyJ:2,//1产品需定价 2默认
       zicat:1000,
       idarr:[],
-      messge1:[]
+      messge1:{}
     };
   },
   watch: {
@@ -179,11 +184,20 @@ export default {
     //里程
     onSubmit() {
       this.show = true;
-      let messge = this.messge;
-      let a = this.$refs.licheng.value;
-      messge.mileage = a;
-      localStorage.setItem("messge", this.$qs.stringify(messge));
-      this.ajax(messge);
+      
+      if(this.$router.history.current.query.name == 1){
+        let messge1 = this.messge1;
+        let a = this.$refs.licheng.value;
+        messge1.mileage = a;
+        localStorage.setItem("messge1", this.$qs.stringify(messge1));
+        this.ajax1(this.messge1);
+      }else{
+        let messge = this.messge;
+        let a = this.$refs.licheng.value;
+        messge.mileage = a;
+        localStorage.setItem("messge", this.$qs.stringify(messge));
+        this.ajax(this.messge);
+      }
     },
     listTap(obj) {
       let tapId = obj.childrenItem.id;
@@ -503,6 +517,7 @@ export default {
         });
     },
     async ajax(messge) {
+      messge.type = localStorage.getItem('values')
       this.money = 0;
       this.numType = 0;
       this.numType1 = 0;
@@ -733,6 +748,8 @@ export default {
 .carDetail div{
   width: 100%;
     padding:5px 20px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .ivu-btn-primary {

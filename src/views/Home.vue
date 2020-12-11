@@ -10,7 +10,13 @@
           <p>产品搜索</p>
         </div> -->
     </div>
-    <pIndex :SearchArr="SearchArr" :shopid="shop_id" :tab="tabind" :serchArr='serchArr' @serchClick='serchClick' @sousuo="sousuo" @loadData="loadData" @changes="changes" @tabC="tabC" @tiao="tiao"  @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" :remen="remen" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" :zdgl="zdgl"   />
+    <pIndex :SearchArr="SearchArr" :shopid="shop_id" :tab="tabind" 
+    :serchArr='serchArr' @serchClick='serchClick' @sousuo="sousuo" 
+    @loadData="loadData" @changes="changes" @tabC="tabC" @tiao="tiao" 
+    @del="del" @mouseOver="mouseOver" :hover="hover" :yixuan="yixuan" 
+    :remen="remen" :pinpai="pinpai" :chexi="chexi" :chexing="chexing" 
+    :pailiang="pailiang" :nianfen="nianfen" :kuanxing="kuanxing" :fdjxh="fdjxh" 
+    :zdgl="zdgl"   />
     <Loading v-if="show" />
   </div>
 </template>
@@ -71,6 +77,7 @@ export default {
             console.log("车系接口返回", res.data);
             this.chexi = res.data
             this.yixuan.push(e)
+
             this.show = false
           })
           .catch((err) => {
@@ -335,6 +342,8 @@ export default {
     del(e){
       console.log(e,"父组件")
       this.yixuan.splice(e,8)
+      this.$router.history.current.params.obj = null;
+      console.log(this.$router.history.current.params.obj)
     },
     // 鼠标悬停
      mouseOver(e){
@@ -362,6 +371,32 @@ export default {
   
   mounted(){
     this.tabind = Number(this.$router.history.current.params.tabind) || 1;
+    console.log(this.$router.history,'this.$router.history')
+    let objs = this.$router.history.current.params.obj;
+    if(objs){
+      this.$http
+       .carKuan({
+         cars:objs.cars,
+         shop:objs.shop,
+         brand: objs.brand,
+         models:objs.models,
+         displacement:objs.displacement,
+         year:objs.year
+       })
+       .then((res) => {
+        console.log("款型接口返回", res.data);
+        this.kuanxing = res.data
+        this.yixuan = [objs.brand,objs.cars,objs.models,objs.displacement,objs.year]
+        this.$nextTick(()=>{
+          this.show = false
+        })
+       })
+       .catch((err) => {
+         console.log("错误", err), (this.show = false);
+       });
+                
+    }
+    
     this.shop_id = localStorage.getItem('shop_id');
     //车型品牌 
     this.$http

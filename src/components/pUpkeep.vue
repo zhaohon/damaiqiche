@@ -197,7 +197,16 @@ export default {
       }
       this.list = list
       money.toFixed(2)
-      if(this.idarr.includes(0)){
+      
+      let idarrs = new Array;
+      this.list.forEach((o) => {
+          o.grandsondata.forEach(a=>{
+            if(a.cats != 1){
+              idarrs.push(Number(a.total_price))
+            }
+          })
+        });
+      if(idarrs.includes(0)){
         moneyJ = 1
       }
       this.$emit('moneyTap',{money,moneyJ})

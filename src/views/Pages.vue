@@ -9,6 +9,11 @@
         <input type="password" autocomplete="off" v-on:keyup.enter="handleSubmit()" v-model="formInline.password" placeholder="密码" />
       </div>
     </form>
+    <div>
+     <i-select :model.sync="model1" style="width:200px">
+        <i-option v-for="(item,index) in cityList" :value="item.value" @click.native="chioce(item)" :key="index">{{ item.label }}</i-option>
+    </i-select>
+    </div>
     <i-button class="ivu-btn-primary" type="primary"  @click="handleSubmit()">确认</i-button>
   </div>
 </template>
@@ -20,10 +25,22 @@ export default {
         user: "",
         password: "",
       },
+      cityList: [{value: '1',label: '北方'},{value: '2',label: '南方'},],
+      model1: '',
+      values:''
     };
   },
   methods: {
+    chioce(e){
+      console.log(e)
+      this.values = parseInt(e.value)
+      localStorage.setItem('values',parseInt(e.value))
+    },
     handleSubmit() {
+      if(this.values == ''){
+        this.$Message.error("请选择地区");
+        return
+      }
       console.log("this.formInline", this.formInline);
       if (!this.formInline.user) {
         this.$Message.error("请输入账号!");
@@ -94,6 +111,14 @@ button {
   border-color: #91c41e;
   font-size: 16px;
   margin-bottom: 20px;
+}
+.ivu-select{
+  width: 100% !important;
+  height: 34px;
+  margin-top: 20px;
+  border: 1px solid #d7dde4;
+  border-radius: 4px;
+  text-align: left;
 }
 .ivu-btn-primary:hover {
   background-color: rgba(145, 196, 30, 0.7);

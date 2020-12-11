@@ -27,7 +27,7 @@
               <div class="fbox fbox-jcenter fbox-col ml">
                 <div>{{items.name}} {{items.model}}</div>
                 <div class="fbox fbox-acenter fbox-jbetween" style="width:100%">
-                  <div v-if="item.mileage" class="pck_num mr" style="color:#999">保养周期：{{item.mileage}}</div>
+                  <div v-if="item.mileage" class="pck_num mr" style="color:#999">保养周期:{{item.mileage || ''}} {{item.limit && item.mileage?'或':''}} {{item.limit || ''}}</div>
                   <div class="pck_price tc color-red mr tl">{{items.price == 0?'产品需定价':'￥' + items.price}}</div>
                   <div class="pck_num tc color-hui">X {{items.number}}</div>
                 </div>

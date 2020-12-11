@@ -165,7 +165,7 @@
               :props="props"
               :key="isResouceShow"
               filterable></el-cascader>
-              <!-- </block> -->
+              <!-- </block> :filter-method="acc" -->
             </div>
           </div>
         </div>
@@ -319,6 +319,16 @@ export default {
     },
   },
   methods: {
+    acc(a,b){
+      let c = a.text.substring(0,b.length);
+      console.log(a.text,b,c,b == c)
+
+      // if(c == b){
+      //   console.log('空的')
+      // }else if(){
+      //   return true
+      // }
+    },
     emptyTap(){
       console.log(this.SearchArr)
       // this.cascaderValue = ""; //清空v-model
@@ -334,7 +344,7 @@ export default {
       this.allSerch.forEach(item=>{
         console.log(item) 
         string.push(`${item['id']}_${item.[1]}_${item.[3]}`)
-      })
+      }) 
       let messge1 = {
               brand:item.brand,
               cars:item.cars,
@@ -343,7 +353,8 @@ export default {
               models: item.models,
               shop:item.shop,
               year:item.year,
-              string:string.join(',')
+              string:string.join(','),
+              type:localStorage.getItem('values')
             }
       localStorage.setItem("messge1",this.$qs.stringify(messge1));
       // return
@@ -412,6 +423,7 @@ export default {
       this.$http
         .GerProimg({
           pro_name: selectedData[0].label,
+          type:localStorage.getItem('values') || 1
         })
         .then((res) => {
           console.log("图片", res.data);
@@ -541,8 +553,6 @@ export default {
         nameArr.push(this.allSerch[index][1] + this.allSerch[index][3]);
       });
       console.log(this.allSerch)
-
-
       this.jiucuoName = nameArr.join("/");
       this.jiucuoArr = item;
     },

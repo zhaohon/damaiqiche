@@ -71,6 +71,7 @@ instance.interceptors.request.use(
             let data = qs.parse(config.data);
             data.shop_id = localStorage.getItem('shop_id') || ''
             data.session_id = localStorage.getItem('session_id') || ''
+            data.type = localStorage.getItem('values') || 1
             config.data = qs.stringify(data)
         }
         
