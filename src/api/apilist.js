@@ -89,8 +89,31 @@ const api = {
         return http.post(`${apiUrl}Search/GerProimg`,qs.stringify(params))
     },
 
-
-    
+    // 二级搜索
+    getProBrand(params){
+        return http.post(`${apiUrl}Search/getProBrand`,qs.stringify(params))
+    },
+    getProCars(params){
+        return http.post(`${apiUrl}Search/getProCars`,qs.stringify(params))
+    },
+    getProModels(params){
+        return http.post(`${apiUrl}Search/getProModels`,qs.stringify(params))
+    },
+    getProDisplacement(params){
+        return http.post(`${apiUrl}Search/getProDisplacement`,qs.stringify(params))
+    },
+    getProYear(params){
+        return http.post(`${apiUrl}Search/getProYear`,qs.stringify(params))
+    },
+    getProModel(params){
+        return http.post(`${apiUrl}Search/getProModel`,qs.stringify(params))
+    },
+    getProEngine(params){
+        return http.post(`${apiUrl}Search/getProEngine`,qs.stringify(params))
+    },
+    getProPower(params){
+        return http.post(`${apiUrl}Search/getProPower`,qs.stringify(params))
+    },
 
 
 

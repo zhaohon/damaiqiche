@@ -469,11 +469,12 @@ export default {
         .then((res) => {
           console.log("款型接口返回", res.data);
           this.kuanxing = res.data
-            this.show = false
+          
         })
         .catch((err) => {
           console.log("错误", err), (this.show = false);
         });
+       
       // this.$http
       //  .carKuan({
       //    cars:objs.cars,
@@ -487,17 +488,57 @@ export default {
       //   console.log("款型接口返回", res.data);
       //   this.kuanxing = res.data
       //   this.yixuan = [objs.brand,objs.cars,objs.models,objs.displacement,objs.year]
-      //   this.$nextTick(()=>{
-      //     this.show = false
-      //   })
+     
       //  })
       //  .catch((err) => {
       //    console.log("错误", err), (this.show = false);
       //  });
-                
-    }
-    
-    this.shop_id = localStorage.getItem('shop_id');
+               this.shop_id = localStorage.getItem('shop_id');
+    //车型品牌 
+    this.$http
+      .carName({
+        models: ""
+      })
+      .then((res) => {
+        console.log("车型品牌接口返回", res.data);
+        this.all = res.data//全部参数
+        this.pinpai = res.data[0].data//默认品牌
+        let remens = []
+        res.data.forEach((item) => {
+            remens.push(item.letter)
+        });
+        this.remen = remens//字母排序
+
+      })
+      .catch((err) => {
+        console.log("错误", err), (this.show = false);
+      });
+
+    //车型品牌 
+    this.$http.Search({})
+      .then((res) => {
+        let arr =[]
+        for (var index in res){ 
+          let aac = new Object;
+          aac.title = res[index].title;
+          aac.id = res[index].id;
+          aac.list = new Array;
+          //去除label 为空的选项
+          res[index].list.forEach(i=>{ 
+              if(i.label !== null){
+                 aac.list.push(i)
+              }
+            })
+          arr.push(aac)
+        }
+        this.SearchArr = arr
+        this.show = false;//隐藏动画
+      })
+      .catch((err) => {
+        console.log("错误", err), (this.show = false);
+      }); 
+    }else{
+        this.shop_id = localStorage.getItem('shop_id');
     //车型品牌 
     this.$http
       .carName({
@@ -541,6 +582,9 @@ export default {
       .catch((err) => {
         console.log("错误", err), (this.show = false);
       });
+    }
+    
+    
   }
 }
 </script>
