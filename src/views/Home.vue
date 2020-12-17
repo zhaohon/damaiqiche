@@ -262,7 +262,6 @@ export default {
     },
     sousuo(e){
       this.show = true
-
       //搜索
       this.$http
         .searchModels({
@@ -374,16 +373,6 @@ export default {
     this.tabind = Number(this.$router.history.current.params.tabind) || 1;
     console.log(this.$router.history,'this.$router.history')
     let objs = this.$router.history.current.params.obj;
-    // 测试数据
-    // let shuju = {
-    //   brand: "奥迪",
-    //   cars: "A1",
-    //   displacement: "1.4T（30TFSI）",
-    //   models: "A1",
-    //   shop: "奥迪进口",
-    //   year: "2014年生产"
-    // }
-    // objs = shuju
     console.log('返回的参数', objs);
     if(objs){
       this.show = true
@@ -406,7 +395,7 @@ export default {
         this.chexi = res.data
       })
       .catch((err) => {
-        console.log("错误", err), (this.show = false);
+        console.log("错误", err);this.show = false;
       });
 
       //1
@@ -421,7 +410,7 @@ export default {
           this.chexing = res.data
         })
         .catch((err) => {
-          console.log("错误", err), (this.show = false);
+          console.log("错误", err);this.show = false;
         });
 
       //2
@@ -437,7 +426,7 @@ export default {
           this.pailiang = res.data
         })
         .catch((err) => {
-          console.log("错误", err), (this.show = false);
+          console.log("错误", err);this.show = false;
         });
 
       //3
@@ -454,7 +443,7 @@ export default {
           this.nianfen = res.data
         })
         .catch((err) => {
-          console.log("错误", err), (this.show = false);
+          console.log("错误", err);this.show = false;
         });
         //4
       this.$http
@@ -472,7 +461,7 @@ export default {
           
         })
         .catch((err) => {
-          console.log("错误", err), (this.show = false);
+          console.log("错误", err);this.show = false;
         });
        
       // this.$http
@@ -511,7 +500,7 @@ export default {
 
       })
       .catch((err) => {
-        console.log("错误", err), (this.show = false);
+        console.log("错误", err);this.show = false;
       });
 
     //车型品牌 
@@ -535,7 +524,7 @@ export default {
         this.show = false;//隐藏动画
       })
       .catch((err) => {
-        console.log("错误", err), (this.show = false);
+        console.log("错误", err);this.show = false;
       }); 
     }else{
         this.shop_id = localStorage.getItem('shop_id');
@@ -556,7 +545,7 @@ export default {
 
       })
       .catch((err) => {
-        console.log("错误", err), (this.show = false);
+        console.log("错误", err);this.show = false;
       });
 
     //车型品牌 
@@ -580,7 +569,7 @@ export default {
         this.show = false;//隐藏动画
       })
       .catch((err) => {
-        console.log("错误", err), (this.show = false);
+        console.log("错误", err);this.show = false;
       });
     }
     

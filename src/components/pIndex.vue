@@ -204,7 +204,7 @@
                 <p class="jiucuo ml fsh" @click.stop="showModalO(item)">纠错</p>
               </div>
             </div>
-            <div v-if="allSerchPar.length != 0 && allSerchPar.length == 10" class="tc c9" @click="more" >点击加载更多</div>
+            <div v-if="isLastPage == 1" class="tc c9" @click="more" style="cursor: pointer;margin-top:20px">{{text}}</div>
           </div>
           <div class="list-left">
             <div class="list-left-item" v-for="(item,index) in allSerch" :key="index">
@@ -257,6 +257,8 @@ export default {
       empty:2,
       inn:2,
       showNum:2,
+      isLastPage:2,
+      text:'点击加载更多',
       obj:{
           yixuan:[],
           pinpai:[],
@@ -353,7 +355,7 @@ export default {
       console.log(node,node.text.split('/')[0],keyword)
       let a = []
       a = this.serach.filter(i=> {
-        if(i.indexOf(keyword) !== -1){
+        if(i.indexOf(keyword) !== -1 || i.toUpperCase().indexOf(keyword.toUpperCase()) !== -1){
           return i
         }
       })
@@ -399,12 +401,22 @@ export default {
       let selectArr = this.selectArr
       let datas = JSON.parse(JSON.stringify(this.datas));
       console.log(typeof(selectArr),typeof(datas))
+      delete datas.brand;
+      delete datas.cars;
+      delete datas.shop;
+      delete datas.models;
+      delete datas.displacement;
+      delete datas.year;
+      delete datas.model;
+      delete datas.engine;
+      delete datas.power;
       Object.assign(selectArr, datas)
       console.log(selectArr,this.datas)
       this.show = true; 
       this.$http.carList(selectArr)
         .then((res) => {
           this.allSerchPar = res.list;
+          this.isLastPage = res.isLastPage
           this.show = false;
         })
         .catch((err) => {
@@ -518,7 +530,7 @@ export default {
             if(iffont){
               /* 通知子组件清空选中状态 */
               this.inn = 1;
-              this.selectArr.models = e;
+              this.selectArr.models = this.obj.chexing[0];
               console.log('this.obj.yixuan.length',this.obj.yixuan,this.obj.yixuan.length)
               let dd = this.datas;
               dd.shop = this.shop;
@@ -715,7 +727,8 @@ export default {
           zdgl:[],
       };
       this.shop_ids = '';
-      this.empty = 1
+      this.empty = 1;
+      this.isLastPage = 2
     },
     
     baoy(item){
@@ -856,6 +869,7 @@ export default {
       this.$http.carList(data)
         .then((res) => {
           this.allSerchPar = res.list;
+          this.isLastPage = res.isLastPage
         })
         .catch((err) => {
            this.show = false;
@@ -884,13 +898,16 @@ export default {
        this.resetTap()
     },
     more(){
-      let p = this.p + 1
-      this.datas['p'] = p
+      this.text = '加载中..';
+      let p = this.p + 1;
+      this.datas['p'] = p;
       //获取适用车型
       this.$http
         .carList(this.datas)
         .then((res) => {
           this.allSerchPar = this.allSerchPar.concat(res.list);
+          this.isLastPage = res.isLastPage
+          this.text = '点击加载更多'
           if(res.isLastPage == 2){
             this.$Message.info("暂无更多适用车型");
             return
