@@ -34,9 +34,8 @@
           <p
             v-for="(item,index) in remen"
             :key="index"
-            @mouseover="mouseOver(index)"
             @click="mouseOver(index)"
-            v-bind:class=" hover == index ?'ractive':''"
+            v-bind:class="hover == index ?'ractive':''"
           >{{item}}</p>
         </div>
         <!-- 已选 -->
@@ -44,13 +43,13 @@
           <p class="yixuan-title">已选车型</p>
           <div v-for="(item,index) in obj.yixuan" :key="index" class="fbox fbox-ac">
             <p>{{item}}</p>
-            <img class="guan" src="../assets/off.png" @click="del(index)" />
+            <img class="guan" src="../assets/off.png" @click="dels(index,item)" />
           </div>
         </div>
         <!-- 选择品牌 -->
 
         <div class="item fbox fbox-ac fbox-wrap" v-if="obj.yixuan.length == 0">
-          <p v-for="(item,index) in obj.pinpai" :key="index" @click="rit1(item)">{{item}}</p>
+          <p v-for="(item,index) in obj.pinpai" :key="index" :class="ind == index?'ractive':''" @click="rit1(item,null,index)">{{item}}</p>
         </div>
 
         <!-- 选择车系 -->
@@ -58,41 +57,44 @@
           <div v-for="(item,index) in obj.chexi" :key="index">
             <p>{{item.letter}}</p>
             <div class="item fbox fbox-ac fbox-wrap">
-              <p v-for="(t,i) in item.data" :key="i" @click="rit2(t,item.letter)">{{t}}</p>
+              <p v-for="(t,i) in item.data" :key="i" :class="ind == index && i == ins?'ractive':''" @click="rit2(t,item.letter,index,i)">{{t}}</p>
             </div>
           </div>
         </div>
 
         <!-- 选择车型 -->
         <div class="item fbox fbox-ac fbox-wrap" v-if="obj.yixuan.length == 2">
-          <p v-for="(item,index) in obj.chexing" :key="index" @click="rit3(item)">{{item}}</p>
+          <p v-for="(item,index) in obj.chexing" :key="index" :class="ind == index?'ractive':''" @click="rit3(item,null,index)">{{item}}</p>
         </div>
 
         <!-- 选择排量 -->
         <div class="item fbox fbox-ac fbox-wrap" v-if="obj.yixuan.length == 3">
-          <p v-for="(item,index) in obj.pailiang" :key="index" @click="rit4(item)">{{item}}</p>
+          <p v-for="(item,index) in obj.pailiang" :key="index" :class="ind == index?'ractive':''" @click="rit4(item,null,index)">{{item}}</p>
         </div>
 
         <!-- 选择年份 -->
         <div class="item fbox fbox-ac fbox-wrap" v-if="obj.yixuan.length == 4">
-          <p v-for="(item,index) in obj.nianfen" :key="index" @click="rit5(item)">{{item}}</p>
+          <p v-for="(item,index) in obj.nianfen" :key="index" :class="ind == index?'ractive':''" @click="rit5(item,null,index)">{{item}}</p>
         </div>
 
         <!-- 选择款型 -->
         <div class="items fbox fbox-ac fbox-wrap" v-if="obj.yixuan.length == 5">
-          <p v-for="(item,index) in obj.kuanxing" :key="index" @click="rit6(item)">{{item}}</p>
+          <p v-for="(item,index) in obj.kuanxing" :key="index" :class="ind == index?'ractive':''" @click="rit6(item,null,index)">{{item}}</p>
         </div>
 
         <!-- 选择发动机型号 -->
         <div class="item fbox fbox-ac fbox-wrap" v-if="obj.yixuan.length == 6">
-          <p v-for="(item,index) in obj.fdjxh" :key="index" @click="rit7(item)">{{item}}</p>
+          <p v-for="(item,index) in obj.fdjxh" :key="index" :class="ind == index?'ractive':''" @click="rit7(item,null,index)">{{item}}</p>
         </div>
-        <div class="tiaoguo c9" v-if="obj.yixuan.length == 6" @click="tiao">跳过>></div>
+        <!-- <div class="tiaoguo c9" v-if="obj.yixuan.length == 6" @click="tiao">跳过>></div> -->
 
         <!-- 选择最大功率 -->
         <div class="item fbox fbox-ac fbox-wrap" v-if="obj.yixuan.length == 7">
-          <p v-for="(item,index) in obj.zdgl" :key="index" @click="rit8(item)">{{item}}</p>
+          <p v-for="(item,index) in obj.zdgl" :key="index" @click="rit8(item,null,index)">{{item}}</p>
         </div>
+        <button @click="changesTwo(obj)" class="btns btn" style="width:90px;float:right" v-if="this.obj.yixuan.length != 7">下一步</button>
+        <button @click="twoserachTap(obj)" v-if="ind != 9999" class="btns btn" style="width:90px;float:right">确认搜索</button>
+        <button @click="resetTap(obj)" class="btns btn" style="width:90px;float:right">重置</button>
       </div>
   </div>
 </template>
@@ -104,15 +106,39 @@ export default {
   data() {
     return {
       cityList: [],
+      ind:9999,
+      ins:9999,
+      e:'',
+      s:'',
+      selectArr:{}
     };
   },
   props: {
     hover: Number,
     remen:Array,
     obj:Object,
-    shopid:String
+    shopid:String,
+    empty:Number,
+    inn:Number
   },
   watch: {
+    empty(e){
+      if(e == 1){
+        console.log('清空',e)
+        this.$emit("emptyReset",2);
+        this.ind = 9999;
+        this.inds = 9999;
+        this.e = '';
+        this.s = '';
+      }
+    },
+    inn(e){
+      if(e == 1){
+        this.$emit("innTap",2);
+        this.ind = 9999;
+        this.inds = 9999;
+      }
+    },
     remen(e){
         console.log('子组件',e)
     },
@@ -121,45 +147,90 @@ export default {
     }
   },
   methods: {
-    // 删除方法
-    del(e) {
-      this.$emit("del", e);
+    twoserachTap(obj){
+      this.$emit("twoserachTap",obj);
     },
-    // 选择
-    rit(e, s) {
-      if (this.yixuan.length == 1) {
-        this.$emit("changes", e, s);
+    resetTap(obj){
+        this.ind = 9999;
+        this.ins = 9999;
+        this.e = '';
+        this.selectArr = {}
+        this.$emit("resetTap",obj);
+    },
+    // 删除方法
+    dels(e,item) {
+        this.ind = 9999;
+        this.ins = 9999;
+      this.$emit("dels", e,item);
+    },
+    changesTwo(){
+      if(this.e == '' || this.ind == 9999){
+        this.$Message.error("请选择");
         return;
       }
-      this.$emit("changes", e);
+      console.log(this.ind,'ind')
+      
+    if (this.obj.yixuan.length == 1) {
+        this.$emit("changesTwo", this.e, this.s);
+          this.ind = 9999;
+          this.ins = 9999;
+          this.e = '';
+        return;
+      }
+      this.$emit("changesTwo", this.e);
+      this.ind = 9999;
+      this.ins = 9999;
+      this.e = '';
+     
     },
-    rit1: Throttle(function(e, s) {
-      this.rit(e,s)
-    },1500),
-    rit2: Throttle(function(e, s) {
-      this.rit(e,s)
-    },1500),
-    rit3: Throttle(function(e, s) {
-      this.rit(e,s)
-    },1500),
-    rit4: Throttle(function(e, s) {
-      this.rit(e,s)
-    },1500),
-    rit5: Throttle(function(e, s) {
-      this.rit(e,s)
-    },1500),
-    rit6: Throttle(function(e, s) {
-      this.rit(e,s)
-    },1500),
-    rit7: Throttle(function(e, s) {
-      this.rit(e,s)
-    },1500),
-    rit8: Throttle(function(e, s) {
-      this.rit(e,s)
-    },1500),
+    // 选择
+    rit(e, s,index,i) {
+      console.log(e,s,index,i,'ssssssssssssssssssssssssssaaaaaaaaaaaaaaaaaaaaaaaaa')
+      this.ind = index;
+      this.ins = i;
+      this.e = e;
+      this.s = s;
+      this.$emit('selectArrGet',this.selectArr)
+    },
+    rit1: Throttle(function(e, s,index) {
+      this.selectArr.brand = e;
+      this.rit(e,s,index)
+    },100),
+    rit2: Throttle(function(e, s,index,i) {
+      this.selectArr.shop = s;
+      this.selectArr.cars = e;
+      this.rit(e,s,index,i)
+    },100),
+    rit3: Throttle(function(e, s,index) {
+      this.selectArr.models = e;
+      this.rit(e,s,index)
+    },100),
+    rit4: Throttle(function(e, s,index) {
+      this.selectArr.displacement = e;
+      this.rit(e,s,index)
+    },100),
+    rit5: Throttle(function(e, s,index) {
+      this.selectArr.year  = e;
+      this.rit(e,s,index)
+    },100),
+    rit6: Throttle(function(e, s,index) {
+      this.selectArr.year  = e;
+      this.rit(e,s,index)
+    },100),
+    rit7: Throttle(function(e, s,index) {
+      this.selectArr.engine  = e;
+      this.rit(e,s,index)
+    },100),
+    rit8: Throttle(function(e, s,index) {
+      this.selectArr.power  = e;
+      this.rit(e,s,index)
+    },100),
     // 鼠标指向
     mouseOver(e) {
       this.$emit("mouseOver", e);
+      this.ind = 9999;
+      this.ins = 9999;
+      this.e = ''
     },
     // 跳过方法
     tiao(e) {
@@ -230,6 +301,7 @@ export default {
   background: #edeef2;
   padding: 20px;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .nav {
@@ -373,7 +445,7 @@ export default {
   border-radius: 2px;
 }
 .ractive {
-  background-color: #77b110;
+  background-color: #77b110 !important;
   color: #fff !important;
 }
 

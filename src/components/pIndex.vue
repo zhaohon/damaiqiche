@@ -162,6 +162,7 @@
               :placeholder="item.title"
               :options="item.list"
               :props="props"
+              :filter-method="dataFilter"
               :key="isResouceShow"
               filterable></el-cascader>
               <!-- </block> :filter-method="acc" -->
@@ -175,7 +176,6 @@
       
       <!-- 产品列表 -->
       <div class="chanpin-table" v-if="tab == 3">
-        
         <div class="chanpin-table-title fbox fbox-ac top-title">
           <p class="list-w1">适用车型</p>
           <p class="list-w2">产品分类</p>
@@ -186,8 +186,8 @@
             <div class="bot-title chanpin-table-title fbox fbox-ac">
               <p class="list-w3">适用车型</p>
             </div>
-             <twosearch @changes="changes" @tiao="tiao"  :remen="remens"
-            @del="del" @mouseOver="mouseOvers" :hover="hover" :obj="obj" :shopid="shop_ids">
+             <twosearch v-if="showNum == 1" @changesTwo="changesTwo" @selectArrGet="selectArrGet"  @tiao="tiao" @twoserachTap="twoserachTap"  :remen="remens"
+            @dels="dels" @mouseOver="mouseOvers" :empty="empty" @emptyReset='emptyReset' @innTap='innTap' :inn="inn" @resetTap='resetTap' :hover="hovers" :obj="obj" :shopid="shop_ids">
             </twosearch>
             <div v-if="allSerchPar.length == 0" class="tc c9">-- 暂无数据 --</div>
               <!-- 产品搜索二级筛选 -->
@@ -204,7 +204,7 @@
                 <p class="jiucuo ml fsh" @click.stop="showModalO(item)">纠错</p>
               </div>
             </div>
-            <div v-if="allSerchPar.length != 0" class="tc c9" @click="more" >点击加载更多</div>
+            <div v-if="allSerchPar.length != 0 && allSerchPar.length == 10" class="tc c9" @click="more" >点击加载更多</div>
           </div>
           <div class="list-left">
             <div class="list-left-item" v-for="(item,index) in allSerch" :key="index">
@@ -233,6 +233,7 @@
         </div>
       </div>
     </div>
+    <Loading v-if="show" />
   </div>
 </template>
 
@@ -240,15 +241,22 @@
 import {  Throttle } from "@/utils/public";
 import api from '@/api/apilist';
 import twosearch from '@/components/twosearch';
+import Loading from "@/components/Loading.vue";
 export default {
   name: "pIndex",
   components:{
-    twosearch
+    twosearch,
+    Loading
   },
   data() {
     return {
+      show:false,
       remens:[],
       all:[],//全部品牌
+      hovers:0,
+      empty:2,
+      inn:2,
+      showNum:2,
       obj:{
           yixuan:[],
           pinpai:[],
@@ -261,6 +269,7 @@ export default {
           zdgl:[],
       },
       shop_ids:'',
+      selectArr:{},
       cityList: [],
       model1: "",
       showModal: false,
@@ -275,6 +284,7 @@ export default {
       jiucuoArr: [],
       models: "", //车型搜索
       p:1,
+      serach:['马勒','汉格斯特','箭牌','维克斯','百适通','维克斯','NGK','DENSO 电桩','王者','采埃孚','博世','力士','胜牌','3M','菲特'],
       props: {
           lazy: true,
           lazyLoad (item, resolve) {
@@ -336,37 +346,150 @@ export default {
       this.allName = [];
       this.allSerch = [];
       this.allSerchPar = [];
-      
     },
   },
   methods: {
+    dataFilter(node,keyword){
+      console.log(node,node.text.split('/')[0],keyword)
+      let a = []
+      a = this.serach.filter(i=> {
+        if(i.indexOf(keyword) !== -1){
+          return i
+        }
+      })
+      console.log('A',a)
+      if(a.length > 0) return;
+      if (!!~node.text.indexOf(keyword) || !!~node.text.toUpperCase().indexOf(keyword.toUpperCase())) {
+        return true
+      }
+    },
+    innTap(e){
+      this.inn = e
+    },
+    emptyReset(e){
+      this.empty = e
+    },
+    selectArrGet(e){
+      console.log('获取所选参数',e)
+      this.selectArr = e;
+    },
+    /*重置*/
+    resetTap(e){
+      console.log(e,'重置')
+      this.selectArr = {};
+      this.$http.getProBrand(this.datas)
+        .then((res) => {
+          console.log(res.data,'datadata')
+          this.obj.yixuan = [];
+           this.all = res.data;//全部参数
+           let remens = []
+          res.data.forEach((item) => {
+              remens.push(item.letter)
+          });
+          this.remens = remens//字母排序
+          this.obj.pinpai = res.data[0].data;
+          console.log('品牌排',this.obj.pinpai)
+        })
+        .catch((err) => {
+          console.log("错误", err);
+        });
+    },
+    twoserachTap(e){
+      console.log(e,'objjj',this.selectArr,)
+      let selectArr = this.selectArr
+      let datas = JSON.parse(JSON.stringify(this.datas));
+      console.log(typeof(selectArr),typeof(datas))
+      Object.assign(selectArr, datas)
+      console.log(selectArr,this.datas)
+      this.show = true; 
+      this.$http.carList(selectArr)
+        .then((res) => {
+          this.allSerchPar = res.list;
+          this.show = false;
+        })
+        .catch((err) => {
+           this.show = false;
+          console.log("错误", err);
+        });
+    },
     // 鼠标悬停
      mouseOvers(e){
-      this.hover = e
-      this.pinpai = this.all[e].data
+      this.hovers = e
+      this.obj.pinpai = this.all[e].data;
     },
-     changes(e,s){
+    dels(e){
+      console.log(e,"儿子组件")
+      this.obj.yixuan.splice(e,8)
+        for(let k in this.selectArr)
+        { 
+          switch (+e){
+            case 0:
+              delete this.selectArr[k];
+              break;
+            case 1:
+              if(k != 'brand'){
+               delete this.selectArr[k];
+              }
+              break;
+            case 2:
+              if(k != 'brand' && k != 'shop' && k != 'cars'){
+               delete this.selectArr[k];
+              }
+              break;
+            case 3:
+              if(k != 'brand' && k != 'shop' && k != 'cars' && k != 'models'){
+               delete this.selectArr[k];
+              }
+              break;
+            case 4:
+              if(k != 'brand' && k != 'shop' && k != 'cars' && k != 'models' && k != 'displacement'){
+               delete this.selectArr[k];
+              }
+              break;
+            case 5:
+              if(k != 'brand' && k != 'shop' && k != 'cars' && k != 'models' && k != 'displacement' && k != 'year' && k != 'model'){
+               delete this.selectArr[k];
+              }
+              break;
+            case 6:
+              if(k != 'brand' && k != 'shop' && k != 'cars' && k != 'models' && k != 'displacement' && k != 'year' && k != 'model' && k != 'engine '){
+               delete this.selectArr[k];
+              }
+              break;
+            case 7:
+              if(k != 'brand' && k != 'shop' && k != 'cars' && k != 'models' && k != 'displacement' && k != 'year' && k != 'model' && k != 'engine' && k != 'power'){
+               delete this.selectArr[k];
+              }
+              break;
+            default:
+              break;
+              
+          }
+        }
+        console.log(this.selectArr)
+      this.$router.history.current.params.obj = null;
+      console.log(this.$router.history.current.params.obj)
+    },
+    changesTwo(e,s){
       //s为车系分类
-      console.log(e,s,"父组件")
-      console.log(this.yixuan)
-      
-      if(this.yixuan.length == 7){
-        this.messge.power = e
-        localStorage.setItem("messge",this.$qs.stringify(this.messge));
-       this.$router.push({ path:'/Upkeep',name:'Upkeep', query: {}})
-      }
+      console.log(e,s,"下一步哦哦")
+      console.log(this.obj.selectArr)
+      // if(this.obj.yixuan.length == 7){
+      //   this.$Message.info("最后一项了");
+      //   return
+      // }
       this.show = true
       // 车系
-      if(this.yixuan.length == 0){
+      if(this.obj.yixuan.length == 0){
+        console.log('车系哦',)
+        let data = this.datas;
+        data.brand = e
         this.$http
-          .carSeries({
-            brand: e ,
-          })
+          .getProCars(data)
           .then((res) => {
             console.log("车系接口返回", res.data);
-            this.chexi = res.data
-            this.yixuan.push(e)
-
+            this.obj.chexi = res.data
+            this.obj.yixuan.push(e)
             this.show = false
           })
           .catch((err) => {
@@ -375,17 +498,17 @@ export default {
         return
       }
       // 车型接口
-      if(this.yixuan.length == 1){
-        this.shop = s
+      if(this.obj.yixuan.length == 1){
+        this.shop = s;
+        let data = this.datas;
+        data.brand = this.obj.yixuan[0];
+        data.cars = e;
+        data.shop = s;
         this.$http
-          .carType({
-            cars:e,
-            shop:s,
-            brand: this.yixuan[0]
-          })
+          .getProModels(data)
           .then((res) => {
             console.log("车型接口返回", res.data);
-            this.chexing = res.data
+            this.obj.chexing = res.data
             let iffont = false
             if(res.data.length == 1){
                 iffont = true
@@ -393,23 +516,28 @@ export default {
             console.log(iffont)
             // this.yixuan.push(e)
             if(iffont){
-              this.yixuan.push(e,e)
-              this.$http.carQuantity({
-                cars:this.yixuan[1],
-                shop:this.shop,
-                brand: this.yixuan[0],
-                models:e
-              })
+              /* 通知子组件清空选中状态 */
+              this.inn = 1;
+              this.selectArr.models = e;
+              console.log('this.obj.yixuan.length',this.obj.yixuan,this.obj.yixuan.length)
+              let dd = this.datas;
+              dd.shop = this.shop;
+              dd.cars = e;
+              dd.brand = this.obj.yixuan[0];
+              dd.models = this.obj.chexing[0]
+              console.log(dd,'dd')
+              this.obj.yixuan.push(e,this.obj.chexing[0])
+              this.$http.getProDisplacement(dd)
               .then((res) => {
                 console.log("排量接口返回", res.data);
-                this.pailiang = res.data
+                this.obj.pailiang = res.data
                  this.show = false
               })
               .catch((err) => {
                 console.log("错误", err), (this.show = false);
               });
             }else{
-              this.yixuan.push(e)
+              this.obj.yixuan.push(e)
                this.show = false
             }
           })
@@ -419,18 +547,18 @@ export default {
         return
       }
       //排量
-      if(this.yixuan.length == 2){
+      if(this.obj.yixuan.length == 2){
+        let data = this.datas;
+        data.brand = this.obj.yixuan[0];
+        data.cars = this.obj.yixuan[1];
+        data.shop = this.shop;
+        data.models = e;
         this.$http
-          .carQuantity({
-            cars:this.yixuan[1],
-            shop:this.shop,
-            brand: this.yixuan[0],
-            models:e
-          })
+          .getProDisplacement(data)
           .then((res) => {
             console.log("排量接口返回", res.data);
-            this.pailiang = res.data
-            this.yixuan.push(e)
+            this.obj.pailiang = res.data
+            this.obj.yixuan.push(e)
              this.show = false
           })
           .catch((err) => {
@@ -439,20 +567,20 @@ export default {
         return
       }
       // 年份
-      if(this.yixuan.length == 3){
+      if(this.obj.yixuan.length == 3){
+         let data = this.datas;
+        data.brand = this.obj.yixuan[0];
+        data.cars = this.obj.yixuan[1];
+        data.shop = this.shop;
+        data.models = this.obj.yixuan[2];
+        data.displacement = e;
         this.$http
-          .carYear({
-            cars:this.yixuan[1],
-            shop:this.shop,
-            brand: this.yixuan[0],
-            models:this.yixuan[2],
-            displacement:e
-          })
+          .getProYear(data)
           .then((res) => {
             console.log("年份接口返回", res.data);
-            this.nianfen = res.data
-            this.yixuan.push(e)
-             this.show = false
+            this.obj.nianfen = res.data
+            this.obj.yixuan.push(e)
+            this.show = false
           })
           .catch((err) => {
             console.log("错误", err), (this.show = false);
@@ -460,20 +588,27 @@ export default {
         return
       }
       // 款型
-      if(this.yixuan.length == 4){
+      if(this.obj.yixuan.length == 4){
+        let data = this.datas;
+        data.brand = this.obj.yixuan[0];
+        data.cars = this.obj.yixuan[1];
+        data.shop = this.shop;
+        data.models = this.obj.yixuan[2];
+        data.displacement = this.obj.yixuan[3];
+        data.year = e;
         this.$http
-          .carKuan({
-            cars:this.yixuan[1],
+          .getProModel({
+            cars:this.obj.yixuan[1],
             shop:this.shop,
-            brand: this.yixuan[0],
-            models:this.yixuan[2],
-            displacement:this.yixuan[3],
+            brand: this.obj.yixuan[0],
+            models:this.obj.yixuan[2],
+            displacement:this.obj.yixuan[3],
             year:e
           })
           .then((res) => {
             console.log("款型接口返回", res.data);
-            this.kuanxing = res.data
-            this.yixuan.push(e)
+            this.obj.kuanxing = res.data
+            this.obj.yixuan.push(e)
              this.show = false
           })
           .catch((err) => {
@@ -482,21 +617,29 @@ export default {
         return
       }
       // 型号
-      if(this.yixuan.length == 5){
+      if(this.obj.yixuan.length == 5){
+        let data = this.datas;
+        data.brand = this.obj.yixuan[0];
+        data.cars = this.obj.yixuan[1];
+        data.shop = this.shop;
+        data.models = this.obj.yixuan[2];
+        data.displacement = this.obj.yixuan[3];
+        data.year = this.obj.yixuan[4];
+        data.model = e;
         this.$http
-          .carEngine({
-            cars:this.yixuan[1],
+          .getProEngine({
+            cars:this.obj.yixuan[1],
             shop:this.shop,
-            brand: this.yixuan[0],
-            models:this.yixuan[2],
-            displacement:this.yixuan[3],
-            year:this.yixuan[4],
+            brand: this.obj.yixuan[0],
+            models:this.obj.yixuan[2],
+            displacement:this.obj.yixuan[3],
+            year:this.obj.yixuan[4],
             model:e
           })
           .then((res) => {
             console.log("型号接口返回", res.data);
-            this.fdjxh = res.data
-            this.yixuan.push(e)
+            this.obj.fdjxh = res.data
+            this.obj.yixuan.push(e)
             this.messge = {
               brand:res.brand,
               cars:res.cars,
@@ -514,22 +657,22 @@ export default {
         return
       }
       // 功率
-      if(this.yixuan.length == 6){
+      if(this.obj.yixuan.length == 6){
+        let data = this.datas;
+        data.brand = this.obj.yixuan[0];
+        data.cars = this.obj.yixuan[1];
+        data.shop = this.shop;
+        data.models = this.obj.yixuan[2];
+        data.displacement = this.obj.yixuan[3];
+        data.year = this.obj.yixuan[4];
+        data.model = this.obj.yixuan[5];
+        data.engine = e;
         this.$http
-          .carPower({
-            cars:this.yixuan[1],
-            shop:this.shop,
-            brand: this.yixuan[0],
-            models:this.yixuan[2],
-            displacement:this.yixuan[3],
-            year:this.yixuan[4],
-            model: this.yixuan[5],
-            engine:e
-          })
+          .getProPower(data)
           .then((res) => {
             console.log("功率接口返回", res.data);
-            this.zdgl = res.data
-            this.yixuan.push(e)
+            this.obj.zdgl = res.data
+            this.obj.yixuan.push(e)
             this.messge = {
               brand:res.brand,
               cars:res.cars,
@@ -548,25 +691,33 @@ export default {
         return
       }
     },
-    acc(a,b){
-      let c = a.text.substring(0,b.length);
-      console.log(a.text,b,c,b == c)
-
-      // if(c == b){
-      //   console.log('空的')
-      // }else if(){
-      //   return true
-      // }
-    },
     emptyTap(){
+      this.showNum = 2;
       console.log(this.SearchArr)
       // this.cascaderValue = ""; //清空v-model
       ++this.isResouceShow; //key值自增
       // this.options_cascader = []; //清空内容
-      this.allSerch = []
-      this.allSerchPar = []
+      this.allSerch = [];
+      this.allSerchPar = [];
       this.allName = [];
+      this.remens = [];
+      this.all = [];//全部品牌
+      this.hovers = 0;
+      this.obj = {
+          yixuan:[],
+          pinpai:[],
+          chexi:[],
+          chexing:[],
+          pailiang:[],
+          nianfen:[],
+          kuanxing:[],
+          fdjxh:[],
+          zdgl:[],
+      };
+      this.shop_ids = '';
+      this.empty = 1
     },
+    
     baoy(item){
       console.log(item,this.allSerch)
       let string = []
@@ -627,6 +778,7 @@ export default {
       console.log("1111111111111");
     },
     handleChangeOnSelect(value, index) {
+      this.showNum = 1;
       console.log(value, index)
       let selectedData = new Array;
       let Nodes = '';
@@ -649,6 +801,7 @@ export default {
       let arr = [];
       let url = "";
       //根据品牌获取机型
+      this.show = true;
       this.$http
         .GerProimg({
           pro_name: selectedData[0].label,
@@ -697,14 +850,15 @@ export default {
         data[`${this.allSerch[i][0]}`] = this.allSerch[i][1];
         data[`${this.allSerch[i][2]}`] = this.allSerch[i][3];
       }
-      data['p'] = this.p
-      this.datas = data
+      data['p'] = this.p;
+      this.datas = data;
       //获取适用车型
       this.$http.carList(data)
         .then((res) => {
           this.allSerchPar = res.list;
         })
         .catch((err) => {
+           this.show = false;
           console.log("错误", err);
         });
 
@@ -718,13 +872,16 @@ export default {
           });
           this.remens = remens//字母排序
           this.obj.pinpai = res.data[0].data;
-          console.log('品牌排',this.obj.pinpai)
+           this.$nextTick(()=>{
+             this.show = false;
+           })
         })
         .catch((err) => {
+           this.show = false;
           console.log("错误", err);
         });
       })
-       
+       this.resetTap()
     },
     more(){
       let p = this.p + 1

@@ -115,8 +115,9 @@ const api = {
         return http.post(`${apiUrl}Search/getProPower`,qs.stringify(params))
     },
 
-
-
+    getMessage(params){
+        return http.post(`${apiUrl}getMessage`,qs.stringify(params))
+    },
     
     
 }
