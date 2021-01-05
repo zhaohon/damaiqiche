@@ -105,12 +105,12 @@ export default {
             console.log(iffont)
             // this.yixuan.push(e)
             if(iffont){
-              this.yixuan.push(e,e)
+              this.yixuan.push(e,res.data[0])
               this.$http.carQuantity({
                 cars:this.yixuan[1],
                 shop:this.shop,
                 brand: this.yixuan[0],
-                models:e
+                models:res.data[0]
               })
               .then((res) => {
                 console.log("排量接口返回", res.data);

@@ -52,6 +52,8 @@
                         <img class="fl" :src="items.image?imgurl + items.image:require('./../assets/logo.png')" alt />
                         <div>
                           <p>{{items.name}} {{items.model}} </p>
+                          <p v-if="items.wiper_api">雨刷接口：{{items.wiper_api}}</p>
+                          <p v-if="items.battery_location ">蓄电池位置：{{items.battery_location}}</p>
                           <p v-if="item.mileage || item.limit" style="font-size:12px;color:#999;margin-top:5px">保养周期:{{item.mileage || ''}} {{item.limit && item.mileage?'或':''}} {{item.limit || ''}}</p>
                         </div>
                       </div>

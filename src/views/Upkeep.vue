@@ -71,7 +71,9 @@
               <span>燃油滤清器位置:{{detail.oil_filtersite || '无'}}</span>
               <span>转向助力类型:{{detail.veer_help || '无'}}</span>
               <span>工位要求:{{detail.station_ask || '无'}}</span>
-            </div>
+              <span v-if="detail.wiper_mainsize">主雨刷:{{detail.wiper_mainsize}}</span>
+              <span v-if="detail.wiper_vicesize">副雨刷:{{detail.wiper_vicesize}}</span>
+            </div> 
           </div>
         </transition>
         <div class="byType mt">
